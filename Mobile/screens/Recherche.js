@@ -37,7 +37,6 @@ export default function Recherche({ navigation }) {
 
     return (
         <View style={styles.page}>
-            <Header/>
             <ScrollView style={styles.mainPage}>
                 <View style={styles.container}>
                     <View>
