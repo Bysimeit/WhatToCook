@@ -4,6 +4,8 @@ import { RadioButton } from 'react-native-paper';
 import CheckBox from 'expo-checkbox';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+import Header from '../components/Header';
+
 export default function Recherche({ navigation }) {
     const [value, setValue] = React.useState('starter');
     const [number, onChangeNumber] = React.useState('');
@@ -35,6 +37,7 @@ export default function Recherche({ navigation }) {
 
     return (
         <View style={styles.page}>
+            <Header/>
             <ScrollView style={styles.mainPage}>
                 <View style={styles.container}>
                     <View>
@@ -135,7 +138,9 @@ export default function Recherche({ navigation }) {
                             <Text style={styles.checkBoxLabel}>Mollusques</Text>
                         </View>
                     </View>
-                    <Button title='Rechercher' color="#787474" onPress={() => Alert.alert('Ptdr, il n\'y a pas encore l\'API.')} />
+                    <View>
+                        <Button title='Rechercher' color="#787474" onPress={() => Alert.alert('Ptdr, il n\'y a pas encore l\'API.')} />
+                    </View>
                 </View>
             </ScrollView>
             <View style={styles.buttons}>
@@ -164,6 +169,7 @@ const styles = StyleSheet.create({
     },
     container: {
         margin: '5%',
+        marginBottom: 110,
     },
     buttonLabel: {
         flexDirection: 'row-reverse',
@@ -253,5 +259,5 @@ const styles = StyleSheet.create({
         position: 'absolute',
         flexDirection: 'row',
         bottom: 30,
-    }
+    },
 });
