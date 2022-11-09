@@ -61,7 +61,7 @@ export default function Recherche() {
                         <View style={styles.loginRequire}>
                             <Text>Uniquement les recettes faisable avec le frigo ?</Text>
                             <View style={styles.checkBoxContainer}>
-                                <CheckBox value={fridgeSelected} onValueChange={setFridgeSelection} style={styles.checkbox} color='grey' />
+                                <CheckBox value={fridgeSelected} onValueChange={setFridgeSelection} style={styles.checkbox} color='grey' disabled />
                                 <Text style={styles.checkBoxLabel}>Oui</Text>
                             </View>
                         </View>
