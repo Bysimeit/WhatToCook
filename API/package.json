@@ -19,7 +19,9 @@
   },
   "homepage": "https://github.com/Bysimeit/WhatToCook#readme",
   "dependencies": {
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "express-promise-router": "^4.1.1",
     "pg": "^8.8.0"
   },
   "devDependencies": {
