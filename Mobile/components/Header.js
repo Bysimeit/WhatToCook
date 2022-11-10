@@ -5,10 +5,14 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function Header({ navigation }) {
     const [isMenuVisible, setMenuVisible] = useState(false);
-    const isAdmin = false;
+    const isConneced = true;
+
+    const handlePressHome = () => {
+        navigation.navigate('Accueil');
+    };
 
     const showMenu = () => {
-    if (isAdmin) {
+    if (!isConneced) {
         return (
             <View
                 style={[
@@ -21,14 +25,14 @@ export default function Header({ navigation }) {
                         navigation.navigate("Login")
                     }}
                 >
-                    <Text style={styles.accountMenuItem}>Sign in</Text>
+                    <Text style={styles.accountMenuItem}>Se connecter</Text>
                 </Pressable>
                 <Pressable
                     onPress={() => {
                         navigation.navigate("Registration")
                     }}
                 >
-                    <Text style={styles.accountMenuItem}>Sign up</Text>
+                    <Text style={styles.accountMenuItem}>S'enregistrer</Text>
                 </Pressable>
             </View>
         );
@@ -40,40 +44,36 @@ export default function Header({ navigation }) {
                     styles.accountMenu,
                 ]}
             >
-                <Pressable
-                    onPress={() => {
-                    
-                    }}
-                >
-                    <Text style={styles.accountMenuItem}>Sign out</Text>
+                <Pressable onPress={ handlePressHome }>
+                    <Text style={styles.accountMenuItem}>Compte</Text>
                 </Pressable>
                 <Pressable
                     onPress={() => {
-                        navigation.navigate("DeleteAccount")
+                        navigation.navigate("Connexion")
                     }}
                 >
-                    <Text style={styles.accountMenuItem}>Delete</Text>
+                    <Text style={styles.accountMenuItem}>Favoris</Text>
                 </Pressable>
                 <Pressable
                     onPress={() => {
                         navigation.navigate("UpdateAccount")
                     }}
                 >
-                    <Text style={styles.accountMenuItem}>Modify</Text>
+                    <Text style={styles.accountMenuItem}>Mon Frigo</Text>
                 </Pressable>
                 <Pressable
                     onPress={() => {
                         navigation.navigate("Registration")
                     }}
                 >
-                    <Text style={styles.accountMenuItem}>My reviews</Text>
+                    <Text style={styles.accountMenuItem}>Mes allergies</Text>
                 </Pressable>
                 <Pressable
                     onPress={() => {
                         navigation.navigate("Registration")
                     }}
                 >
-                    <Text style={styles.accountMenuItem}>My reports</Text>
+                    <Text style={styles.accountMenuItem}>Se déconnecter</Text>
                 </Pressable>
             </View>
         );
@@ -88,22 +88,26 @@ export default function Header({ navigation }) {
 
         <View style={styles.buttonMenu}>
             <Pressable
-                style={({ pressed }) => [
-                    {
+                style={({ pressed }) => [{
                     opacity: pressed ? 0.2 : 1,
-                    },
+                },
                 ]}
                 onPress={() => {
                     if (isMenuVisible) {
-                    setMenuVisible(false);
+                        setMenuVisible(false);
                     } else {
-                    setMenuVisible(true);
+                        setMenuVisible(true);
                     }
                 }}
             >
-                <Ionicons name='menu-outline' size={40} style={styles.iconsRight} />
+                { () => {
+                    if (!isMenuVisible) {
+                        return <Ionicons name='menu-outline' size={40} style={styles.iconsRight} />;
+                    } else {
+                        return <Ionicons name='close-outline' size={40} style={styles.iconsRight} />;
+                    }
+                } }
             </Pressable>
-
             { showMenu() }
         </View>
     </View>
@@ -112,14 +116,15 @@ export default function Header({ navigation }) {
 
 const styles = StyleSheet.create({
     container: {
-        height: 90,
+        height: 110,
         width: "100%",
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
         backgroundColor: "#3F3838",
         paddingTop: Constants.statusBarHeight,
-        paddingHorizontal: 15
+        paddingHorizontal: 15,
+        paddingBottom: 10        
     },
     text: {
         color: "white",
@@ -127,14 +132,15 @@ const styles = StyleSheet.create({
     },
     accountMenu: {
         position: "absolute",
-        top: 42,
-        left: -50,
-        width: 100
+        top: 70,
+        left: -200,
+        width: 150,
+        elevation: 5
     },
     accountMenuItem: {
-        backgroundColor: "lightblue",
+        backgroundColor: "#D9D9D9",
         paddingVertical: 6,
-        borderWidth: 1,
+        borderWidth: 0.9,
         borderRadius: 2,
         textAlign: "center"
     },
