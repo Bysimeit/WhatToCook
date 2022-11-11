@@ -1,0 +1,80 @@
+.core {
+  margin: 0;
+  background-color: #F5F5F5;
+  text-align: center;
+}
+
+img {
+  border-style: solid;
+  border-color: black;
+  text-align: center;
+  height: auto;
+  width: auto;
+}
+
+.redim {
+  width: 500px;
+  height: 600px;
+}
+
+.carousel {
+  padding-top: 5%;
+  margin-left: 25%;
+  margin-right: 25%;
+  margin-bottom: 5%;
+}
+
+.menu {
+  background-color: #3F3838;
+  color: #F5F5F5;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.menu > h1 {
+  padding: 20px;
+}
+
+.test {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.category {
+  color: #FFFFFF;
+  padding: 10px;
+  text-decoration: none;
+}
+
+.category:hover {
+  color: #FFE600;
+}
+
+.logo {
+  color: #FFFFFF;
+  padding: 10px;
+  text-decoration: none;
+}
+
+.logo:hover {
+  color: #FFE600;
+}
+
+.login {
+  margin-right: 10px;
+}
+
+.menu > button {
+  background-color: #787474;
+  color: #ECDCDC;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 3px;
+  
+}
+
+.menu > button:hover {
+  color: #FFE600;
+}
