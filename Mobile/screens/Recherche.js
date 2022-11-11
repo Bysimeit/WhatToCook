@@ -27,16 +27,17 @@ export default function Recherche({ navigation }) {
     const [lupinSelected, setLupinSelection] = React.useState(false);
     const [molluscSelected, setMolluscSelection] = React.useState(false);
 
-    const handlePressRecette = () => {
+    const handlePressRecipe = () => {
         navigation.navigate('Recettes');
     };
 
-    const handlePressSearch = () => {
+    const handlePressDiscovery = () => {
         navigation.navigate('Decouverte');
     };
 
     return (
         <View style={styles.page}>
+            <Header />
             <ScrollView style={styles.mainPage}>
                 <View style={styles.container}>
                     <View>
@@ -146,11 +147,11 @@ export default function Recherche({ navigation }) {
                 <Pressable style={styles.searchButtonActive}>
                     <Ionicons name='search-outline' size={25} style={styles.iconsActive} />
                 </Pressable>
-                <Pressable style={styles.searchButtonMiddle} onPress={ handlePressRecette } >
-                    <Ionicons name='stats-chart-outline' size={25} style={styles.iconsMiddle} />
+                <Pressable style={styles.searchButtonMiddle} onPress={ handlePressRecipe } >
+                    <Ionicons name='stats-chart-outline' size={25} style={styles.iconsNoActive} />
                 </Pressable>
                 <Pressable style={styles.searchButtonRight}>
-                    <Ionicons name='compass-outline' size={25} style={styles.iconsRight} />
+                    <Ionicons name='compass-outline' size={25} style={styles.iconsNoActive} />
                 </Pressable>
             </View>
         </View>
@@ -160,11 +161,13 @@ export default function Recherche({ navigation }) {
 const styles = StyleSheet.create({
     page: {
         flex: 1,
-        width: "100%",
+        width: '100%'
     },
     mainPage: {
         flex: 1,
         backgroundColor: '#C9BEBE',
+        position: 'relative',
+        elevation: -1,
     },
     container: {
         margin: '5%',
@@ -243,12 +246,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         top: 6,
     },
-    iconsMiddle: {
-        color: 'black',
-        textAlign: 'center',
-        top: 6,
-    },
-    iconsRight: {
+    iconsNoActive: {
         color: 'black',
         textAlign: 'center',
         top: 6,

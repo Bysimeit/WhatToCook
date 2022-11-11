@@ -23,23 +23,20 @@ export default function App() {
   return (
     <NavigationContainer>
       <StatusBar style="auto" />
-      <Drawer.Navigator 
-        initialRouteName='Recherche' 
+      <Tab.Navigator 
+        initialRouteName='Recherche'
         screenOptions={{
-          // tabBarStyle: { display: 'none' },
-          // headerShown: false
-          swipeEdgeWidth: 300,
-          drawerType: 'back',
-          drawerPosition: 'right'
+          tabBarStyle: { display: 'none' },
+          headerShown: false
       }}>
-        <Drawer.Screen name="Recherche" component={Recherche} />
-        <Drawer.Screen name="Recettes" component={Recettes} />
-        <Drawer.Screen name="Decouverte" component={Decouverte} />
-      </Drawer.Navigator>
+        <Tab.Screen name="Recherche" component={ Connexion } />
+        <Tab.Screen name="Recettes" component={ Recettes } />
+        <Tab.Screen name="Decouverte" component={ Decouverte } />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  
+
 });
