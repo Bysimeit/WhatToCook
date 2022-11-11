@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
         top: 70,
         left: -200,
         width: 150,
-        elevation: 5
+        elevation: -2
     },
     accountMenuItem: {
         backgroundColor: "#D9D9D9",

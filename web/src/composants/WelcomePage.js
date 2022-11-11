@@ -5,13 +5,11 @@ import logo1 from '../pictures/img1Welcome.jpg';
 import logo2 from '../pictures/img2Welcome.jpg';
 import logo3 from '../pictures/img3Welcome.jpg';
 
-export default function WelcomePage(){
+export default function WelcomePage() {
     
-    return(
+    return (
         <body>
-            <div className="menu">
-                <MenuBar></MenuBar>
-            </div>
+            <MenuBar/>
             <div className="core">
                 <div className="carousel" id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
                     <div class="carousel-indicators">
@@ -21,13 +19,13 @@ export default function WelcomePage(){
                     </div>
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src={logo1} class="d-block w-100" alt="image1"/>
+                            <img src={logo1} class="d-block w-100 redim" alt="image1"/>
                         </div>
                         <div class="carousel-item">
-                            <img src={logo2} class="d-block w-100" alt="image2"/>
+                            <img src={logo2} class="d-block w-100 redim" alt="image2"/>
                         </div>
                         <div class="carousel-item">
-                            <img src={logo3} class="d-block w-100" alt="image3"/>
+                            <img src={logo3} class="d-block w-100 redim" alt="image3"/>
                         </div>
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -47,7 +45,6 @@ export default function WelcomePage(){
                 nominatus esset aut delatus 
                 aut postulatus, capite vel multatione bonorum aut insulari solitudine damnabatur.</p>
             </div>
-            
         </body>
     );
 }

@@ -29,7 +29,7 @@ export default function App() {
           tabBarStyle: { display: 'none' },
           headerShown: false
       }}>
-        <Tab.Screen name="Recherche" component={ Connexion } />
+        <Tab.Screen name="Recherche" component={ Recherche } />
         <Tab.Screen name="Recettes" component={ Recettes } />
         <Tab.Screen name="Decouverte" component={ Decouverte } />
       </Tab.Navigator>
