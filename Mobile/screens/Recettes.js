@@ -2,13 +2,20 @@ import React, {useState, useEffect} from 'react';
 import { Text, View, StyleSheet, Image, ScrollView, Pressable } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+import Header from '../components/Header';
+
 export default function Recettes({ navigation }) {
     const handlePressRecherche = () => {
         navigation.navigate('Recherche');
     };
 
+    const handlePressDiscovery = () => {
+        navigation.navigate('Decouverte');
+    };
+
     return (
         <View style={styles.page}>
+            <Header/>
             <ScrollView style={styles.mainPage}>
                 <Text>Ici les recettes</Text>
             </ScrollView>
@@ -19,7 +26,7 @@ export default function Recettes({ navigation }) {
                 <Pressable style={styles.searchButtonActive}>
                     <Ionicons name='stats-chart-outline' size={25} style={styles.iconsActive} />
                 </Pressable>
-                <Pressable style={styles.searchButtonRight}>
+                <Pressable style={styles.searchButtonRight} onPress={ handlePressDiscovery } >
                     <Ionicons name='compass-outline' size={25} style={styles.iconsRight} />
                 </Pressable>
             </View>
@@ -31,10 +38,11 @@ const styles = StyleSheet.create({
     page: {
         flex: 1,
         width: "100%",
+        elevation: -1,
     },
     mainPage: {
-        flex: 1,
         backgroundColor: '#C9BEBE',
+        elevation: -1,
     },
     searchButtonActive: {
         backgroundColor: "#3F3838", 

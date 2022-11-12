@@ -5,14 +5,27 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function Header({ navigation }) {
     const [isMenuVisible, setMenuVisible] = useState(false);
-    const isConneced = true;
+    const isConnected = true;
 
-    const handlePressHome = () => {
-        navigation.navigate('Accueil');
+    const handlePressAccount = () => {
+        //navigation.navigate('Accueil');
+        console.log('Compte');
+    };
+    const handlePressFavorites = () => {
+        console.log('Favoris');
+    };
+    const handlePressMyFridge = () => {
+        console.log('Frigo');
+    };
+    const handlePressAllergy = () => {
+        console.log('Allergies');
+    };
+    const handlePressLogOut = () => {
+        console.log('Déconnecter');
     };
 
     const showMenu = () => {
-    if (!isConneced) {
+    if (!isConnected) {
         return (
             <View
                 style={[
@@ -44,35 +57,19 @@ export default function Header({ navigation }) {
                     styles.accountMenu,
                 ]}
             >
-                <Pressable onPress={ handlePressHome }>
+                <Pressable onPress={ handlePressAccount }>
                     <Text style={styles.accountMenuItem}>Compte</Text>
                 </Pressable>
-                <Pressable
-                    onPress={() => {
-                        navigation.navigate("Connexion")
-                    }}
-                >
+                <Pressable onPress={ handlePressFavorites }>
                     <Text style={styles.accountMenuItem}>Favoris</Text>
                 </Pressable>
-                <Pressable
-                    onPress={() => {
-                        navigation.navigate("UpdateAccount")
-                    }}
-                >
+                <Pressable onPress={ handlePressMyFridge }>
                     <Text style={styles.accountMenuItem}>Mon Frigo</Text>
                 </Pressable>
-                <Pressable
-                    onPress={() => {
-                        navigation.navigate("Registration")
-                    }}
-                >
+                <Pressable onPress={ handlePressAllergy }>
                     <Text style={styles.accountMenuItem}>Mes allergies</Text>
                 </Pressable>
-                <Pressable
-                    onPress={() => {
-                        navigation.navigate("Registration")
-                    }}
-                >
+                <Pressable onPress={ handlePressLogOut }>
                     <Text style={styles.accountMenuItem}>Se déconnecter</Text>
                 </Pressable>
             </View>
@@ -124,7 +121,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#3F3838",
         paddingTop: Constants.statusBarHeight,
         paddingHorizontal: 15,
-        paddingBottom: 10        
+        paddingBottom: 10       
     },
     text: {
         color: "white",
@@ -135,7 +132,7 @@ const styles = StyleSheet.create({
         top: 70,
         left: -200,
         width: 150,
-        elevation: -2
+        elevation: 5
     },
     accountMenuItem: {
         backgroundColor: "#D9D9D9",

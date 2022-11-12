@@ -150,7 +150,7 @@ export default function Recherche({ navigation }) {
                 <Pressable style={styles.searchButtonMiddle} onPress={ handlePressRecipe } >
                     <Ionicons name='stats-chart-outline' size={25} style={styles.iconsNoActive} />
                 </Pressable>
-                <Pressable style={styles.searchButtonRight}>
+                <Pressable style={styles.searchButtonRight} onPress={ handlePressDiscovery } >
                     <Ionicons name='compass-outline' size={25} style={styles.iconsNoActive} />
                 </Pressable>
             </View>
