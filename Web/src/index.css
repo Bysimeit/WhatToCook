@@ -1,7 +1,14 @@
+/* Css générique */
+
+body{
+  background-color: #C9BEBE;
+}
+
 .core {
   margin: 0;
-  background-color: #F5F5F5;
   text-align: center;
+  margin-left: 20%;
+  margin-right: 20%;
 }
 
 img {
@@ -12,17 +19,46 @@ img {
   width: auto;
 }
 
+button {
+  background-color: #787474;
+  color: #ECDCDC;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 3px; 
+}
+
+button:hover {
+  color: #FFE600;
+}
+
+/* Css Page login */
+
+.loginPage{
+  padding: 10%;
+}
+
+.loginPage > h2{
+  text-align: left;
+  padding-bottom: 25px;
+}
+
+.loginPage > form > div{
+  padding: 10px;
+}
+
+/* Css carousel */
+
 .redim {
   width: 500px;
   height: 600px;
 }
 
 .carousel {
-  padding-top: 5%;
-  margin-left: 25%;
-  margin-right: 25%;
+  padding-top: 5%; 
   margin-bottom: 5%;
 }
+
+/* Css MenuBar */
 
 .menu {
   background-color: #3F3838;
@@ -32,49 +68,46 @@ img {
   flex-direction: row;
 }
 
-.menu > h1 {
-  padding: 20px;
-}
-
-.test {
+.options {
   display: flex;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
-.category {
+.options > h2{
+  margin-top: 5px;
+}
+
+.option {
   color: #FFFFFF;
   padding: 10px;
   text-decoration: none;
+  font-size: x-large;
+  margin-left: 15px;
+  margin-right: 15px;
 }
 
-.category:hover {
+.option:hover {
   color: #FFE600;
 }
 
 .logo {
   color: #FFFFFF;
-  padding: 10px;
+  padding: 20px;
   text-decoration: none;
+  font-size: xx-large;
 }
 
 .logo:hover {
   color: #FFE600;
 }
 
-.login {
+.buttons {
   margin-right: 10px;
 }
 
-.menu > button {
-  background-color: #787474;
-  color: #ECDCDC;
-  margin-left: 5px;
-  margin-right: 5px;
-  padding: 3px;
-  
-}
 
-.menu > button:hover {
-  color: #FFE600;
-}
+
+
