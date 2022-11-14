@@ -15,10 +15,10 @@ export default function Connexion({ navigation }) {
 
     return (
         <View style={styles.page}>
-            <Header/>
             <View style={styles.content}>
                 <Text style={styles.title}>Découverte</Text>
             </View>
+            <Header navigation={navigation}/>
             <View style={styles.buttons}>
                 <Pressable style={styles.searchButtonLeft} onPress={ handlePressResearch }>
                     <Ionicons name='search-outline' size={25} style={styles.iconsNoActive} />
@@ -43,7 +43,8 @@ const styles = StyleSheet.create({
     },
     content: {
         position: 'relative',
-        elevation: -1
+        elevation: -1,
+        marginTop: 110
     },
     title: {
         textAlign: 'center',

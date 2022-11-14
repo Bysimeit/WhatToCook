@@ -15,10 +15,10 @@ export default function Recettes({ navigation }) {
 
     return (
         <View style={styles.page}>
-            <Header/>
             <ScrollView style={styles.mainPage}>
                 <Text>Ici les recettes</Text>
             </ScrollView>
+            <Header navigation={navigation}/>
             <View style={styles.buttons}>
                 <Pressable style={styles.searchButtonLeft} onPress={ handlePressRecherche }>
                     <Ionicons name='search-outline' size={25} style={styles.iconsLeft} />
@@ -42,7 +42,9 @@ const styles = StyleSheet.create({
     },
     mainPage: {
         backgroundColor: '#C9BEBE',
+        position: 'relative',
         elevation: -1,
+        marginTop: 110
     },
     searchButtonActive: {
         backgroundColor: "#3F3838", 

@@ -37,7 +37,6 @@ export default function Recherche({ navigation }) {
 
     return (
         <View style={styles.page}>
-            <Header />
             <ScrollView style={styles.mainPage}>
                 <View style={styles.container}>
                     <View>
@@ -143,6 +142,7 @@ export default function Recherche({ navigation }) {
                     </View>
                 </View>
             </ScrollView>
+            <Header navigation={navigation}/>
             <View style={styles.buttons}>
                 <Pressable style={styles.searchButtonActive}>
                     <Ionicons name='search-outline' size={25} style={styles.iconsActive} />
@@ -161,17 +161,20 @@ export default function Recherche({ navigation }) {
 const styles = StyleSheet.create({
     page: {
         flex: 1,
-        width: '100%'
+        width: '100%',
+        elevation: -1,
     },
     mainPage: {
         flex: 1,
         backgroundColor: '#C9BEBE',
         position: 'relative',
         elevation: -1,
+        marginTop: 110
     },
     container: {
         margin: '5%',
         marginBottom: 110,
+        elevation: -1,
     },
     buttonLabel: {
         flexDirection: 'row-reverse',
