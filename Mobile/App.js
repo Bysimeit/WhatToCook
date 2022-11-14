@@ -24,7 +24,7 @@ export default function App() {
     <NavigationContainer>
       <StatusBar style="auto" />
       <Tab.Navigator 
-        initialRouteName='Recherche'
+        initialRouteName='Connexion'
         screenOptions={{
           tabBarStyle: { display: 'none' },
           headerShown: false
@@ -32,6 +32,8 @@ export default function App() {
         <Tab.Screen name="Recherche" component={ Recherche } />
         <Tab.Screen name="Recettes" component={ Recettes } />
         <Tab.Screen name="Decouverte" component={ Decouverte } />
+        <Tab.Screen name="Connexion" component={ Connexion } />
+        <Tab.Screen name="Inscription" component={ Inscription } />
       </Tab.Navigator>
     </NavigationContainer>
   );

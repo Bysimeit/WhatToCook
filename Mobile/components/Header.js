@@ -1,14 +1,19 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, Platform } from "react-native";
 import Constants from "expo-constants";
 import { useState } from "react";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function Header({ navigation }) {
     const [isMenuVisible, setMenuVisible] = useState(false);
-    const isConnected = true;
+    const isConnected = false;
 
+    const handlePressLogin = () => {
+        navigation.navigate('Connexion');
+    };
+    const handlePressSignIn = () => {
+        navigation.navigate('Inscription');
+    };
     const handlePressAccount = () => {
-        //navigation.navigate('Accueil');
         console.log('Compte');
     };
     const handlePressFavorites = () => {
@@ -27,36 +32,24 @@ export default function Header({ navigation }) {
     const showMenu = () => {
     if (!isConnected) {
         return (
-            <View
-                style={[
-                    { display: isMenuVisible ? "flex" : "none" },
-                    styles.accountMenu,
-                ]}
-            >
-                <Pressable
-                    onPress={() => {
-                        navigation.navigate("Login")
-                    }}
-                >
+            <View style={[
+                { display: isMenuVisible ? "flex" : "none" },
+                  styles.accountMenu,
+                ]}>
+                <Pressable onPress={ handlePressLogin }>
                     <Text style={styles.accountMenuItem}>Se connecter</Text>
                 </Pressable>
-                <Pressable
-                    onPress={() => {
-                        navigation.navigate("Registration")
-                    }}
-                >
+                <Pressable onPress={ handlePressSignIn }>
                     <Text style={styles.accountMenuItem}>S'enregistrer</Text>
                 </Pressable>
             </View>
         );
     } else {
         return (
-            <View
-                style={[
-                    { display: isMenuVisible ? "flex" : "none" },
-                    styles.accountMenu,
-                ]}
-            >
+            <View style={[
+                { display: isMenuVisible ? "flex" : "none" },
+                  styles.accountMenu,
+                ]}>
                 <Pressable onPress={ handlePressAccount }>
                     <Text style={styles.accountMenuItem}>Compte</Text>
                 </Pressable>
@@ -121,7 +114,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#3F3838",
         paddingTop: Constants.statusBarHeight,
         paddingHorizontal: 15,
-        paddingBottom: 10       
+        paddingBottom: 10,
+        position: "absolute"
     },
     text: {
         color: "white",
@@ -132,6 +126,7 @@ const styles = StyleSheet.create({
         top: 70,
         left: -200,
         width: 150,
+        shadowColor: '#000',
         elevation: 5
     },
     accountMenuItem: {
