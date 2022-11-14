@@ -7,7 +7,7 @@ import { Link } from "react-router-dom"
 export default function LoginPage(){
 
     return(
-        <body>
+        <div>
             <MenuBar/>
             <div className="core">
                 <div className="loginPage">
@@ -15,19 +15,19 @@ export default function LoginPage(){
                     <form action="/ma-page-de-traitement" method="post">
                         <div>
                             <label for="mail">e-mail: </label>
-                            <input type="email" id="mail" name="user_mail"/>
+                            <input type="email" id="mail" name="userMail"/>
                         </div>
                         <div>
                             <label for="passWord">Mot de passe : </label>
-                            <input type="password" id="passWord" name="user_passWord"></input>
+                            <input type="password" id="passWord" name="userPassWord"></input>
                         </div>
-                        <div class="loginButton">
+                        <div className="loginButton">
                             <button type="submit">Connexion</button>
                         </div>
                     </form>
                 </div>             
             </div>      
-        </body>
+        </div>
     );
 }
 

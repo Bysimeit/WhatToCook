@@ -7,11 +7,11 @@ import { Link } from "react-router-dom"
 export default function FridgePage(){
 
     return(
-        <body>
+        <div>
             <MenuBar/>
             <div className="core">
                 
             </div>      
-        </body>
+        </div>
     );
 }

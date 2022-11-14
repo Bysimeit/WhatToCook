@@ -46,16 +46,68 @@ button:hover {
   padding: 10px;
 }
 
-/* Css carousel */
+/* Css ClientArea */
 
-.redim {
-  width: 500px;
-  height: 600px;
+.ClientArea{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  padding-top: 20%;
 }
+
+/* fct pas */
+.userInformations{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mainUserPicture{
+  border-radius: 50%;
+  height: 30%;
+  width: 30%;
+  margin-bottom: 5%;
+}
+
+/* Css changePassWord */
+
+.ChangePassWord{
+  padding-top: 20%;
+  padding-left: 15%;
+  padding-right: auto;
+}
+
+.ChangePassWord > h2{
+  text-align: left;
+  padding-bottom: 20px;
+}
+
+.ChangePassWord > div{
+  justify-content: center;
+  align-items: center;
+  display: flex; 
+}
+
+.ChangePassWord > div > p{
+  padding-top: 10px;
+  padding-right: 5px;
+}
+
+.ChangePassWord > input{
+  margin-top: 20px;
+}
+
+
+/* Css carousel */
 
 .carousel {
   padding-top: 5%; 
   margin-bottom: 5%;
+  height: auto;
+  width: auto;
+}
+
+.container_test{
+  min-height: 850px;
 }
 
 /* Css MenuBar */

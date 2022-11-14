@@ -1,9 +1,11 @@
-const router = require("express").Router();
-const CustomerConstroller = require("../controllers/customerDB")
+const CustomerController = require("../controllers/customerDB")
 
-router.get('',);
-router.post('',);
-router.patch('',);
-router.delete('',);
+const Router = require("express-promise-router");
+const router = new Router;
+
+router.get('/', CustomerController.getAllCustomer);
+router.post('/',);
+router.patch('/',);
+router.delete('/',);
 
 module.exports = router

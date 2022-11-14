@@ -1,6 +1,6 @@
 //get
 
-module.exports.getAllCustomer = async (id, client) => {
+module.exports.getAllCustomer = async (client) => {
     return await client.query("SELECT * FROM Customer");
 }
 
