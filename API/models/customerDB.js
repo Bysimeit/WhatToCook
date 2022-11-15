@@ -11,7 +11,7 @@ module.exports.getCustomer = async (mail, passWord, client) => {
 //post
 
 module.exports.postNewCustomer = async (email, firstName, lastName, password, client) => {
-    return await client.query("INSERT INTO Customer(email, firstName, lastName, password) VALUES ($1,$2,$3,$4) RETURNING id", [email, firstName, lastName, password]);
+    return await client.query("INSERT INTO Customer(email, firstName, lastName, password, isadmin) VALUES ($1,$2,$3,$4,$5) RETURNING id", [email, firstName, lastName, password, false]);
 }
 
 //update
@@ -27,5 +27,6 @@ module.exports.updateEmailCustomer = async (id, newEmail, client) => {
 //delete
 
 module.exports.deleteCustomer = async (id, client) => {
+    console.log("DELETE FROM Customer WHERE id = $1",[id]);
     return await client.query("DELETE FROM Customer WHERE id = $1",[id]);
 }
