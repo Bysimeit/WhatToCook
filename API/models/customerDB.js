@@ -10,8 +10,8 @@ module.exports.getCustomer = async (mail, passWord, client) => {
 
 //post
 
-module.exports.postNewCustomer = async (email, firstName, lastName, password, client) => {
-    return await client.query("INSERT INTO Customer(email, firstName, lastName, password, isadmin) VALUES ($1,$2,$3,$4,$5) RETURNING id", [email, firstName, lastName, password, false]);
+module.exports.postNewCustomer = async (client, email, firstName, lastName, password) => {
+    return await client.query("INSERT INTO Customer(email, firstName, secondName, password, isadmin) VALUES ($1,$2,$3,$4,$5) RETURNING id", [email, firstName, lastName, password, false]);
 }
 
 //update

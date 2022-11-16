@@ -14,11 +14,11 @@ export default function LoginPage(){
                     <h2>Connexion</h2>
                     <form action="/ma-page-de-traitement" method="post">
                         <div>
-                            <label for="mail">e-mail: </label>
+                            <label htmlFor="mail">e-mail: </label>
                             <input type="email" id="mail" name="userMail"/>
                         </div>
                         <div>
-                            <label for="passWord">Mot de passe : </label>
+                            <label htmlFor="passWord">Mot de passe : </label>
                             <input type="password" id="passWord" name="userPassWord"></input>
                         </div>
                         <div className="loginButton">

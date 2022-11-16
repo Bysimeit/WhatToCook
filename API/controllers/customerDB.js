@@ -21,17 +21,19 @@ module.exports.getAllCustomer = async (req, res) => {
 
 module.exports.postNewCustomer = async (req, res) => {
     const client = await pool.connect();
-    //const {client:clientObj} = req.body;
-    const {email, firstName, lastName, passWord} = req.body;
+    const {client:clientObj} = req.body;
+    //const {email, firstName, lastName, passWord} = req.body;
 
     try {
         console.log("start");
         //await client.query("BEGIN");
-        const {rows} = await CustomerModel.postNewCustomer(client, email,firstName, lastName, passWord);
+        //const {rows} = await CustomerModel.postNewCustomer(client, email,firstName, lastName, passWord);
+        console.log(clientObj);
+        const {rows} = await CustomerModel.postNewCustomer(client, clientObj.email, clientObj.firstName, clientObj.lastName, clientObj.passWord);
         //await client.query("COMMIT")
         res.sendStatus(201);
     } catch (e) {
-        //await client.query("ROLLBACK");
+        await client.query("ROLLBACK");
         console.error(e);
         res.sendStatus(500);
     } finally {
