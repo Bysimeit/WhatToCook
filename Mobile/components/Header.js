@@ -5,25 +5,25 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function Header({ navigation }) {
     const [isMenuVisible, setMenuVisible] = useState(false);
-    const isConnected = false;
+    const isConnected = true;
 
     const handlePressLogin = () => {
-        navigation.navigate('Connexion');
+        navigation.navigate('Login');
     };
     const handlePressSignIn = () => {
-        navigation.navigate('Inscription');
+        navigation.navigate('Registration');
     };
     const handlePressAccount = () => {
-        console.log('Compte');
+        navigation.navigate('Profile');
     };
     const handlePressFavorites = () => {
         console.log('Favoris');
     };
     const handlePressMyFridge = () => {
-        console.log('Frigo');
+        navigation.navigate('Fridge');
     };
     const handlePressAllergy = () => {
-        console.log('Allergies');
+        navigation.navigate('Allergies');
     };
     const handlePressLogOut = () => {
         console.log('Déconnecter');
@@ -123,11 +123,10 @@ const styles = StyleSheet.create({
     },
     accountMenu: {
         position: "absolute",
-        top: 70,
-        left: -200,
+        top: 75,
+        left: -165,
         width: 150,
-        shadowColor: '#000',
-        elevation: 5
+        shadowColor: '#000'
     },
     accountMenuItem: {
         backgroundColor: "#D9D9D9",

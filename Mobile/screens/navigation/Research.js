@@ -4,9 +4,10 @@ import { RadioButton } from 'react-native-paper';
 import CheckBox from 'expo-checkbox';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import Header from '../components/Header';
+import Header from '../../components/Header';
+import NavBar from '../../components/NavBar';
 
-export default function Recherche({ navigation }) {
+export default function Research({ navigation }) {
     const [value, setValue] = React.useState('starter');
     const [number, onChangeNumber] = React.useState('');
 
@@ -27,17 +28,12 @@ export default function Recherche({ navigation }) {
     const [lupinSelected, setLupinSelection] = React.useState(false);
     const [molluscSelected, setMolluscSelection] = React.useState(false);
 
-    const handlePressRecipe = () => {
-        navigation.navigate('Recettes');
-    };
-
-    const handlePressDiscovery = () => {
-        navigation.navigate('Decouverte');
-    };
+    const active = "left";
 
     return (
         <View style={styles.page}>
             <ScrollView style={styles.mainPage}>
+                <Text style={styles.title}>Recherche</Text>
                 <View style={styles.container}>
                     <View>
                         <Text>Quelle type de plat cherchez-vous ?</Text>
@@ -143,17 +139,7 @@ export default function Recherche({ navigation }) {
                 </View>
             </ScrollView>
             <Header navigation={navigation}/>
-            <View style={styles.buttons}>
-                <Pressable style={styles.searchButtonActive}>
-                    <Ionicons name='search-outline' size={25} style={styles.iconsActive} />
-                </Pressable>
-                <Pressable style={styles.searchButtonMiddle} onPress={ handlePressRecipe } >
-                    <Ionicons name='stats-chart-outline' size={25} style={styles.iconsNoActive} />
-                </Pressable>
-                <Pressable style={styles.searchButtonRight} onPress={ handlePressDiscovery } >
-                    <Ionicons name='compass-outline' size={25} style={styles.iconsNoActive} />
-                </Pressable>
-            </View>
+            <NavBar navigation={navigation} active={active}/>
         </View>
     );
 };
@@ -161,20 +147,23 @@ export default function Recherche({ navigation }) {
 const styles = StyleSheet.create({
     page: {
         flex: 1,
-        width: '100%',
-        elevation: -1,
+        width: '100%'
     },
     mainPage: {
         flex: 1,
         backgroundColor: '#C9BEBE',
         position: 'relative',
-        elevation: -1,
         marginTop: 110
+    },
+    title: {
+        textAlign: 'center',
+        paddingTop: 30,
+        fontSize: 25,
+        paddingBottom: 10
     },
     container: {
         margin: '5%',
-        marginBottom: 110,
-        elevation: -1,
+        marginBottom: 110
     },
     buttonLabel: {
         flexDirection: 'row-reverse',
@@ -222,42 +211,5 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
         paddingHorizontal: 70,
         flexDirection: 'row',
-    },
-    searchButtonActive: {
-        backgroundColor: "#3F3838", 
-        height: 40, 
-        width: 40, 
-        borderRadius: 20,
-        left: 70,
-    },
-    searchButtonMiddle: {
-        backgroundColor: "#D9D9D9",
-        height: 40, 
-        width: 40, 
-        borderRadius: 20,
-        left: 130,
-    },
-    searchButtonRight: {
-        backgroundColor: "#D9D9D9",
-        height: 40, 
-        width: 40, 
-        borderRadius: 20,
-        left: 200,
-    },
-    iconsActive: {
-        color: '#FFFFFF',
-        textAlign: 'center',
-        top: 6,
-    },
-    iconsNoActive: {
-        color: 'black',
-        textAlign: 'center',
-        top: 6,
-    },
-    buttons: {
-        height: 50,
-        position: 'absolute',
-        flexDirection: 'row',
-        bottom: 30,
-    },
+    }
 });

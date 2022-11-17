@@ -2,17 +2,21 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import Constants from 'expo-constants';
 
-import Accueil from './screens/Accueil';
-import Connexion from './screens/Connexion';
-import Inscription from './screens/Inscription';
-import Recherche from './screens/Recherche';
-import Recettes from './screens/Recettes';
-import Decouverte from './screens/Decouverte';
+import Home from './screens/Home';
+import Research from './screens/navigation/Research';
+import Receipts from './screens/navigation/Receipts';
+import Discovery from './screens/navigation/Discovery';
+import Login from './screens/account/Login';
+import Registration from './screens/account/Registration';
+import Profile from './screens/account/Profile';
+import ChangePassword from './screens/account/ChangePassword';
+import PasswordForget from './screens/account/PasswordForget';
+import Allergies from './screens/account/Allergies';
+import Fridge from './screens/account/Fridge';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 const Tab = createBottomTabNavigator();
@@ -24,16 +28,21 @@ export default function App() {
     <NavigationContainer>
       <StatusBar style="auto" />
       <Tab.Navigator 
-        initialRouteName='Connexion'
+        initialRouteName='Profile'
         screenOptions={{
           tabBarStyle: { display: 'none' },
           headerShown: false
       }}>
-        <Tab.Screen name="Recherche" component={ Recherche } />
-        <Tab.Screen name="Recettes" component={ Recettes } />
-        <Tab.Screen name="Decouverte" component={ Decouverte } />
-        <Tab.Screen name="Connexion" component={ Connexion } />
-        <Tab.Screen name="Inscription" component={ Inscription } />
+        <Tab.Screen name="Research" component={ Research } />
+        <Tab.Screen name="Receipts" component={ Receipts } />
+        <Tab.Screen name="Discovery" component={ Discovery } />
+        <Tab.Screen name="Login" component={ Login } />
+        <Tab.Screen name="PasswordForget" component={ PasswordForget } />
+        <Tab.Screen name="Registration" component={ Registration } />
+        <Tab.Screen name="Profile" component={ Profile } />
+        <Tab.Screen name="ChangePassword" component={ ChangePassword } />
+        <Tab.Screen name="Fridge" component={ Fridge } />
+        <Tab.Screen name="Allergies" component={ Allergies } />
       </Tab.Navigator>
     </NavigationContainer>
   );

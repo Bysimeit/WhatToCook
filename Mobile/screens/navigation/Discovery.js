@@ -2,16 +2,11 @@ import React, {useState, useEffect} from 'react';
 import { Text, View, StyleSheet, Image, ScrollView, Pressable } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import Header from '../components/Header';
+import Header from '../../components/Header';
+import NavBar from '../../components/NavBar';
 
-export default function Connexion({ navigation }) {
-    const handlePressResearch = () => {
-        navigation.navigate('Recherche');
-    };
-  
-    const handlePressRecipe = () => {
-        navigation.navigate('Recettes');
-    };
+export default function Discovery({ navigation }) {
+    const active = "right";
 
     return (
         <View style={styles.page}>
@@ -19,17 +14,7 @@ export default function Connexion({ navigation }) {
                 <Text style={styles.title}>Découverte</Text>
             </View>
             <Header navigation={navigation}/>
-            <View style={styles.buttons}>
-                <Pressable style={styles.searchButtonLeft} onPress={ handlePressResearch }>
-                    <Ionicons name='search-outline' size={25} style={styles.iconsNoActive} />
-                </Pressable>
-                <Pressable style={styles.searchButtonMiddle} onPress={ handlePressRecipe }>
-                    <Ionicons name='stats-chart-outline' size={25} style={styles.iconsNoActive} />
-                </Pressable>
-                <Pressable style={styles.searchButtonActive}>
-                    <Ionicons name='compass-outline' size={25} style={styles.iconsActive} />
-                </Pressable>
-            </View>
+            <NavBar navigation={navigation} active={active}/>
         </View>
   );
 };
