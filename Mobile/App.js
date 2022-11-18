@@ -18,6 +18,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
+
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -25,26 +28,28 @@ const Drawer = createDrawerNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <StatusBar style="auto" />
-      <Tab.Navigator 
-        initialRouteName='Profile'
-        screenOptions={{
-          tabBarStyle: { display: 'none' },
-          headerShown: false
-      }}>
-        <Tab.Screen name="Research" component={ Research } />
-        <Tab.Screen name="Receipts" component={ Receipts } />
-        <Tab.Screen name="Discovery" component={ Discovery } />
-        <Tab.Screen name="Login" component={ Login } />
-        <Tab.Screen name="PasswordForget" component={ PasswordForget } />
-        <Tab.Screen name="Registration" component={ Registration } />
-        <Tab.Screen name="Profile" component={ Profile } />
-        <Tab.Screen name="ChangePassword" component={ ChangePassword } />
-        <Tab.Screen name="Fridge" component={ Fridge } />
-        <Tab.Screen name="Allergies" component={ Allergies } />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <StatusBar style="auto" />
+        <Tab.Navigator 
+          initialRouteName='Profile'
+          screenOptions={{
+            tabBarStyle: { display: 'none' },
+            headerShown: false
+        }}>
+          <Tab.Screen name="Research" component={ Research } />
+          <Tab.Screen name="Receipts" component={ Receipts } />
+          <Tab.Screen name="Discovery" component={ Discovery } />
+          <Tab.Screen name="Login" component={ Login } />
+          <Tab.Screen name="PasswordForget" component={ PasswordForget } />
+          <Tab.Screen name="Registration" component={ Registration } />
+          <Tab.Screen name="Profile" component={ Profile } />
+          <Tab.Screen name="ChangePassword" component={ ChangePassword } />
+          <Tab.Screen name="Fridge" component={ Fridge } />
+          <Tab.Screen name="Allergies" component={ Allergies } />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 
