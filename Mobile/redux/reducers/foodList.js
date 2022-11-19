@@ -1,6 +1,9 @@
 import { ADD_FOOD, DELETE_FOOD } from "../actions/actionsType";
 
-initialState = [{id: 0, title: "Add new food", quantity: 2, weight: 150, expirationDate: "20/12/2022"}];
+initialState = [
+    {id: 0, title: "Salade", quantity: 2, weight: 150, expirationDate: "20/12/2022"},
+    {id: 1, title: "Oeuf", quantity: 4, weight: 0, expirationDate: "20/12/2022"}
+];
 
 export const foodList = (state = initialState, action) => {
     switch(action.type) {

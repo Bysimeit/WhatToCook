@@ -1,23 +1,18 @@
 import React from 'react';
-import { Text, View, StyleSheet, ScrollView, TextInput, Pressable } from 'react-native';
+import { Text, View, StyleSheet, ScrollView, FlatList, Pressable } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addFood } from "../../redux/actions/foodList";
+import { getFood } from "../../redux/selectors";
 import Dialog from "react-native-dialog";
 import DateTimePicker from '@react-native-community/datetimepicker';
+import FoodTile from '../../components/FoodTile';
 
 import Header from '../../components/Header';
 import NavBar from '../../components/NavBar';
 
 export default function Fridge({ navigation }) {
     const dispatch = useDispatch();
-    const [title, setTitle] = React.useState('');
-    const onChangeText = (val) => { setNewTitle(val) }
-    const onAddNewFood = () => {
-        if (title === "") return;
-        dispatch(addFood(title))
-        setTitle("");
-    }
 
     const [visibleTitle, setVisibleTitle] = React.useState(false);
     const [foodTitle, setFoodTitle] = React.useState('');
@@ -25,9 +20,9 @@ export default function Fridge({ navigation }) {
     const [foodQuantity, setFoodQuantity] = React.useState('');
     const [visibleWeight, setVisibleWeight] = React.useState(false);
     const [foodWeight, setFoodWeight] = React.useState('');
-    const [visibleExpirationDate, setVisibleExpirationDate] = React.useState(false);
-    const [foodExpirationDate, setFoodExpirationDate] = React.useState(new Date());
+    const [foodExpirationDateRelay, setFoodExpirationDateRelay] = React.useState(new Date());
     const [visibleExpirationDateInfo, setVisibleExpirationDateInfo] = React.useState(false);
+    const [visibleExpirationDate, setVisibleExpirationDate] = React.useState(false);
 
     const showDialogTitle = () => {
         setVisibleTitle(true);
@@ -64,15 +59,21 @@ export default function Fridge({ navigation }) {
         setVisibleExpirationDateInfo(false);
     };
 
-    const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate;
-        setFoodExpirationDate(currentDate);
-        setVisibleExpirationDate(false);
-    };
-
     const handleNextExpirationDateInfo  = () => {
         setVisibleExpirationDateInfo(false);
-        showAddFoodExpirationDate()
+        setVisibleExpirationDate(true);
+    };
+
+    const onAddNewFood = (dateConversion) => {
+        if (foodTitle === "") return;
+        dispatch(addFood(foodTitle, foodQuantity, foodWeight, dateConversion));
+    }
+
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate;
+        let dateConversion = currentDate.getDate() + "/" + (currentDate.getMonth() + 1) + "/" + currentDate.getFullYear();
+        setVisibleExpirationDate(false);
+        onAddNewFood(dateConversion);
     };
 
     function showAddFoodTitle() {
@@ -131,20 +132,27 @@ export default function Fridge({ navigation }) {
     }
 
     function showAddFoodExpirationDate() {
-        return (
-            <View>
-                <DateTimePicker
-                    style={{display: 'none'}}
-                    value={foodExpirationDate}
-                    mode="date"
-                    onChange={onChange}
-                    pointerEvents = {"none"}
-                />
-            </View>
-        );
+        if (visibleExpirationDate) {
+            return (
+                <View>
+                    <DateTimePicker
+                        value={foodExpirationDateRelay}
+                        mode="date"
+                        onChange={onChange}
+                        pointerEvents = {"none"}
+                    />
+                </View>
+            );
+        }
     }
 
     const active = "none";
+    const foods = useSelector(getFood);
+    const renderItem = ({item}) => {
+        return (
+            <FoodTile food={item} />
+        );
+    }
 
     return (
         <View style={styles.page}>
@@ -153,6 +161,19 @@ export default function Fridge({ navigation }) {
                 <Pressable style={styles.addButton} onPress={showDialogTitle}>
                     <Ionicons name='add-outline' size={25} style={styles.addIcon}/>
                 </Pressable>
+                <View style={styles.foodTitles}>
+                    <Text style={styles.foodTitle}>Nom aliment</Text>
+                    <Text>Qté</Text>
+                    <Text>Poids (g)</Text>
+                    <Text style={styles.foodExpirationDate}>Date limite</Text>
+                </View>
+                <FlatList
+                    nestedScrollEnabled
+                    contentContainerStyle = {styles.containerFood}
+                    data={foods}
+                    keyExtractor={(item) => item.id}
+                    renderItem={renderItem}
+                />
                 { showAddFoodTitle() }
                 { showAddFoodQuantity() }
                 { showAddFoodWeight() }
@@ -175,6 +196,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         elevation: -1,
         marginTop: 110,
+        marginBottom: 290
     },
     title: {
         textAlign: 'center',
@@ -199,5 +221,22 @@ const styles = StyleSheet.create({
     },
     addFood: {
         //elevation: 5
+    },
+    containerFood: {
+        paddingTop: 10,
+        justifyContent : "space-between"
+    },
+    foodTitles: {
+        display: "flex",
+        paddingTop: 30,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent : "space-between",
+    },
+    foodTitle: {
+        marginLeft: 10
+    },
+    foodExpirationDate: {
+        marginRight: 10
     }
 });
