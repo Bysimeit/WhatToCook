@@ -30,6 +30,8 @@ export default function Research({ navigation }) {
 
     const active = "left";
 
+    const isConnected = false;
+
     return (
         <View style={styles.page}>
             <ScrollView style={styles.mainPage}>
@@ -61,14 +63,14 @@ export default function Research({ navigation }) {
                     </View>
                     <View style={styles.separeView}>
                         <View>
-                            <View style={styles.loginRequireLabel}>
+                            <View style={isConnected ? styles.loginAllowedLabel : styles.loginRequireLabel}>
                                 <Ionicons name="lock-closed-outline" size={25} />
                                 <Text style={{margin: 4}}>Connexion requise</Text>
                             </View>
-                            <View style={styles.loginRequire}>
+                            <View style={isConnected ? styles.loginAllowed : styles.loginRequire}>
                                 <Text>Uniquement les recettes faisable avec le frigo ?</Text>
                                 <View style={styles.checkBoxContainer}>
-                                    <CheckBox value={fridgeSelected} onValueChange={setFridgeSelection} style={styles.checkbox} color='grey' disabled />
+                                    <CheckBox value={fridgeSelected} onValueChange={setFridgeSelection} style={styles.checkbox} color='grey' disabled={!isConnected} />
                                     <Text style={styles.checkBoxLabel}>Oui</Text>
                                 </View>
                             </View>
@@ -210,6 +212,13 @@ const styles = StyleSheet.create({
         opacity: 1,
         paddingVertical: 20,
         paddingHorizontal: 70,
-        flexDirection: 'row',
+        flexDirection: 'row'
+    },
+    loginAllowed: {
+        left: 0,
+        top: 0
+    },
+    loginAllowedLabel: {
+        display: 'none'
     }
 });

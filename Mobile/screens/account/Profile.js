@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, Alert, TextInput, Pressable } from 'react-native';
+import { Text, View, StyleSheet, Alert, TextInput, Pressable, Image } from 'react-native';
 import CheckBox from 'expo-checkbox';
 
 import Header from '../../components/Header';
@@ -42,6 +42,7 @@ export default function Profile({ navigation }) {
         <View style={styles.page}>
             <View style={styles.content}>
                 <Text style={styles.title}>Profil</Text>
+                <Image style={styles.iconUser} source={require('../../assets/account/iconDefaultUser.png')}/>
                 <View style={styles.inputView}>
                     <Text>Nom :</Text>
                     <TextInput style={[styles.input, styles.shadowBox]} onChangeText={onChangeName} value={name}/>
@@ -127,11 +128,18 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     buttonDelete: {
-        top: 100,
+        top: 80,
         height: 35,
         width: 170,
         backgroundColor: "#D9D9D9",
         marginRight: 'auto',
         marginLeft: 'auto'
     },
+    iconUser: {
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginTop: 20,
+        height: 50,
+        width: 50
+    }
 });

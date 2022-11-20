@@ -9,24 +9,31 @@ export default function Header({ navigation }) {
 
     const handlePressLogin = () => {
         navigation.navigate('Login');
+        setMenuVisible(false);
     };
     const handlePressSignIn = () => {
         navigation.navigate('Registration');
+        setMenuVisible(false);
     };
     const handlePressAccount = () => {
         navigation.navigate('Profile');
+        setMenuVisible(false);
     };
     const handlePressFavorites = () => {
         console.log('Favoris');
+        setMenuVisible(false);
     };
     const handlePressMyFridge = () => {
         navigation.navigate('Fridge');
+        setMenuVisible(false);
     };
     const handlePressAllergy = () => {
         navigation.navigate('Allergies');
+        setMenuVisible(false);
     };
     const handlePressLogOut = () => {
         console.log('Déconnecter');
+        setMenuVisible(false);
     };
 
     const showMenu = () => {
