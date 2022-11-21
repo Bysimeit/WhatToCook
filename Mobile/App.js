@@ -32,7 +32,7 @@ export default function App() {
       <NavigationContainer>
         <StatusBar style="auto" />
         <Tab.Navigator 
-          initialRouteName='Profile'
+          initialRouteName='Receipts'
           screenOptions={{
             tabBarStyle: { display: 'none' },
             headerShown: false
