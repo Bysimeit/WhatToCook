@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, View, StyleSheet, Alert, TextInput, Pressable, Image } from 'react-native';
 import CheckBox from 'expo-checkbox';
+import * as ImagePicker from 'expo-image-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Header from '../../components/Header';
 import NavBar from '../../components/NavBar';
@@ -36,13 +38,47 @@ export default function Profile({ navigation }) {
         );
     }
 
+    if (newsletterSelected) {
+        console.log("Veut la newsletter");
+    } else {
+        console.log("Ne veut pas la newsletter");
+    }
+
     const active = "none";
 
+    const [image, setImage] = React.useState(null);
+    
+    useEffect(() => {
+        AsyncStorage.getItem("profilImg").then((urlImage) => {
+            console.log("1" + image);
+            setImage(urlImage);
+            console.log("2" + image);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }, []);
+
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [4,3],
+            quality: 1
+        });
+        console.log(result);
+        if (!result.cancelled) {
+            setImage(result.uri);
+            await AsyncStorage.setItem("profilImg", JSON.stringify(result.uri));
+        }
+    }
+    
     return (
         <View style={styles.page}>
             <View style={styles.content}>
                 <Text style={styles.title}>Profil</Text>
-                <Image style={styles.iconUser} source={require('../../assets/account/iconDefaultUser.png')}/>
+                <Pressable onPress={pickImage}>
+                    <Image style={styles.iconUser} source={!image ? require('../../assets/account/iconDefaultUser.png') : {uri: image} }/>
+                </Pressable>
                 <View style={styles.inputView}>
                     <Text>Nom :</Text>
                     <TextInput style={[styles.input, styles.shadowBox]} onChangeText={onChangeName} value={name}/>
@@ -141,5 +177,10 @@ const styles = StyleSheet.create({
         marginTop: 20,
         height: 50,
         width: 50
+    },
+    test: {
+        width: 100,
+        height: 100,
+        marginTop: 10
     }
 });
