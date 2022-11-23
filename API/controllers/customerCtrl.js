@@ -1,5 +1,6 @@
 const pool = require('../models/database');
 const CustomerModel = require('../models/customerDB');
+const {getHash} = require('../utils/utils');
 
 module.exports.getAllCustomer = async (req, res) => {
     const client = await pool.connect();
@@ -20,24 +21,23 @@ module.exports.getAllCustomer = async (req, res) => {
 }
 
 module.exports.postNewCustomer = async (req, res) => {
-    const client = await pool.connect();
-    const {client:clientObj} = req.body;
-    //const {email, firstName, lastName, passWord} = req.body;
-
-    try {
-        console.log("start");
-        //await client.query("BEGIN");
-        //const {rows} = await CustomerModel.postNewCustomer(client, email,firstName, lastName, passWord);
-        console.log(clientObj);
-        const {rows} = await CustomerModel.postNewCustomer(client, clientObj.email, clientObj.firstName, clientObj.lastName, clientObj.passWord);
-        //await client.query("COMMIT")
-        res.sendStatus(201);
-    } catch (e) {
-        await client.query("ROLLBACK");
-        console.error(e);
-        res.sendStatus(500);
-    } finally {
-        client.release();
+    const lastName = req.body.lastName;
+    const firstName = req.body.firstName;
+    const password = req.body.password;
+    const email = req.body.email;
+    if(lastName === undefined || firstName === undefined || password === undefined || email === undefined){
+        res.sendStatus(400);
+    } else {
+        const client = await pool.connect();
+        try {
+            await CustomerModel.postNewCustomer(client, email, firstName, lastName, await getHash(password));
+            res.sendStatus(201);
+        } catch (e) {
+            console.error(e);
+            res.sendStatus(500);
+        } finally {
+            client.release();
+        }
     }
    }
 
@@ -46,7 +46,7 @@ module.exports.updatePassWordCustomer = async (req, res) => {
     const client = await pool.connect();
     
     try{
-        await CustomerModel.updatePassWordCustomer(id, passWord, client);
+        await CustomerModel.updatePassWordCustomer(client, id, passWord);
         res.sendStatus(204);
     } catch (error){
         console.error(error);
@@ -61,7 +61,7 @@ module.exports.updateEmailCustomer = async (req, res) => {
     const client = await pool.connect();
     
     try{
-        await CustomerModel.updateEmailCustomer(id, mail, client);
+        await CustomerModel.updateEmailCustomer(client, id, mail);
         res.sendStatus(204);
     } catch (error){
         console.error(error);
@@ -74,10 +74,11 @@ module.exports.updateEmailCustomer = async (req, res) => {
 module.exports.deleteCustomer = async (req, res) => {
     const {id} = req.body;
     console.log(req.body.id);
+    console.log(id);
     const client = await pool.connect();
 
     try{
-        await CustomerModel.deleteCustomer(id, client);
+        await CustomerModel.deleteCustomer(client, id);
         res.sendStatus(204);
     } catch (error){
         console.error(error);

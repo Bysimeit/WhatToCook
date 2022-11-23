@@ -79,5 +79,5 @@ CREATE TABLE Recipe_Step (
 INSERT INTO Allergy(name)
 VALUES('Gluten'),('Crustacean'),('Eggs'),('Peanuts'),('Fish'),('Soy'),('Lactose'),('Nuts'),('Celery'),('Mustard'),('SesameSeed'),('Anhydride'),('Lupin'),('Mollusc');
 INSERT INTO Customer(email, firstName, secondName, passWord)
-VALUES('admin@gmail.com'),('Admin'),('Private'),('Admin123!');
+VALUES('admin@gmail.com'),('Admin'),('Private'),('$2b$10$917oN39XueXqrhtoHI1wlei7TFw8BkPDaBab10.rJatviv4R9tJf2');
 

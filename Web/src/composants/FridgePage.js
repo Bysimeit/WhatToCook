@@ -10,7 +10,7 @@ export default function FridgePage(){
         <div>
             <MenuBar/>
             <div className="core">
-                
+                <p></p>
             </div>      
         </div>
     );
