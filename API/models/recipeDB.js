@@ -15,9 +15,29 @@ module.exports.getListRecipe = async (client, type, time, allergies) => {
     return await client.query(request);
 }
 
-module.exports.postNewRecipe = async (client, id) => {
+//post
+
+module.exports.postNewRecipe = async (client, name, time, picture, steps, foods) => {
+    let idNewRecipe;
+    if(picture === undefined){
+        idNewRecipe = await client.query("INSERT INTO Recipe(name, time) VALUES ($1,$2) RETURNING id", [name, time]);
+    }else{
+        idNewRecipe = await client.query("INSERT INTO Recipe(name, time, picture) VALUES ($1,$2,$3) RETURNING id", [name, time, picture]);
+    }
+
+    for(let step of steps){
+        await client.query("INSERT INTO Step(text, idRecipe) VALUES ($1,$2)", [step, idNewRecipe]);
+    }
+
+    for(let food of foods){
+        
+    }
+
+    return 
 
 }
+
+//update
 
 module.exports.updateRecipe = async (client, id) => {
 
@@ -26,21 +46,20 @@ module.exports.updateRecipe = async (client, id) => {
 //delete
 
 module.exports.deleteRecipe = async (client, idRecipe) => {
+    await client.query("DELETE FROM Customer_Recipe WHERE idRecipe = $1",[idRecipe]);
+    await client.query("DELETE FROM Food_Quantity WHERE idRecipe = $1",[idRecipe]);
+    await client.query("DELETE FROM Step WHERE idRecipe = $1",[idRecipe]);
     return await client.query("DELETE FROM Recipe WHERE id = $1",[idRecipe]);
 }
 
 module.exports.deleteFoodQte = async (client, idRecipe) => {
-    return await client.query("DELETE FROM Food_Quantity WHERE id = $1",[idRecipe]);
+    return await client.query();
 }
 
 module.exports.deleteCustomerRecipe = async (client, idRecipe) => {
-    return await client.query("DELETE FROM Customer_Recipe WHERE id = $1",[idRecipe]);
-}
-
-module.exports.deleteRecipeStep = async (client, idRecipe) => {
-    return await client.query("DELETE FROM Recipe_Step WHERE id = $1",[idRecipe]);
+    return await client.query();
 }
 
 module.exports.deleteStep = async (client, idRecipe) => {
-    return await client.query("DELETE FROM Step WHERE id = $1",[idRecipe]);
+    return await client.query();
 }
