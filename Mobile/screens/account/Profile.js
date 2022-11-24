@@ -49,10 +49,10 @@ export default function Profile({ navigation }) {
     const [image, setImage] = React.useState(null);
     
     useEffect(() => {
-        AsyncStorage.getItem("profilImg").then((urlImage) => {
-            console.log("1" + image);
+        AsyncStorage.getItem("profilImg").then((err,urlImage) => {
+            console.log("1 " + image);
             setImage(urlImage);
-            console.log("2" + image);
+            console.log("2 " + image);
         }).catch((error) => {
             console.log(error);
         });
@@ -78,6 +78,7 @@ export default function Profile({ navigation }) {
                 <Text style={styles.title}>Profil</Text>
                 <Pressable onPress={pickImage}>
                     <Image style={styles.iconUser} source={!image ? require('../../assets/account/iconDefaultUser.png') : {uri: image} }/>
+                    {console.log("Ici " + image)}
                 </Pressable>
                 <View style={styles.inputView}>
                     <Text>Nom :</Text>
