@@ -73,8 +73,6 @@ module.exports.updateEmailCustomer = async (req, res) => {
 
 module.exports.deleteCustomer = async (req, res) => {
     const {id} = req.body;
-    console.log(req.body.id);
-    console.log(id);
     const client = await pool.connect();
 
     try{
