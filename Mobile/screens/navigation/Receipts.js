@@ -9,7 +9,7 @@ import { getRecipe } from "../../redux/selectors";
 import Header from '../../components/Header';
 import NavBar from '../../components/NavBar';
 
-export default function Receipts({ navigation }) {
+export default function Receipts({navigation}) {
     const active = "middle";
 
     const recipe = useSelector(getRecipe);

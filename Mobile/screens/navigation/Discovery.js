@@ -1,17 +1,20 @@
 import React, {useState, useEffect} from 'react';
 import { Text, View, StyleSheet, Image, ScrollView, Pressable } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import DiscoveryTile from '../../components/DiscoveryTile';
 
 import Header from '../../components/Header';
 import NavBar from '../../components/NavBar';
 
-export default function Discovery({ navigation }) {
+export default function Discovery({navigation}) {
     const active = "right";
 
     return (
         <View style={styles.page}>
             <View style={styles.content}>
                 <Text style={styles.title}>Découverte</Text>
+                <Text style={styles.subTitle}>Nous vous proposons de découvrir la recette suivante :</Text>
+                <DiscoveryTile/>
             </View>
             <Header navigation={navigation}/>
             <NavBar navigation={navigation} active={active}/>
@@ -34,7 +37,8 @@ const styles = StyleSheet.create({
     title: {
         textAlign: 'center',
         paddingTop: 30,
-        fontSize: 25
+        fontSize: 25,
+        paddingBottom: 30
     },
     buttons: {
         height: 50,
@@ -73,4 +77,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         top: 6,
     },
+    subTitle: {
+        marginLeft: 20,
+        marginRight: 20
+    }
 });

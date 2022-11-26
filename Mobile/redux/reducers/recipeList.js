@@ -13,7 +13,7 @@ export const recipeList = (state = initialStateRecipe, action) => {
                 id: state.length,
                 title: action.payload.title,
                 time: action.payload.time,
-                weight: action.payload.weight,
+                price: action.payload.price,
                 rate: action.payload.rate,
                 urlImage: action.payload.urlImage
             }];
