@@ -25,7 +25,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "be.WhatToCook.WhatToCook"
+      "package": "be.bysimeit.WhatToCook"
     },
     "web": {
       "favicon": "./assets/favicon.png"

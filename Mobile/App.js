@@ -16,15 +16,11 @@ import Fridge from './screens/account/Fridge';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 
 
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
-const Drawer = createDrawerNavigator();
 
 export default function App() {
   return (
