@@ -53,10 +53,10 @@ module.exports.updatePasswordEmailCustomer = async (req, res) => {
         res.sendStatus(400);
     } else {
         try{
-            if(email === undefined === undefined){
+            if(email === undefined){
                 await CustomerModel.updatePassWordCustomer(client, id, passWord);
             } else {
-                await CustomerModel.updateEmailCustomer(client, id, mail);
+                await CustomerModel.updateEmailCustomer(client, id, email);
             }
             res.sendStatus(204);
         } catch (error){
