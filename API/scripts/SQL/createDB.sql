@@ -2,22 +2,26 @@
 
 DROP TABLE IF EXISTS Allergy CASCADE;
 CREATE TABLE Allergy (
-    name varchar(30) primary key
+    id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    name varchar(30) UNIQUE  not null
 );
 
 DROP TABLE IF EXISTS Customer CASCADE;
 CREATE TABLE Customer (
     id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    email varchar(50) not null,
+    email varchar(50) UNIQUE not null,
     firstName varchar(20) not null,
     secondName varchar(20) not null,
-    passWord varchar(30) not null
+    passWord varchar not null,
+    isAdmin boolean not null
 );
 
 DROP TABLE IF EXISTS Food CASCADE;
 CREATE TABLE Food (
-    name varchar(20) primary key,
-    allergy varchar(30) references Allergy(name)
+    id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    name varchar(20) UNIQUE not null,
+    isValidated boolean,
+    idAllergy integer references Allergy(id)
 );
 
 DROP TABLE IF EXISTS Recipe CASCADE;
@@ -27,18 +31,21 @@ CREATE TABLE Recipe (
     quoting real,
     name varchar(30) not null,
     time real not null,
-    picture varchar(80)
+    picture varchar(80),
+    type integer not null
 );
 
 DROP TABLE IF EXISTS Step CASCADE;
 CREATE TABLE Step (
-    text varchar(80) primary key
+    idStep integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    idRecipe integer references Recipe(id),
+    text varchar
 );
 
 DROP TABLE IF EXISTS Customer_Food CASCADE;
 CREATE TABLE Customer_Food (
     idCustomer integer references Customer(id),
-    idFood varchar(20) references Food(name),
+    idFood integer references Food(id),
     date date,
     quantity integer not null,
     PRIMARY KEY (idCustomer,idFood,date)
@@ -48,7 +55,7 @@ DROP TABLE IF EXISTS Food_Quantity CASCADE;
 CREATE TABLE Food_Quantity (
     quantity real,
     idRecipe integer references Recipe(id),
-    idFood name references Food(name),
+    idFood integer references Food(id),
     PRIMARY KEY (idRecipe,idFood)
 );
 
@@ -62,22 +69,79 @@ CREATE TABLE Customer_Recipe (
 DROP TABLE IF EXISTS Customer_Allergy CASCADE;
 CREATE TABLE Customer_Allergy (
     idCustomer integer references Customer(id),
-    idAllergy varchar(30) references Allergy(name),
+    idAllergy integer references Allergy(id),
     PRIMARY KEY (idCustomer,idAllergy)
 );
 
 DROP TABLE IF EXISTS Recipe_Step CASCADE;
-CREATE TABLE Recipe_Step (
+/*CREATE TABLE Recipe_Step (
     idRecipe integer references Recipe(id),
     idStep varchar(80) references Step(text),
     PRIMARY KEY (idRecipe, idStep)
-);
+);*/
 
 
 -- Insert
 
 INSERT INTO Allergy(name)
 VALUES('Gluten'),('Crustacean'),('Eggs'),('Peanuts'),('Fish'),('Soy'),('Lactose'),('Nuts'),('Celery'),('Mustard'),('SesameSeed'),('Anhydride'),('Lupin'),('Mollusc');
-INSERT INTO Customer(email, firstName, secondName, passWord)
-VALUES('admin@gmail.com'),('Admin'),('Private'),('$2b$10$917oN39XueXqrhtoHI1wlei7TFw8BkPDaBab10.rJatviv4R9tJf2');
-
+INSERT INTO Customer(email, firstName, secondName, passWord, isAdmin)
+VALUES('admin@gmail.com','Admin','Private','$2b$10$Ov.jqcwGxqGghlEAqJWHrO/EM/GXiC93rRlURiigwHYnZd1vZ.SnO',true);
+INSERT INTO Customer(email, firstName, secondName, passWord, isAdmin)
+VALUES('user1@gmail.com','user1','name1','$2b$10$1Hlc.OahudqUXb414C05wOSpBHU5ReP8DnWjuPowvlC13vnB314vu',false);
+INSERT INTO Food(name, idAllergy, isValidated)
+VALUES ('Pain', '1', true);
+INSERT INTO Food(name, idAllergy, isValidated)
+VALUES ('Oeufs', '3', true);
+INSERT INTO Food(name, idAllergy, isValidated)
+VALUES ('Saumon', '5', true);
+INSERT INTO Food(name, idAllergy, isValidated)
+VALUES ('Soja', '6', true);
+INSERT INTO Food(name, isValidated)
+VALUES ('Tomate', true);
+INSERT INTO Food(name, isValidated)
+VALUES ('Chocolat', true);
+INSERT INTO Recipe(addDate, quoting, name, time, type)
+VALUES(CAST(now() AS date),'3','tarte','30','3');
+INSERT INTO Recipe(addDate, quoting, name, time, type)
+VALUES(CAST(now() AS date),'2','sandwich','45','2');
+INSERT INTO Recipe(addDate, quoting, name, time, type)
+VALUES(CAST(now() AS date),'2','mousseChoco','15','3');
+INSERT INTO Recipe(addDate, quoting, name, time, type)
+VALUES(CAST(now() AS date),'5','chips','45','1');
+INSERT INTO Recipe(addDate, quoting, name, time, type)
+VALUES(CAST(now() AS date),'4','biscuitsoja','25','1');
+INSERT INTO Recipe(addDate, quoting, name, time, type)
+VALUES(CAST(now() AS date),'2','truc','15','3');
+INSERT INTO Food_Quantity(quantity, idRecipe, idFood)
+VALUES('2','1','2');
+INSERT INTO Food_Quantity(quantity, idRecipe, idFood)
+VALUES('200','2','3');
+INSERT INTO Food_Quantity(quantity, idRecipe, idFood)
+VALUES('100','3','5');
+INSERT INTO Food_Quantity(quantity, idRecipe, idFood)
+VALUES('100','4','5');
+INSERT INTO Food_Quantity(quantity, idRecipe, idFood)
+VALUES('100','5','4');
+INSERT INTO Food_Quantity(quantity, idRecipe, idFood)
+VALUES('100','6','2');
+INSERT INTO Step(idRecipe, text)
+VALUES('1', 'frapper');
+INSERT INTO Step(idRecipe, text)
+VALUES('1', 'casser');
+INSERT INTO Step(idRecipe, text)
+VALUES('1', 'manger');
+INSERT INTO Customer_Recipe(idCustomer, idRecipe)
+VALUES('1', '1');
+INSERT INTO Customer_Recipe(idCustomer, idRecipe)
+VALUES('1', '2');
+INSERT INTO Customer_Food(idCustomer, idFood, date, quantity)
+VALUES('1', '2', CAST(now() AS date), '100');
+INSERT INTO Customer_Food(idCustomer, idFood, date, quantity)
+VALUES('1', '5', CAST(now() AS date), '100');
+INSERT INTO Customer_Allergy(idCustomer, idAllergy)
+VALUES('1', '1');
+INSERT INTO Customer_Allergy(idCustomer, idAllergy)
+VALUES('1', '6');
+INSERT INTO Customer_Allergy(idCustomer, idAllergy)
+VALUES('2', '1');
