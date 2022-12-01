@@ -1,65 +1,48 @@
+
 //get 
 
+const e = require("express");
 const { query } = require("express");
 
 module.exports.getListRecipe = async (client, type, time, allergies) => {
     
     const requestSet = [];
-    let request = `SELECT R.id, R.name, R.time, R.picture FROM Recipe R INNER JOIN Food_Quantity FQ ON FQ.idRecipe = R.id INNER JOIN Food F ON F.name = FQ.idFood WHERE time <= ${time} AND type = ${type} AND (`;
+    let request = `SELECT R.id, R.name, R.time, R.picture FROM Recipe R INNER JOIN Food_Quantity FQ ON FQ.idRecipe = R.id INNER JOIN Food F ON F.id = FQ.idFood WHERE time <= ${time} AND type = ${type} AND (F.idAllergy is null OR F.idAllergy NOT IN ( SELECT A.id FROM Allergy A WHERE (`;
     for (let allergie of allergies) {
         requestSet.push(` '${allergie}' `);
     }
     request += requestSet.join();
-    request += `) NOT IN (SELECT F.allergy WHERE F.allergy NOTNULL )`;
+    request += `) IN (A.name)))`;
     console.log(request);
     return await client.query(request);
 }
 
+module.exports.getDataRecipe = async (client, id) => {
+    return await client.query("SELECT R.id, R.name, R.time, R.type, R.picture, R.quoting, S.text, F.name, FQ.quantity FROM Recipe R INNER JOIN food_quantity FQ ON FQ.idRecipe = R.id INNER JOIN food F ON F.id = FQ.idFood INNER JOIN step s on S.idRecipe = R.id WHERE R.id  = $1 ;",[id]);;
+}
+
 //post
 
-module.exports.postNewRecipe = async (client, name, time, picture, steps, foods) => {
-    let idNewRecipe;
+module.exports.postNewRecipe = async (client, name, type, time, picture) => {
     if(picture === undefined){
-        idNewRecipe = await client.query("INSERT INTO Recipe(name, time) VALUES ($1,$2) RETURNING id", [name, time]);
+        return await client.query("INSERT INTO Recipe(addDate, name, type, time) VALUES (CAST(NOW() AS DATE),$1,$2,$3) RETURNING id", [name, type, time]);
     }else{
-        idNewRecipe = await client.query("INSERT INTO Recipe(name, time, picture) VALUES ($1,$2,$3) RETURNING id", [name, time, picture]);
+        return await client.query("INSERT INTO Recipe(addDate, name, type, time, picture) VALUES (CAST(NOW() AS DATE),$1,$2,$3,$4) RETURNING id", [name, type, time, picture]);
     }
-
-    for(let step of steps){
-        await client.query("INSERT INTO Step(text, idRecipe) VALUES ($1,$2)", [step, idNewRecipe]);
-    }
-
-    for(let food of foods){
-        
-    }
-
-    return 
-
 }
 
 //update
 
-module.exports.updateRecipe = async (client, id) => {
-
+module.exports.updateRecipe = async (client, idRecipe,  name, type, time, picture) => {
+    if(picture === undefined){
+        return await client.query("UPDATE Recipe SET name = $1, type = $2, time = $3 WHERE id = $4", [name, type, time, idRecipe]);
+    }else{
+        return await client.query("UPDATE Recipe SET name = $1, type = $2, time = $3, picture = $4 WHERE id = $5", [name, type, time, picture, idRecipe]);
+    }
 }
 
 //delete
 
 module.exports.deleteRecipe = async (client, idRecipe) => {
-    await client.query("DELETE FROM Customer_Recipe WHERE idRecipe = $1",[idRecipe]);
-    await client.query("DELETE FROM Food_Quantity WHERE idRecipe = $1",[idRecipe]);
-    await client.query("DELETE FROM Step WHERE idRecipe = $1",[idRecipe]);
     return await client.query("DELETE FROM Recipe WHERE id = $1",[idRecipe]);
-}
-
-module.exports.deleteFoodQte = async (client, idRecipe) => {
-    return await client.query();
-}
-
-module.exports.deleteCustomerRecipe = async (client, idRecipe) => {
-    return await client.query();
-}
-
-module.exports.deleteStep = async (client, idRecipe) => {
-    return await client.query();
 }

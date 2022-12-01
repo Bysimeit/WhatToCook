@@ -7,8 +7,7 @@ const router = new Router;
 
 router.get('/',JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, CustomerController.getAllCustomer);
 router.post('/', CustomerController.postNewCustomer);
-router.patch('/changePassWordAdmin', CustomerController.updatePassWordCustomer); //simplifier en une route les patch
-router.patch('/changeEmail', CustomerController.updateEmailCustomer);
+router.patch('/',JWTMiddleWare.identification, CustomerController.updatePasswordEmailCustomer); 
 router.delete('/',JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin ,CustomerController.deleteCustomer);
 
 

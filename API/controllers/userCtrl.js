@@ -13,7 +13,6 @@ module.exports.login = async (req, res) => {
         const client = await pool.connect();
         try {
             const result = await UserModel.getAccount(client, email, password);
-            console.log(result);
             const {userType, value} = result;
             if (userType === "inconnu") {
                 res.sendStatus(404);
@@ -24,7 +23,7 @@ module.exports.login = async (req, res) => {
                     payload,
                     process.env.SECRET_TOKEN,
                     {expiresIn: '1d'} //se mettre d'accord sur délait de connexion
-                );
+                );              
                 res.json(token);
 
             } else {
@@ -37,8 +36,8 @@ module.exports.login = async (req, res) => {
                 );
                 res.json(token);
             }
-        } catch (e) {
-            console.error(e);
+        } catch (error) {
+            console.error(error);
             res.sendStatus(500);
         } finally {
             client.release();
