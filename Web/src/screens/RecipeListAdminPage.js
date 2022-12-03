@@ -1,16 +1,16 @@
 import React from "react";
 
-import MenuBar from "./MenuBar";
+import MenuBar from "../composants/MenuBar";
 
 import { Link } from "react-router-dom"
 
-export default function FridgePage(){
+export default function RecipeListAdminPage(){
 
     return(
         <div>
             <MenuBar/>
             <div className="core">
-                <p></p>
+                
             </div>      
         </div>
     );

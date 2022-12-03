@@ -1,14 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import MenuBar from "./MenuBar";
+class Login extends React.Component{
 
-import { Link } from "react-router-dom"
-
-export default function LoginPage(){
-
-    return(
-        <div>
-            <MenuBar/>
+    render() {
+        return(
             <div className="core">
                 <div className="loginPage">
                     <h2>Connexion</h2>
@@ -26,8 +21,10 @@ export default function LoginPage(){
                         </div>
                     </form>
                 </div>             
-            </div>      
-        </div>
-    );
+            </div>
+    ); 
+    }
+          
 }
 
+export default Login;

@@ -1,10 +1,11 @@
 import React from "react";
 
-import MenuBar from "./MenuBar";
+import MenuBar from "../composants/MenuBar";
+
 
 import { Link } from "react-router-dom"
 
-export default function RecipeListAdminPage(){
+export default function ListCommentsPage(){
 
     return(
         <div>

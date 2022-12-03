@@ -1,6 +1,6 @@
 import React from "react";
 
-import MenuBar from "./MenuBar";
+import MenuBar from "../composants/MenuBar";
 import logo1 from '../pictures/img1Welcome.jpg';
 import logo2 from '../pictures/img2Welcome.jpg';
 import logo3 from '../pictures/img3Welcome.jpg';
