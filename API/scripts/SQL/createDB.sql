@@ -12,7 +12,7 @@ CREATE TABLE Customer (
     email varchar(50) UNIQUE not null,
     firstName varchar(20) not null,
     secondName varchar(20) not null,
-    passWord varchar not null,
+    password varchar(100) not null,
     isAdmin boolean not null
 );
 
@@ -85,63 +85,21 @@ DROP TABLE IF EXISTS Recipe_Step CASCADE;
 
 INSERT INTO Allergy(name)
 VALUES('Gluten'),('Crustacean'),('Eggs'),('Peanuts'),('Fish'),('Soy'),('Lactose'),('Nuts'),('Celery'),('Mustard'),('SesameSeed'),('Anhydride'),('Lupin'),('Mollusc');
-INSERT INTO Customer(email, firstName, secondName, passWord, isAdmin)
-VALUES('admin@gmail.com','Admin','Private','$2b$10$Ov.jqcwGxqGghlEAqJWHrO/EM/GXiC93rRlURiigwHYnZd1vZ.SnO',true);
-INSERT INTO Customer(email, firstName, secondName, passWord, isAdmin)
-VALUES('user1@gmail.com','user1','name1','$2b$10$1Hlc.OahudqUXb414C05wOSpBHU5ReP8DnWjuPowvlC13vnB314vu',false);
+INSERT INTO Customer(email, firstName, secondName, password, isAdmin)
+VALUES('admin@gmail.com','Admin','Private','$2b$10$Ov.jqcwGxqGghlEAqJWHrO/EM/GXiC93rRlURiigwHYnZd1vZ.SnO',true), ('user1@gmail.com','user1','name1','$2b$10$1Hlc.OahudqUXb414C05wOSpBHU5ReP8DnWjuPowvlC13vnB314vu',false);
 INSERT INTO Food(name, idAllergy, isValidated)
-VALUES ('Pain', '1', true);
-INSERT INTO Food(name, idAllergy, isValidated)
-VALUES ('Oeufs', '3', true);
-INSERT INTO Food(name, idAllergy, isValidated)
-VALUES ('Saumon', '5', true);
-INSERT INTO Food(name, idAllergy, isValidated)
-VALUES ('Soja', '6', true);
+VALUES ('Pain', '1', true), ('Oeufs', '3', true), ('Saumon', '5', true), ('Soja', '6', true);
 INSERT INTO Food(name, isValidated)
-VALUES ('Tomate', true);
-INSERT INTO Food(name, isValidated)
-VALUES ('Chocolat', true);
+VALUES ('Tomate', true), ('Chocolat', true);
 INSERT INTO Recipe(addDate, quoting, name, time, type)
-VALUES(CAST(now() AS date),'3','tarte','30','3');
-INSERT INTO Recipe(addDate, quoting, name, time, type)
-VALUES(CAST(now() AS date),'2','sandwich','45','2');
-INSERT INTO Recipe(addDate, quoting, name, time, type)
-VALUES(CAST(now() AS date),'2','mousseChoco','15','3');
-INSERT INTO Recipe(addDate, quoting, name, time, type)
-VALUES(CAST(now() AS date),'5','chips','45','1');
-INSERT INTO Recipe(addDate, quoting, name, time, type)
-VALUES(CAST(now() AS date),'4','biscuitsoja','25','1');
-INSERT INTO Recipe(addDate, quoting, name, time, type)
-VALUES(CAST(now() AS date),'2','truc','15','3');
+VALUES(CAST(now() AS date),'3','tarte','30','3'), (CAST(now() AS date),'2','sandwich','45','2'), (CAST(now() AS date),'2','mousseChoco','15','3'), (CAST(now() AS date),'5','chips','45','1'), (CAST(now() AS date),'4','biscuitsoja','25','1'), (CAST(now() AS date),'2','truc','15','3');
 INSERT INTO Food_Quantity(quantity, idRecipe, idFood)
-VALUES('2','1','2');
-INSERT INTO Food_Quantity(quantity, idRecipe, idFood)
-VALUES('200','2','3');
-INSERT INTO Food_Quantity(quantity, idRecipe, idFood)
-VALUES('100','3','5');
-INSERT INTO Food_Quantity(quantity, idRecipe, idFood)
-VALUES('100','4','5');
-INSERT INTO Food_Quantity(quantity, idRecipe, idFood)
-VALUES('100','5','4');
-INSERT INTO Food_Quantity(quantity, idRecipe, idFood)
-VALUES('100','6','2');
+VALUES('2','1','2'), ('200','2','3'), ('100','3','5'), ('100','4','5'), ('100','5','4'), ('100','6','2');
 INSERT INTO Step(idRecipe, text)
-VALUES('1', 'frapper');
-INSERT INTO Step(idRecipe, text)
-VALUES('1', 'casser');
-INSERT INTO Step(idRecipe, text)
-VALUES('1', 'manger');
+VALUES('1', 'frapper'), ('1', 'casser'), ('1', 'manger');
 INSERT INTO Customer_Recipe(idCustomer, idRecipe)
-VALUES('1', '1');
-INSERT INTO Customer_Recipe(idCustomer, idRecipe)
-VALUES('1', '2');
+VALUES('1', '1'), ('1', '2');
 INSERT INTO Customer_Food(idCustomer, idFood, date, quantity)
-VALUES('1', '2', CAST(now() AS date), '100');
-INSERT INTO Customer_Food(idCustomer, idFood, date, quantity)
-VALUES('1', '5', CAST(now() AS date), '100');
+VALUES('1', '2', CAST(now() AS date), '100'), ('1', '5', CAST(now() AS date), '100');
 INSERT INTO Customer_Allergy(idCustomer, idAllergy)
-VALUES('1', '1');
-INSERT INTO Customer_Allergy(idCustomer, idAllergy)
-VALUES('1', '6');
-INSERT INTO Customer_Allergy(idCustomer, idAllergy)
-VALUES('2', '1');
+VALUES('1', '1'), ('1', '6'), ('2', '1');
