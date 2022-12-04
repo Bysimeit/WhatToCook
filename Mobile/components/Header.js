@@ -2,10 +2,17 @@ import { View, Text, StyleSheet, Pressable, Platform } from "react-native";
 import Constants from "expo-constants";
 import { useState } from "react";
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Header({ navigation }) {
     const [isMenuVisible, setMenuVisible] = useState(false);
-    const isConnected = true;
+
+    let isConnected;
+    if (AsyncStorage.getItem("token")) {
+        isConnected = true;
+    } else {
+        isConnected = false;
+    }
 
     const handlePressLogin = () => {
         navigation.navigate('Login');

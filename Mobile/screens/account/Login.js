@@ -1,18 +1,37 @@
 import React from 'react';
-import { Text, View, StyleSheet, TextInput, ScrollView, Pressable } from 'react-native';
+import { Text, View, StyleSheet, TextInput, ScrollView, Pressable, Alert } from 'react-native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import useFetchCustomer from '../../services/useFetchCustomer';
 
 import Header from '../../components/Header';
 import NavBar from '../../components/NavBar';
 
 export default function Login({ navigation }) {
-  const [eMail, onChangeEMail] = React.useState('');
+  const [email, onChangeEMail] = React.useState('');
   const [password, onChangePassword] = React.useState('');
 
   const handlePressButtonPW = () => {
     navigation.navigate('PasswordForget');
   };
+
+  const { loginFetch } = useFetchCustomer();
   const handlePressConnect = () => {
-    console.log("Connexion");
+    loginFetch(email, password).then((result) => {
+      if (result.status === 200) {
+        Alert.alert("Connexion réussie !");
+        AsyncStorage.setItem("token", result.data);
+        navigation.navigate("Profile");
+      } else {
+        Alert.alert("EMail ou mot de passe incorrect !");
+      }
+    }).catch((e) => {
+      console.error("loginFetchError", e);
+      switch (e.response.status) {
+        case 404:
+          Alert.alert("EMail ou mot de passe incorrect !");
+      }
+    })
   };
 
   const active = "none";
@@ -23,7 +42,7 @@ export default function Login({ navigation }) {
         <Text style={styles.title}>Connexion</Text>
         <View style={styles.inputView}>
           <Text>EMail :</Text>
-          <TextInput style={[styles.input, styles.shadowBox]} onChangeText={onChangeEMail} value={eMail}/>
+          <TextInput style={[styles.input, styles.shadowBox]} onChangeText={onChangeEMail} value={email}/>
         </View>
         <View style={styles.inputView}>
           <Text>Mot de passe :</Text>
