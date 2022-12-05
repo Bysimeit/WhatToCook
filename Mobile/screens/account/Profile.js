@@ -4,6 +4,8 @@ import CheckBox from 'expo-checkbox';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import useFetchCustomer from '../../services/useFetchCustomer';
+
 import Header from '../../components/Header';
 import NavBar from '../../components/NavBar';
 
@@ -13,6 +15,21 @@ export default function Profile({ navigation }) {
     const [eMail, onChangeEMail] = React.useState('');
 
     const [newsletterSelected, setNewletterSelection] = React.useState(false);
+
+    const { profileFetch } = useFetchCustomer();
+    const fillProfile = async () => {
+        profileFetch(await AsyncStorage.getItem("eMail")).then(async (result) => {
+            if (result.status === 200) {
+                console.log(result.data);
+            } else {
+                Alert.alert("Erreur !", "Un problème est survenu lors de la récupération des données.");
+            }
+        }).catch((e) => {
+            console.error(e);
+            Alert.alert("Erreur !", "Un problème est survenu lors de la récupération des données.");
+        });
+    };
+    fillProfile();
 
     const handlePressPassword = () => {
         navigation.navigate('ChangePassword');
@@ -50,9 +67,7 @@ export default function Profile({ navigation }) {
     
     useEffect(() => {
         AsyncStorage.getItem("profilImg").then((err,urlImage) => {
-            console.log("1 " + image);
             setImage(urlImage);
-            console.log("2 " + image);
         }).catch((error) => {
             console.log(error);
         });
@@ -78,7 +93,6 @@ export default function Profile({ navigation }) {
                 <Text style={styles.title}>Profil</Text>
                 <Pressable onPress={pickImage}>
                     <Image style={styles.iconUser} source={!image ? require('../../assets/account/iconDefaultUser.png') : {uri: image} }/>
-                    {console.log("Ici " + image)}
                 </Pressable>
                 <View style={styles.inputView}>
                     <Text>Nom :</Text>

@@ -17,18 +17,20 @@ export default function Login({ navigation }) {
 
   const { loginFetch } = useFetchCustomer();
   const handlePressConnect = () => {
-    loginFetch(email, password).then((result) => {
+    loginFetch(email, password).then(async (result) => {
       if (result.status === 200) {
         Alert.alert("Connexion réussie !");
-        AsyncStorage.setItem("token", result.data);
+        await AsyncStorage.setItem("token", result.data);
+        await AsyncStorage.setItem("eMail", email);
         navigation.navigate("Profile");
       } else {
+        onChangePassword(null);
         Alert.alert("EMail ou mot de passe incorrect !");
       }
     }).catch((e) => {
-      console.error("loginFetchError", e);
       switch (e.response.status) {
         case 404:
+          onChangePassword(null);
           Alert.alert("EMail ou mot de passe incorrect !");
       }
     })
@@ -46,7 +48,7 @@ export default function Login({ navigation }) {
         </View>
         <View style={styles.inputView}>
           <Text>Mot de passe :</Text>
-          <TextInput style={[styles.input, styles.shadowBox]} onChangeText={onChangePassword} value={password}/>
+          <TextInput style={[styles.input, styles.shadowBox]} secureTextEntry={true} onChangeText={onChangePassword}/>
         </View>
         <Pressable style={[styles.buttonPWForget, styles.shadowBox]} onPress={ handlePressButtonPW }>
             <Text style={styles.textButton}>Mot de passe oublié</Text>

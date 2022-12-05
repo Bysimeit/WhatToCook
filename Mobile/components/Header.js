@@ -1,18 +1,23 @@
+import React from 'react';
 import { View, Text, StyleSheet, Pressable, Platform } from "react-native";
 import Constants from "expo-constants";
 import { useState } from "react";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import useFetchCustomer from '../services/useFetchCustomer';
+
 export default function Header({ navigation }) {
     const [isMenuVisible, setMenuVisible] = useState(false);
 
-    let isConnected;
-    if (AsyncStorage.getItem("token")) {
-        isConnected = true;
-    } else {
-        isConnected = false;
+    let tokenValue;
+    const [connected, setConnected] = React.useState(null);
+    const test = async () => {
+        tokenValue = await AsyncStorage.getItem("token");
+        setConnected(tokenValue !== null)
     }
+
+    test();
 
     const handlePressLogin = () => {
         navigation.navigate('Login');
@@ -38,50 +43,53 @@ export default function Header({ navigation }) {
         navigation.navigate('Allergies');
         setMenuVisible(false);
     };
-    const handlePressLogOut = () => {
-        console.log('Déconnecter');
+
+    const { logoutFetch } = useFetchCustomer();
+    const handlePressLogOut = async () => {
+        await AsyncStorage.removeItem("token");
+        navigation.navigate('Login');
         setMenuVisible(false);
     };
 
     const showMenu = () => {
-    if (!isConnected) {
-        return (
-            <View style={[
-                { display: isMenuVisible ? "flex" : "none" },
-                  styles.accountMenu,
-                ]}>
-                <Pressable onPress={ handlePressLogin }>
-                    <Text style={styles.accountMenuItem}>Se connecter</Text>
-                </Pressable>
-                <Pressable onPress={ handlePressSignIn }>
-                    <Text style={styles.accountMenuItem}>S'enregistrer</Text>
-                </Pressable>
-            </View>
-        );
-    } else {
-        return (
-            <View style={[
-                { display: isMenuVisible ? "flex" : "none" },
-                  styles.accountMenu,
-                ]}>
-                <Pressable onPress={ handlePressAccount }>
-                    <Text style={styles.accountMenuItem}>Compte</Text>
-                </Pressable>
-                <Pressable onPress={ handlePressFavorites }>
-                    <Text style={styles.accountMenuItem}>Favoris</Text>
-                </Pressable>
-                <Pressable onPress={ handlePressMyFridge }>
-                    <Text style={styles.accountMenuItem}>Mon Frigo</Text>
-                </Pressable>
-                <Pressable onPress={ handlePressAllergy }>
-                    <Text style={styles.accountMenuItem}>Mes allergies</Text>
-                </Pressable>
-                <Pressable onPress={ handlePressLogOut }>
-                    <Text style={styles.accountMenuItem}>Se déconnecter</Text>
-                </Pressable>
-            </View>
-        );
-    }
+        if (!connected) {
+            return (
+                <View style={[
+                    { display: isMenuVisible ? "flex" : "none" },
+                    styles.accountMenu,
+                    ]}>
+                    <Pressable onPress={ handlePressLogin }>
+                        <Text style={styles.accountMenuItem}>Se connecter</Text>
+                    </Pressable>
+                    <Pressable onPress={ handlePressSignIn }>
+                        <Text style={styles.accountMenuItem}>S'enregistrer</Text>
+                    </Pressable>
+                </View>
+            );
+        } else {
+            return (
+                <View style={[
+                    { display: isMenuVisible ? "flex" : "none" },
+                    styles.accountMenu,
+                    ]}>
+                    <Pressable onPress={ handlePressAccount }>
+                        <Text style={styles.accountMenuItem}>Compte</Text>
+                    </Pressable>
+                    <Pressable onPress={ handlePressFavorites }>
+                        <Text style={styles.accountMenuItem}>Favoris</Text>
+                    </Pressable>
+                    <Pressable onPress={ handlePressMyFridge }>
+                        <Text style={styles.accountMenuItem}>Mon Frigo</Text>
+                    </Pressable>
+                    <Pressable onPress={ handlePressAllergy }>
+                        <Text style={styles.accountMenuItem}>Mes allergies</Text>
+                    </Pressable>
+                    <Pressable onPress={ handlePressLogOut }>
+                        <Text style={styles.accountMenuItem}>Se déconnecter</Text>
+                    </Pressable>
+                </View>
+            );
+        }
     }
 
   return (

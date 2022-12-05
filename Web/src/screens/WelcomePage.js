@@ -20,13 +20,13 @@ export default function WelcomePage() {
                         </div>
                         <div className="carousel-inner">
                             <div className="carousel-item active">
-                                <img src={logo1} className="d-block w-100 " alt="image1"/>
+                                <img src={logo1} className="d-block w-100" alt="image1"/>
                             </div>
                             <div className="carousel-item">
-                                <img src={logo2} className="d-block w-100 " alt="image2"/>
+                                <img src={logo2} className="d-block w-100" alt="image2"/>
                             </div>
                             <div className="carousel-item">
-                                <img src={logo3} className="d-block w-100 " alt="image3"/>
+                                <img src={logo3} className="d-block w-100" alt="image3"/>
                             </div>
                         </div>
                         <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -49,4 +49,4 @@ export default function WelcomePage() {
             </div>
         </div>
     );
-}
+};
