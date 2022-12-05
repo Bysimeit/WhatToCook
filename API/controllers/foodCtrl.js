@@ -3,7 +3,6 @@ const FoodModel = require('../models/foodDB');
 const CustomerFoodModel = require('../models/customerFoodDB');
 const FoodQuantityModel = require('../models/foodQuantityDB');
 const AllergyModel = require('../models/allergyDB');
-const { all } = require('../routes');
 
 module.exports.getAllFood = async (req, res) => {
     
@@ -24,8 +23,7 @@ module.exports.getAllFood = async (req, res) => {
 }
 
 module.exports.postNewFood = async (req, res) => {
-    const {name} = req.body;
-    const {allergy} = req.body;
+    const {name, allergy} = req.body;
 
     if(name === undefined){
         res.sendStatus(400);
@@ -49,9 +47,7 @@ module.exports.postNewFood = async (req, res) => {
 }
 
 module.exports.updateFood = async (req, res) => {
-    const {id} = req.body;
-    const {name} = req.body;
-    const {allergy} = req.body;
+    const {id, name, allergy} = req.body;
 
     if(id === undefined || name === undefined){
         res.sendStatus(400);
@@ -79,6 +75,8 @@ module.exports.updateFood = async (req, res) => {
 
 module.exports.deleteFood = async (req, res) => {
     const {id} = req.body;
+
+    
     const client = await pool.connect();
 
     try{

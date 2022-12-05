@@ -42,8 +42,9 @@ module.exports.postNewAllergy = async (req, res) => {
 }
 
 module.exports.updateAllergy = async (req, res) => {
-    const {id} = req.body;
-    const {name} = req.body;
+    const {id, name} = req.body;
+
+    
     const client = await pool.connect();
     
     try{

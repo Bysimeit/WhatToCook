@@ -22,8 +22,7 @@ module.exports.getAllCustomerAllergy = async (req, res) => {
 }
 
 module.exports.postNewCustomerAllergy = async (req, res) => {
-    const {idAllergies} = req.body;
-    const {idCustomer} = req.body;
+    const {idAllergies, idCustomer} = req.body;
 
     if(idAllergies === undefined || idCustomer === undefined){
         res.sendStatus(400);

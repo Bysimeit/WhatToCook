@@ -24,10 +24,7 @@ module.exports.getAllCustomer = async (req, res) => {
 }
 
 module.exports.postNewCustomer = async (req, res) => {
-    const {lastName} = req.body;
-    const {firstName} = req.body;
-    const {password} = req.body;
-    const {email} = req.body;
+    const {lastName, firstName, password, email} = req.body;
 
     if(lastName === undefined || firstName === undefined || password === undefined || email === undefined){
         res.sendStatus(400);
@@ -47,6 +44,8 @@ module.exports.postNewCustomer = async (req, res) => {
 
 module.exports.updatePasswordEmailCustomer = async (req, res) => {
     const {id, passWord, email} = req.body;
+
+
     const client = await pool.connect();
     
     if(passWord === undefined && email === undefined){
@@ -70,6 +69,8 @@ module.exports.updatePasswordEmailCustomer = async (req, res) => {
 
 module.exports.deleteCustomer = async (req, res) => {
     const {id} = req.body;
+
+    
     const client = await pool.connect();
 
     try{

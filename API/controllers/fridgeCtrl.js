@@ -27,9 +27,7 @@ module.exports.getAllFood = async (req, res) => {
 }
 
 module.exports.postNewFoodCustomer = async (req, res) => {
-    const {idCustomer} = req.body;
-    const {nameFood} = req.body;
-    const {quantity} = req.body;
+    const {idCustomer, nameFood, quantity} = req.body;
 
     if(idCustomer === undefined || nameFood === undefined || quantity === undefined){
         res.sendStatus(400);
@@ -58,8 +56,9 @@ module.exports.postNewFoodCustomer = async (req, res) => {
 }
 
 module.exports.deleteFood = async (req, res) => {
-    const {idCustomer} = req.body;
-    const {idFood} = req.body;
+    const {idCustomer, idFood} = req.body;
+
+    
     const client = await pool.connect();
 
     try{

@@ -7,6 +7,7 @@ const UserModel = require('../models/userDB');
 
 module.exports.login = async (req, res) => {
     const {email, password} = req.body;
+    
     if(email === undefined || password === undefined){
         res.sendStatus(400);
     } else {

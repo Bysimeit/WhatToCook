@@ -6,9 +6,7 @@ const FoodQuantityModel = require('../models//foodQuantityDB');
 const CustomerRecipeModel = require('../models//customerRecipeDB');
 
 module.exports.getListeRecipe = async (req, res) => {
-    const {type} = req.body;
-    const {time} = req.body;
-    const {allergies} = req.body;
+    const {type, time, allergies} = req.body;
 
     if(type === undefined || time === undefined){ 
         res.sendStatus(400);
@@ -16,8 +14,8 @@ module.exports.getListeRecipe = async (req, res) => {
         const client = await pool.connect();
         try {
             const result = await RecipeModel.getListRecipe(client, type, time, allergies);
-            if(result !== undefined){
-                res.json(result);
+            if(result.rows !== undefined){
+                res.json(result.rows);
             } else {
                 res.sendStatus(404);
             }
@@ -40,8 +38,8 @@ module.exports.getDataRecipe = async (req, res) => {
         const client = await pool.connect();
         try {
             const result = await RecipeModel.getDataRecipe(client, id);
-            if(result !== undefined){
-                res.json(result);
+            if(result.rows !== undefined){
+                res.json(result.rows);
             } else {
                 res.sendStatus(404);
             }
@@ -56,12 +54,7 @@ module.exports.getDataRecipe = async (req, res) => {
 }
 
 module.exports.postNewRecipe = async (req, res) => {
-    const {name} = req.body;
-    const {time} = req.body;
-    const {type} = req.body;
-    const {picture} = req.body;
-    const {steps} = req.body;
-    const {foods} = req.body;
+    const {name, time, type, picture, steps, foods} = req.body;
 
     if(name === undefined || time === undefined || type === undefined || steps === undefined || foods === undefined){ 
         res.sendStatus(400);
@@ -108,13 +101,7 @@ module.exports.postNewRecipe = async (req, res) => {
 }
 
 module.exports.udpateRecipe = async (req, res) => {
-    const {id} = req.body;
-    const {name} = req.body;
-    const {time} = req.body;
-    const {type} = req.body;
-    const {picture} = req.body;
-    const {steps} = req.body;
-    const {foods} = req.body;
+    const {id, name, time, type, picture, steps, foods} = req.body;
 
     if(id === undefined || name === undefined || time === undefined || type === undefined || steps === undefined || foods === undefined){ 
         res.sendStatus(400);
