@@ -23,6 +23,27 @@ module.exports.getAllCustomer = async (req, res) => {
     }
 }
 
+module.exports.getCustomer = async (req, res) => {
+    const {password, email} = req.body;
+
+
+    const client = await pool.connect();
+    try{
+        
+        const result = await CustomerModel.getDataCustomer(client, email);
+        if(result.rows !== undefined){
+            res.json(result.rows);
+        } else {
+            res.sendStatus(404);
+        }
+    } catch (error){
+        console.error(error);
+        res.sendStatus(500);
+    } finally {
+        client.release();
+    }
+}
+
 module.exports.postNewCustomer = async (req, res) => {
     const {lastName, firstName, password, email} = req.body;
 
@@ -53,7 +74,7 @@ module.exports.updatePasswordEmailCustomer = async (req, res) => {
     } else {
         try{
             if(email === undefined){
-                await CustomerModel.updatePassWordCustomer(client, id, passWord);
+                await CustomerModel.updatePassWordCustomer(client, id, await getHash(password));
             } else {
                 await CustomerModel.updateEmailCustomer(client, id, email);
             }

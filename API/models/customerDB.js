@@ -9,6 +9,9 @@ module.exports.getCustomer = async (client, mail) => {
     return await client.query("SELECT * FROM Customer WHERE email = $1 AND isAdmin = false",[mail]);
 }
 
+module.exports.getDataCustomer = async (client, mail) => {
+    return await client.query("SELECT * FROM Customer WHERE email = $1",[mail]);
+}
 
 
 //post
