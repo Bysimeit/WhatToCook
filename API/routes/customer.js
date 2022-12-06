@@ -9,7 +9,7 @@ router.get('/',JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin ,Custom
 router.get('/:email',JWTMiddleWare.identification ,CustomerController.getCustomer);
 router.post('/', CustomerController.postNewCustomer);
 router.patch('/',JWTMiddleWare.identification, CustomerController.updatePasswordEmailCustomer); 
-router.delete('/',JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin ,CustomerController.deleteCustomer);
+router.delete('/',JWTMiddleWare.identification, CustomerController.deleteCustomer); //demander si ok pour la sécu
 
 
 module.exports = router

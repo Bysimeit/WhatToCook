@@ -83,7 +83,7 @@ module.exports.updatePasswordEmailCustomer = async (req, res) => {
                         await CustomerModel.updatePasswordCustomer(client, oldEmail, await getHash(newPassword));
                         res.sendStatus(204); 
                     } else {
-                        res.sendStatus(400); 
+                        res.sendStatus(404); 
                     } 
                 } else {
                     res.sendStatus(404);
