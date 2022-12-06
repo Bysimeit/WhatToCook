@@ -22,12 +22,12 @@ module.exports.postNewCustomer = async (client, email, firstName, lastName, pass
 
 //update
 
-module.exports.updatePasswordCustomer = async (client, id, newPassWord) => {
-    return await client.query("UPDATE Customer SET passWord = $1 WHERE id =$2", [newPassWord, id]);
+module.exports.updatePasswordCustomer = async (client, mail, newPassWord) => {
+    return await client.query("UPDATE Customer SET passWord = $1 WHERE email =$2", [newPassWord, mail]);
 }
 
-module.exports.updateEmailCustomer = async (client, id, newEmail) => {
-    return await client.query("UPDATE Customer SET email = $1 WHERE id =$2", [newEmail, id]);
+module.exports.updateEmailCustomer = async (client, mail, newEmail) => {
+    return await client.query("UPDATE Customer SET email = $1 WHERE email =$2", [newEmail, mail]);
 }
 
 //delete

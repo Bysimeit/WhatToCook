@@ -67,19 +67,21 @@ module.exports.postNewCustomer = async (req, res) => {
 }
 
 module.exports.updatePasswordEmailCustomer = async (req, res) => {
-    const {id, password, email} = req.body;
+    const {password, oldEmail, newEmail} = req.body;
 
+    console.log(password);
+    console.log(oldEmail);
+    console.log(newEmail);
 
-    const client = await pool.connect();
-    
-    if(password === undefined && email === undefined){
+    if(password === undefined && oldEmail === undefined){
         res.sendStatus(400);
     } else {
+        const client = await pool.connect();
         try{
-            if(email === undefined){
-                await CustomerModel.updatePasswordCustomer(client, id, await getHash(password));
+            if(newEmail === undefined){
+                await CustomerModel.updatePasswordCustomer(client, oldEmail, await getHash(password));
             } else {
-                await CustomerModel.updateEmailCustomer(client, id, email);
+                await CustomerModel.updateEmailCustomer(client, oldEmail, newEmail);
             }
             res.sendStatus(204);
         } catch (error){
