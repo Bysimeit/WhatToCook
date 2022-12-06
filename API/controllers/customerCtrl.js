@@ -4,6 +4,7 @@ const CustomerAllergyModel = require("../models/customerAllergyDB");
 const CustomerRecipeModel = require("../models/customerRecipeDB");
 const CustomerFoodModel = require("../models/customerFoodDB");
 const {getHash} = require('../utils/utils');
+const {compareHash} = require('../utils/utils');
 
 module.exports.getAllCustomer = async (req, res) => {
     const client = await pool.connect();
@@ -67,23 +68,32 @@ module.exports.postNewCustomer = async (req, res) => {
 }
 
 module.exports.updatePasswordEmailCustomer = async (req, res) => {
-    const {password, oldEmail, newEmail} = req.body;
+    const {oldPassword , newPassword, oldEmail, newEmail} = req.body;
 
-    console.log(password);
-    console.log(oldEmail);
-    console.log(newEmail);
 
-    if(password === undefined && oldEmail === undefined){
+    if(oldPassword === undefined && oldEmail === undefined){
         res.sendStatus(400);
     } else {
         const client = await pool.connect();
         try{
-            if(newEmail === undefined){
-                await CustomerModel.updatePasswordCustomer(client, oldEmail, await getHash(password));
-            } else {
+            if(newPassword !== undefined){
+                const result = await CustomerModel.getDataCustomer(client, oldEmail);
+                if(result.rows[0].password !== undefined){
+                    if(await compareHash(oldPassword, result.rows[0].password)){
+                        await CustomerModel.updatePasswordCustomer(client, oldEmail, await getHash(newPassword));
+                        res.sendStatus(204); 
+                    } else {
+                        res.sendStatus(400); 
+                    } 
+                } else {
+                    res.sendStatus(404);
+                }                     
+            } else if(newEmail !== undefined){
                 await CustomerModel.updateEmailCustomer(client, oldEmail, newEmail);
-            }
-            res.sendStatus(204);
+                res.sendStatus(204); 
+            } else {
+                res.sendStatus(400);
+            }         
         } catch (error){
             console.error(error);
             res.sendStatus(500);
