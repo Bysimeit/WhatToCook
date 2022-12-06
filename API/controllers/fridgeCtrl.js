@@ -43,7 +43,7 @@ module.exports.postNewFoodCustomer = async (req, res) => {
             }       
             let idFood = result.rows[0].id;
             console.log(idFood);
-            result = await CustomerFoodModel.postNewCustomerFood(client, idCustomer, idFood, quantity);
+            await CustomerFoodModel.postNewCustomerFood(client, idCustomer, idFood, quantity);
             await client.query("COMMIT");
             res.sendStatus(201);
         } catch (e) {

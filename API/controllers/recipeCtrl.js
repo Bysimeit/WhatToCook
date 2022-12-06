@@ -6,14 +6,18 @@ const FoodQuantityModel = require('../models//foodQuantityDB');
 const CustomerRecipeModel = require('../models//customerRecipeDB');
 
 module.exports.getListeRecipe = async (req, res) => {
-    const {type, time, allergies} = req.params;
+    const {type, time, allergies} = req.query;
+    const allergiesTab = allergies.split(',');
+    console.log(type);
+    console.log(time);
+    console.log(allergiesTab);
 
     if(type === undefined || time === undefined){ 
         res.sendStatus(400);
     } else {
         const client = await pool.connect();
         try {
-            const result = await RecipeModel.getListRecipe(client, type, time, allergies);
+            const result = await RecipeModel.getListRecipe(client, type, time, allergiesTab);
             if(result.rows !== undefined){
                 res.json(result.rows);
             } else {
@@ -69,7 +73,7 @@ module.exports.postNewRecipe = async (req, res) => {
                 const idRecipe = result.rows[0].id;
 
                 for(let step of steps){
-                    result = await StepModel.postNewStepRecipe(client, step, result.rows[0].id); //résult nécessaire avec un post delete ou update ?
+                    await StepModel.postNewStepRecipe(client, step, result.rows[0].id); 
                 }
                                         
                 for(let food of foods){
@@ -113,17 +117,16 @@ module.exports.udpateRecipe = async (req, res) => {
         const client = await pool.connect();
         try {
             await client.query("BEGIN"); 
-            let result = await RecipeModel.updateRecipe(client, id,  name, type, time, picture); 
-            
+            await RecipeModel.updateRecipe(client, id,  name, type, time, picture);       
             await StepModel.deleteStepRecipe(client, id);
 
             for(let step of steps){
-                result = await StepModel.postNewStepRecipe(client, step, id);   //résult nécessaire avec un post delete ou update ?
+                await StepModel.postNewStepRecipe(client, step, id);
             }
                  
             await FoodQuantityModel.deleteFoodQteRecipe(client, id);
             for(let food of foods){
-                result = await FoodModel.getFood(client, food.name);
+                let result = await FoodModel.getFood(client, food.name);
                 let rowCount = result.rowCount;
                 if(rowCount == 0){
                     result = await FoodModel.postNewFood(client, food.name, false, undefined);

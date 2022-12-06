@@ -7,12 +7,25 @@ const { query } = require("express");
 module.exports.getListRecipe = async (client, type, time, allergies) => {
     
     const requestSet = [];
-    let request = `SELECT R.id, R.nameRecipe, R.time, R.picture FROM Recipe R INNER JOIN Food_Quantity FQ ON FQ.idRecipe = R.id INNER JOIN Food F ON F.id = FQ.idFood WHERE time <= ${time} AND type = ${type} AND (F.idAllergy is null OR F.idAllergy NOT IN ( SELECT A.id FROM Allergy A WHERE (`;
+    let request = `
+    SELECT 
+        R.id, 
+        R.nameRecipe, 
+        R.time, 
+        R.picture 
+    FROM 
+        Recipe R 
+        INNER JOIN Food_Quantity FQ ON FQ.idRecipe = R.id 
+        INNER JOIN Food F ON F.id = FQ.idFood 
+        WHERE time <= ${time} AND type = ${type} AND (F.idAllergy is null OR F.idAllergy NOT IN ( 
+            SELECT A.id 
+            FROM Allergy A 
+            WHERE (A.name) IN (`;
     for (let allergie of allergies) {
         requestSet.push(` '${allergie}' `);
     }
     request += requestSet.join();
-    request += `) IN (A.name)))`;
+    request += `)))`;
     console.log(request);
     return await client.query(request);
 }

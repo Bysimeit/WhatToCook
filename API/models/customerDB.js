@@ -17,12 +17,12 @@ module.exports.getDataCustomer = async (client, mail) => {
 //post
 
 module.exports.postNewCustomer = async (client, email, firstName, lastName, passWord) => {
-    return await client.query("INSERT INTO Customer(email, firstName, secondName, passWord, isadmin) VALUES ($1,$2,$3,$4,$5) RETURNING id", [email, firstName, lastName, passWord, false]);
+    return await client.query("INSERT INTO Customer(email, firstName, name, passWord, isadmin) VALUES ($1,$2,$3,$4,$5) RETURNING id", [email, firstName, lastName, passWord, false]);
 }
 
 //update
 
-module.exports.updatePassWordCustomer = async (client, id, newPassWord) => {
+module.exports.updatePasswordCustomer = async (client, id, newPassWord) => {
     return await client.query("UPDATE Customer SET passWord = $1 WHERE id =$2", [newPassWord, id]);
 }
 

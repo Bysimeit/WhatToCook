@@ -67,17 +67,17 @@ module.exports.postNewCustomer = async (req, res) => {
 }
 
 module.exports.updatePasswordEmailCustomer = async (req, res) => {
-    const {id, passWord, email} = req.body;
+    const {id, password, email} = req.body;
 
 
     const client = await pool.connect();
     
-    if(passWord === undefined && email === undefined){
+    if(password === undefined && email === undefined){
         res.sendStatus(400);
     } else {
         try{
             if(email === undefined){
-                await CustomerModel.updatePassWordCustomer(client, id, await getHash(password));
+                await CustomerModel.updatePasswordCustomer(client, id, await getHash(password));
             } else {
                 await CustomerModel.updateEmailCustomer(client, id, email);
             }

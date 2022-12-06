@@ -11,7 +11,7 @@ CREATE TABLE Customer (
     id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     email varchar(50) UNIQUE not null,
     firstName varchar(20) not null,
-    secondName varchar(20) not null,
+    name varchar(20) not null,
     password varchar(100) not null,
     isAdmin boolean not null
 );
@@ -85,7 +85,7 @@ DROP TABLE IF EXISTS Recipe_Step CASCADE;
 
 INSERT INTO Allergy(name)
 VALUES('Gluten'),('Crustacean'),('Eggs'),('Peanuts'),('Fish'),('Soy'),('Lactose'),('Nuts'),('Celery'),('Mustard'),('SesameSeed'),('Anhydride'),('Lupin'),('Mollusc');
-INSERT INTO Customer(email, firstName, secondName, password, isAdmin)
+INSERT INTO Customer(email, firstName, name, password, isAdmin)
 VALUES('admin@gmail.com','Admin','Private','$2b$10$Ov.jqcwGxqGghlEAqJWHrO/EM/GXiC93rRlURiigwHYnZd1vZ.SnO',true), ('user1@gmail.com','user1','name1','$2b$10$1Hlc.OahudqUXb414C05wOSpBHU5ReP8DnWjuPowvlC13vnB314vu',false);
 INSERT INTO Food(name, idAllergy, isValidated)
 VALUES ('Pain', '1', true), ('Oeufs', '3', true), ('Saumon', '5', true), ('Soja', '6', true);
