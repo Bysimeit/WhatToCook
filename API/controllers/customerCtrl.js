@@ -24,7 +24,7 @@ module.exports.getAllCustomer = async (req, res) => {
 }
 
 module.exports.getCustomer = async (req, res) => {
-    const {password, email} = req.body;
+    const {email} = req.body;
 
 
     const client = await pool.connect();

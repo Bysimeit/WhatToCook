@@ -63,32 +63,35 @@ module.exports.postNewRecipe = async (req, res) => {
         try {
             await client.query("BEGIN"); 
             let result = await RecipeModel.postNewRecipe(client, name, type, time, picture);
-            const idRecipe = result.rows[0].id;
 
-            for(let step of steps){
-                result = await StepModel.postNewStepRecipe(client, step, result.rows[0].id);
-            }
-                                    
-            for(let food of foods){
-                result = await FoodModel.getFood(client, food.name);
-                if(result !== undefined){
+            if(result.rows !== undefined){
+                const idRecipe = result.rows[0].id;
+
+                for(let step of steps){
+                    result = await StepModel.postNewStepRecipe(client, step, result.rows[0].id); //résult nécessaire avec un post delete ou update ?
+                }
+                                        
+                for(let food of foods){
+                    result = await FoodModel.getFood(client, food.name);
                     let rowCount = result.rowCount;
                     if(rowCount == 0){
                         result = await FoodModel.postNewFood(client, food.name, false, undefined);
                     }
-                } else {
-                    res.sendStatus(404);
-                }   
 
-                if(food.quantity !== undefined){
-                    let idFood = result.rows[0].id
-                    await FoodQuantityModel.NewFoodQte(client, idRecipe, idFood, food.quantity);
-                } else {
-                    res.sendStatus(404);
+                    if(food.quantity !== undefined && result.rows[0].id !== undefined){
+                        let idFood = result.rows[0].id
+                        await FoodQuantityModel.NewFoodQte(client, idRecipe, idFood, food.quantity);
+                    } else {
+                        res.sendStatus(404);
+                    }
                 }
+                await client.query("COMMIT");
+                res.sendStatus(201);
+
+            } else {
+                res.sendStatus(404);
             }
-            await client.query("COMMIT");
-            res.sendStatus(201);
+            
             
         } catch (error) {
             await client.query("ROLLBACK");
@@ -114,22 +117,18 @@ module.exports.udpateRecipe = async (req, res) => {
             await StepModel.deleteStepRecipe(client, id);
 
             for(let step of steps){
-                result = await StepModel.postNewStepRecipe(client, step, id);   
+                result = await StepModel.postNewStepRecipe(client, step, id);   //résult nécessaire avec un post delete ou update ?
             }
                  
             await FoodQuantityModel.deleteFoodQteRecipe(client, id);
             for(let food of foods){
                 result = await FoodModel.getFood(client, food.name);
-                if(result !== undefined){ //résult nécessaire ?
-                    let rowCount = result.rowCount;
-                    if(rowCount == 0){
-                        result = await FoodModel.postNewFood(client, food.name, false, undefined);
-                    }
-                } else {
-                    res.sendStatus(404);
+                let rowCount = result.rowCount;
+                if(rowCount == 0){
+                    result = await FoodModel.postNewFood(client, food.name, false, undefined);
                 }
                         
-                if(food.quantity !== undefined){
+                if(food.quantity !== undefined && result.rows[0].id !== undefined){
                     let idFood = result.rows[0].id
                     await FoodQuantityModel.NewFoodQte(client, id, idFood, food.quantity);
                 } else {

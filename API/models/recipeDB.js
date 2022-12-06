@@ -7,7 +7,7 @@ const { query } = require("express");
 module.exports.getListRecipe = async (client, type, time, allergies) => {
     
     const requestSet = [];
-    let request = `SELECT R.id, R.name, R.time, R.picture FROM Recipe R INNER JOIN Food_Quantity FQ ON FQ.idRecipe = R.id INNER JOIN Food F ON F.id = FQ.idFood WHERE time <= ${time} AND type = ${type} AND (F.idAllergy is null OR F.idAllergy NOT IN ( SELECT A.id FROM Allergy A WHERE (`;
+    let request = `SELECT R.id, R.nameRecipe, R.time, R.picture FROM Recipe R INNER JOIN Food_Quantity FQ ON FQ.idRecipe = R.id INNER JOIN Food F ON F.id = FQ.idFood WHERE time <= ${time} AND type = ${type} AND (F.idAllergy is null OR F.idAllergy NOT IN ( SELECT A.id FROM Allergy A WHERE (`;
     for (let allergie of allergies) {
         requestSet.push(` '${allergie}' `);
     }
@@ -18,7 +18,7 @@ module.exports.getListRecipe = async (client, type, time, allergies) => {
 }
 
 module.exports.getDataRecipe = async (client, id) => {
-    return await client.query("SELECT R.id, R.name, R.time, R.type, R.picture, R.quoting, S.text, F.name, FQ.quantity FROM Recipe R INNER JOIN food_quantity FQ ON FQ.idRecipe = R.id INNER JOIN food F ON F.id = FQ.idFood INNER JOIN step s on S.idRecipe = R.id WHERE R.id  = $1 ;",[id]);;
+    return await client.query("SELECT R.id, R.nameRecipe, R.time, R.type, R.picture, R.quoting, S.text, F.name, FQ.quantity FROM Recipe R INNER JOIN food_quantity FQ ON FQ.idRecipe = R.id INNER JOIN food F ON F.id = FQ.idFood INNER JOIN step s on S.idRecipe = R.id WHERE R.id  = $1 ;",[id]);;
 }
 
 //post
@@ -35,9 +35,9 @@ module.exports.postNewRecipe = async (client, name, type, time, picture) => {
 
 module.exports.updateRecipe = async (client, idRecipe,  name, type, time, picture) => {
     if(picture === undefined){
-        return await client.query("UPDATE Recipe SET name = $1, type = $2, time = $3 WHERE id = $4", [name, type, time, idRecipe]);
+        return await client.query("UPDATE Recipe SET nameRecipe = $1, type = $2, time = $3 WHERE id = $4", [name, type, time, idRecipe]);
     }else{
-        return await client.query("UPDATE Recipe SET name = $1, type = $2, time = $3, picture = $4 WHERE id = $5", [name, type, time, picture, idRecipe]);
+        return await client.query("UPDATE Recipe SET nameRecipe = $1, type = $2, time = $3, picture = $4 WHERE id = $5", [name, type, time, picture, idRecipe]);
     }
 }
 

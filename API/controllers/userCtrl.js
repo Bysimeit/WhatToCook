@@ -14,29 +14,34 @@ module.exports.login = async (req, res) => {
         const client = await pool.connect();
         try {
             const result = await UserModel.getAccount(client, email, password);
-            const {userType, value} = result;
-            if (userType === "inconnu") {
-                res.sendStatus(404);
-            } else if (userType === "admin") {
-                const {id, nom} = value;
-                const payload = {status: userType, value: {id, nom}};
-                const token = jwt.sign(
-                    payload,
-                    process.env.SECRET_TOKEN,
-                    {expiresIn: '1d'} //se mettre d'accord sur délait de connexion
-                );              
-                res.json(token);
+            if(result.userType !== undefined || result.value !== undefined){
+                const {userType, value} = result;
+                if (userType === "inconnu") {
+                    res.sendStatus(404);
+                } else if (userType === "admin") {
+                    const {id, nom} = value;
+                    const payload = {status: userType, value: {id, nom}};
+                    const token = jwt.sign(
+                        payload,
+                        process.env.SECRET_TOKEN,
+                        {expiresIn: '1d'} //se mettre d'accord sur délait de connexion
+                    );              
+                    res.json(token);
 
+                } else {
+                    const {id, nom, prenom} = value;
+                    const payload = {status: userType, value: {id, nom, prenom}};
+                    const token = jwt.sign(
+                        payload,
+                        process.env.SECRET_TOKEN,
+                        {expiresIn: '1d'} //se mettre d'accord sur délait de connexion
+                    );
+                    res.json(token);
+                }
             } else {
-                const {id, nom, prenom} = value;
-                const payload = {status: userType, value: {id, nom, prenom}};
-                const token = jwt.sign(
-                    payload,
-                    process.env.SECRET_TOKEN,
-                    {expiresIn: '1d'} //se mettre d'accord sur délait de connexion
-                );
-                res.json(token);
+                res.sendStatus(404);
             }
+            
         } catch (error) {
             console.error(error);
             res.sendStatus(500);

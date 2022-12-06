@@ -6,7 +6,7 @@ const Router = require("express-promise-router");
 const router = new Router;
 
 router.get('/', RecipeController.getListeRecipe); //ajouter la façon d'être connecté ou non 
-router.get('/recipe', RecipeController.getDataRecipe);
+router.get('/data', RecipeController.getDataRecipe);
 router.post('/', JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, RecipeController.postNewRecipe);
 router.patch('/', JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, RecipeController.udpateRecipe); 
 router.delete('/', JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, RecipeController.deleteRecipe);

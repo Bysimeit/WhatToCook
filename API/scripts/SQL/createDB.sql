@@ -29,7 +29,7 @@ CREATE TABLE Recipe (
     id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     addDate date not null,
     quoting real,
-    name varchar(30) not null,
+    nameRecipe varchar(30) not null,
     time real not null,
     picture varchar(80),
     type integer not null
@@ -91,7 +91,7 @@ INSERT INTO Food(name, idAllergy, isValidated)
 VALUES ('Pain', '1', true), ('Oeufs', '3', true), ('Saumon', '5', true), ('Soja', '6', true);
 INSERT INTO Food(name, isValidated)
 VALUES ('Tomate', true), ('Chocolat', true);
-INSERT INTO Recipe(addDate, quoting, name, time, type)
+INSERT INTO Recipe(addDate, quoting, nameRecipe, time, type)
 VALUES(CAST(now() AS date),'3','tarte','30','3'), (CAST(now() AS date),'2','sandwich','45','2'), (CAST(now() AS date),'2','mousseChoco','15','3'), (CAST(now() AS date),'5','chips','45','1'), (CAST(now() AS date),'4','biscuitsoja','25','1'), (CAST(now() AS date),'2','truc','15','3');
 INSERT INTO Food_Quantity(quantity, idRecipe, idFood)
 VALUES('2','1','2'), ('200','2','3'), ('100','3','5'), ('100','4','5'), ('100','5','4'), ('100','6','2');

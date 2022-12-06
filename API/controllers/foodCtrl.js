@@ -9,8 +9,8 @@ module.exports.getAllFood = async (req, res) => {
     const client = await pool.connect();
     try {
         const result = await FoodModel.getAllFood(client);
-        if(result !== undefined){
-            res.json(result);
+        if(result.rows !== undefined){
+            res.json(result.rows);
         } else {
             res.sendStatus(404);
         }
@@ -33,8 +33,12 @@ module.exports.postNewFood = async (req, res) => {
             if(allergy === undefined){
                 await FoodModel.postNewFood(client, name, true, undefined);
             } else {
-                const result = await AllergyModel.getAllergy(client, allergy); //result nécessaire ?
-                await FoodModel.postNewFood(client, name, true, result.rows[0].id);
+                const result = await AllergyModel.getAllergy(client, allergy); 
+                if(result.rows[0].id !== undefined){
+                    await FoodModel.postNewFood(client, name, true, result.rows[0].id);
+                } else {
+                    res.sendStatus(404);
+                }            
             }
             res.sendStatus(201);
         } catch (e) {
@@ -58,8 +62,12 @@ module.exports.updateFood = async (req, res) => {
             if(allergy === undefined){
                 await FoodModel.updateFood(client, id, name, undefined); 
             } else {
-                const result = await AllergyModel.getAllergy(client, allergy); //result nécessaire ?
-                await FoodModel.updateFood(client, id, name, result.rows[0].id); 
+                const result = await AllergyModel.getAllergy(client, allergy); 
+                if(result.rows[0].id !== undefined){
+                    await FoodModel.updateFood(client, id, name, result.rows[0].id); 
+                } else {
+                    res.sendStatus(404);
+                }
             }            
             await client.query("COMMIT");
             res.sendStatus(204);                
@@ -82,11 +90,8 @@ module.exports.deleteFood = async (req, res) => {
     try{
         await client.query("BEGIN"); 
         await CustomerFoodModel.deleteFoodCustomer(client, id);
-        console.log("ok");
         await FoodQuantityModel.deleteFoodQteFood(client, id);
-        console.log("ok");
         await FoodModel.deleteFood(client, id);
-        console.log("ok");
         await client.query("COMMIT");
         res.sendStatus(204);
     } catch (error){
