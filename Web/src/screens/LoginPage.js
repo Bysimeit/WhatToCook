@@ -1,7 +1,7 @@
 import React from "react";
 
 import MenuBar from "../composants/MenuBar";
-import { login } from '../api/user';
+
 
 
 export default function LoginPage(){

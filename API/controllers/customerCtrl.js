@@ -24,24 +24,27 @@ module.exports.getAllCustomer = async (req, res) => {
 }
 
 module.exports.getCustomer = async (req, res) => {
-    const {email} = req.body;
+    const email = req.params.email;
 
-
-    const client = await pool.connect();
-    try{
-        
-        const result = await CustomerModel.getDataCustomer(client, email);
-        if(result.rows !== undefined){
-            res.json(result.rows);
-        } else {
-            res.sendStatus(404);
+    if(email === undefined){
+        res.sendStatus(400);
+    } else {
+        const client = await pool.connect();
+        try{
+            const result = await CustomerModel.getDataCustomer(client, email);
+            if(result.rows !== undefined){
+                res.json(result.rows);
+            } else {
+                res.sendStatus(404);
+            }
+        } catch (error){
+            console.error(error);
+            res.sendStatus(500);
+        } finally {
+            client.release();
         }
-    } catch (error){
-        console.error(error);
-        res.sendStatus(500);
-    } finally {
-        client.release();
     }
+    
 }
 
 module.exports.postNewCustomer = async (req, res) => {

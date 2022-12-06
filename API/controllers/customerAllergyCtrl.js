@@ -1,24 +1,31 @@
 const pool = require('../models/database');
 const CustomerAllergyModel = require('../models/customerAllergyDB');
+const { compareSync } = require('bcrypt');
 
 module.exports.getAllCustomerAllergy = async (req, res) => {
-    const {idCustomer} = req.body;
+    const idText = req.params.id;
+    const idCustomer = parseInt(idText);
 
-    const client = await pool.connect();
-    try {
-        const result = await CustomerAllergyModel.getAllCustomerAllergy(client, idCustomer);
-        if(result.rows !== undefined){
-            res.json(result.rows);
-        } else {
-            res.sendStatus(404);
+    if(idCustomer === undefined){
+        res.sendStatus(400);
+    } else {
+        const client = await pool.connect();
+        try {
+            const result = await CustomerAllergyModel.getAllCustomerAllergy(client, idCustomer);
+            if(result.rows !== undefined){
+                res.json(result.rows);
+            } else {
+                res.sendStatus(404);
+            }
+                
+        } catch (e) {
+            console.error(e);
+            res.sendStatus(500);
+        } finally {
+            client.release();
         }
-            
-    } catch (e) {
-        console.error(e);
-        res.sendStatus(500);
-    } finally {
-        client.release();
     }
+    
 }
 
 module.exports.postNewCustomerAllergy = async (req, res) => {

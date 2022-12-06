@@ -3,7 +3,8 @@ const CustomerFoodModel = require('../models/customerFoodDB');
 const FoodModel = require('../models/foodDB');
 
 module.exports.getAllFood = async (req, res) => {
-    const {idCustomer} = req.body;
+    const idTexte = req.params.id;
+    const idCustomer = parseInt(idTexte);
 
     if(idCustomer === undefined){ 
         res.sendStatus(400);

@@ -5,7 +5,7 @@ const JWTMiddleWare = require("../middleware/identification");
 const Router = require("express-promise-router");
 const router = new Router;
 
-router.get('/', JWTMiddleWare.identification, FridgeController.getAllFood); 
+router.get('/:id', JWTMiddleWare.identification, FridgeController.getAllFood); 
 router.post('/', JWTMiddleWare.identification, FridgeController.postNewFoodCustomer);
 router.delete('/', JWTMiddleWare.identification, FridgeController.deleteFood);
 

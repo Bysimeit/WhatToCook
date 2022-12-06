@@ -6,7 +6,7 @@ const FoodQuantityModel = require('../models//foodQuantityDB');
 const CustomerRecipeModel = require('../models//customerRecipeDB');
 
 module.exports.getListeRecipe = async (req, res) => {
-    const {type, time, allergies} = req.body;
+    const {type, time, allergies} = req.params;
 
     if(type === undefined || time === undefined){ 
         res.sendStatus(400);
@@ -30,7 +30,8 @@ module.exports.getListeRecipe = async (req, res) => {
 }
 
 module.exports.getDataRecipe = async (req, res) => {
-    const {id} = req.body;
+    const idText = req.params.id;
+    const id = parseInt(idText);
 
     if(id === undefined){ 
         res.sendStatus(400);
