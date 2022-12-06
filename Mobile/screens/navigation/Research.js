@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, ScrollView, TextInput, Button, Alert, Pressable
 import { RadioButton } from 'react-native-paper';
 import CheckBox from 'expo-checkbox';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Header from '../../components/Header';
 import NavBar from '../../components/NavBar';
@@ -30,7 +31,17 @@ export default function Research({ navigation }) {
 
     const active = "left";
 
-    const isConnected = false;
+    const [isConnected, setIsConnected] = React.useState(false);
+    const checkIsConnected = async () => {
+        const token = await AsyncStorage.getItem("token");
+        if (token) {
+            setIsConnected(true);
+        } else {
+            setIsConnected(false);
+        }
+    };
+
+    checkIsConnected();
 
     return (
         <View style={styles.page}>
