@@ -20,7 +20,11 @@ export default function Profile({ navigation }) {
     const fillProfile = async () => {
         profileFetch(await AsyncStorage.getItem("eMail")).then(async (result) => {
             if (result.status === 200) {
-                console.log(result.data);
+                const jsonData = JSON.stringify(result.data[0]);
+                await AsyncStorage.setItem("infoUser", jsonData);
+                onChangeName(result.data[0].name);
+                onChangeFirstName(result.data[0].firstname);
+                onChangeEMail(result.data[0].email);
             } else {
                 Alert.alert("Erreur !", "Un problème est survenu lors de la récupération des données.");
             }
@@ -29,11 +33,12 @@ export default function Profile({ navigation }) {
             Alert.alert("Erreur !", "Un problème est survenu lors de la récupération des données.");
         });
     };
-    fillProfile();
 
     const handlePressPassword = () => {
         navigation.navigate('ChangePassword');
     }
+
+    const { deleteCustomer } = useFetchCustomer();
     const handlePressDelete = () => {
         Alert.alert(
             "ATTENTION",
@@ -47,31 +52,56 @@ export default function Profile({ navigation }) {
                 },
                 {
                     text: "Oui",
-                    onPress: () => {
-                        console.log("Supprimer le compte");
+                    onPress: async () => {
+                        const idUser = await AsyncStorage.getItem("infoUser");
+                        const jsonUser = JSON.parse(idUser);
+                        deleteCustomer(jsonUser.id).then(async (result) => {
+                            if (result.status === 204) {
+                                Alert.alert("Supprimé !", "Votre compte a bien été supprimé.\nÀ bientôt !");
+                                navigation.navigate("Login");
+                            }
+                        }).catch((e) => {
+                            console.error(e);
+                            Alert.alert("Erreur !", "Une erreur est survenue.");
+                        });
                     }
                 }
             ]
         );
     }
 
+    const active = "none";
+
+    const [image, setImage] = React.useState(null);
+    
+    const getImage = async () => {
+        await AsyncStorage.getItem("profilImg").then((img) => {
+            setImage(img);
+        });
+    };
+    
     if (newsletterSelected) {
         console.log("Veut la newsletter");
     } else {
         console.log("Ne veut pas la newsletter");
     }
 
-    const active = "none";
-
-    const [image, setImage] = React.useState(null);
-    
     useEffect(() => {
+        /*
         AsyncStorage.getItem("profilImg").then((err,urlImage) => {
             setImage(urlImage);
         }).catch((error) => {
             console.log(error);
         });
-    }, []);
+        if (newsletterSelected) {
+            console.log("Veut la newsletter");
+        } else {
+            console.log("Ne veut pas la newsletter");
+        }
+        */
+        fillProfile();
+        getImage();
+    }, [navigation]);
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -80,7 +110,7 @@ export default function Profile({ navigation }) {
             aspect: [4,3],
             quality: 1
         });
-        console.log(result);
+
         if (!result.cancelled) {
             setImage(result.uri);
             await AsyncStorage.setItem("profilImg", JSON.stringify(result.uri));
@@ -96,15 +126,15 @@ export default function Profile({ navigation }) {
                 </Pressable>
                 <View style={styles.inputView}>
                     <Text>Nom :</Text>
-                    <TextInput style={[styles.input, styles.shadowBox]} onChangeText={onChangeName} value={name}/>
+                    <TextInput editable={false} style={[styles.input, styles.shadowBox]} onChangeText={onChangeName} value={name}/>
                 </View>
                 <View style={styles.inputView}>
                     <Text>Prénom :</Text>
-                    <TextInput style={[styles.input, styles.shadowBox]} onChangeText={onChangeFirstName} value={firstName}/>
+                    <TextInput editable={false} style={[styles.input, styles.shadowBox]} onChangeText={onChangeFirstName} value={firstName}/>
                 </View>
                 <View style={styles.inputView}>
                     <Text>EMail :</Text>
-                    <TextInput style={[styles.input, styles.shadowBox]} onChangeText={onChangeEMail} value={eMail}/>
+                    <TextInput editable={false} style={[styles.input, styles.shadowBox]} onChangeText={onChangeEMail} value={eMail}/>
                 </View>
                 <Pressable style={[styles.buttonPassword, styles.shadowBox]} onPress={handlePressPassword}>
                     <Text style={styles.textButton}>Changer de mot de passe</Text>
@@ -145,7 +175,8 @@ const styles = StyleSheet.create({
     input: {
         backgroundColor: "#D9D9D9",
         width: 300,
-        height: 30
+        height: 30,
+        color: 'black'
     },
     shadowBox: {
         shadowColor: "#000",

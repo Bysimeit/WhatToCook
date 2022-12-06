@@ -1,6 +1,9 @@
 import React from 'react';
-import { Text, View, StyleSheet, ScrollView, TextInput, Pressable } from 'react-native';
+import { Text, View, StyleSheet, ScrollView, TextInput, Pressable, Alert } from 'react-native';
 import CheckBox from 'expo-checkbox';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import useFetchCustomer from '../../services/useFetchCustomer';
 
 import Header from '../../components/Header';
 import NavBar from '../../components/NavBar';
@@ -10,8 +13,35 @@ export default function ChangePassword({ navigation }) {
     const [newPassword, onChangeNewPassword] = React.useState('');
     const [newPasswordConfirm, onChangeNewPasswordConfirm] = React.useState('');
 
-    const handlePressChangePassword = () => {
-        console.log("Changer mot de passe");
+    const { changePassword } = useFetchCustomer();
+    const handlePressChangePassword = async () => {
+        if (oldPassword !== '') {
+            if (newPassword !== '') {
+                if (newPasswordConfirm !== '') {
+                    if (newPassword === newPasswordConfirm) {
+                        changePassword(oldPassword, newPassword, await AsyncStorage.getItem("eMail")).then(async (result) => {
+                            if (result.status === 204) {
+                                Alert.alert("Mot de passe changé !", "Votre mot de passe a bien été mis à jour.");
+                                navigation.navigate('Profile');
+                            } else {
+                                Alert.alert("Erreur !", "Une erreur est survenue, veuillez réessayer !");
+                            }
+                        }).catch((e) => {
+                            console.error(e);
+                            Alert.alert("Erreur !", "Votre ancien mot de passe est incorrect !");
+                        });
+                    } else {
+                        Alert.alert("Erreur !", "Votre nouveau mot de passe ne correspond pas avec la confirmation.");
+                    }
+                } else {
+                    Alert.alert("Erreur !", "Veuillez confirmer votre nouveau mot de passe.");
+                }
+            } else {
+                Alert.alert("Erreur !", "Veuillez insérer votre nouveau mot de passe.");
+            }
+        } else {
+            Alert.alert("Erreur !", "Veuillez insérer mon ancien mot de passe.");
+        }
     }
     const handlePressBack= () => {
         navigation.navigate('Profile');

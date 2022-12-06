@@ -47,6 +47,7 @@ export default function Header({ navigation }) {
     const { logoutFetch } = useFetchCustomer();
     const handlePressLogOut = async () => {
         await AsyncStorage.removeItem("token");
+        await AsyncStorage.removeItem("infoUser");
         navigation.navigate('Login');
         setMenuVisible(false);
     };

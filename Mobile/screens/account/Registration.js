@@ -2,11 +2,13 @@ import React from 'react';
 import { Text, View, StyleSheet, ScrollView, TextInput, Pressable, Alert } from 'react-native';
 import CheckBox from 'expo-checkbox';
 
+import useFetchCustomer from '../../services/useFetchCustomer';
+
 import Header from '../../components/Header';
 import NavBar from '../../components/NavBar';
 
 export default function Registration({ navigation }) {
-  const [name, onChangeName] = React.useState('');
+  const [lastName, onChangeName] = React.useState('');
   const [firstName, onChangeFirstName] = React.useState('');
   const [eMail, onChangeEMail] = React.useState('');
   const [password, onChangePassword] = React.useState('');
@@ -14,9 +16,60 @@ export default function Registration({ navigation }) {
 
   const [newsletterSelected, setNewletterSelection] = React.useState(false);
 
+  /*
   const handlePressSignIn = () => {
     console.log("S'inscrire");
     Alert.alert("Inscription bien prise en compte.", "Vous pouvez maintenant vous connecter.");
+  };
+  */
+
+  const { newCustomer } = useFetchCustomer();
+  const handlePressSignIn = () => {
+    if (lastName !== '') {
+      if (firstName !== '') {
+        if (eMail !== '') {
+          let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+          if (reg.test(eMail)) {
+            if (password !== '') {
+              if (passwordConfirm !== '') {
+                if (password === passwordConfirm) {
+                  newCustomer(lastName, firstName, password, eMail).then(async (result) => {
+                    if (result.status === 201) {
+                      Alert.alert("Bienvenue !", "Votre compte à été crée avec succès !\nPour pouver maintenant vous connecter.");
+                      onChangeName('');
+                      onChangeFirstName('');
+                      onChangeEMail('');
+                      onChangePassword('');
+                      onChangePasswordConfirm('');
+                      navigation.navigate('Login');
+                    } else {
+                      Alert.alert("Erreur !", "Veuillez réessayer !");
+                    }
+                  }).catch((e) => {
+                    console.error(e);
+                    Alert.alert("Erreur !", "Adresse mail déjà existante !");
+                  });
+                } else {
+                  Alert.alert("Erreur !", "Veuillez faire correspondre vos mots de passe !");
+                }
+              } else {
+                Alert.alert("Erreur !", "Veuillez confirmer votre mot de passe.");
+              }
+            } else {
+              Alert.alert("Erreur !", "Veuillez insérer un mot de passe.");
+            }
+          } else {
+            Alert.alert("Erreur !", "Veuillez insérer une adresse mail valide !");
+          }
+        } else {
+          Alert.alert("Erreur !", "Veuillez insérer une adresse mail.");
+        }
+      } else {
+        Alert.alert("Erreur !", "Veuillez insérer un prénom.");
+      }
+    } else {
+      Alert.alert("Erreur !", "Veuillez insérer un nom de famille.");
+    }
   };
 
   const active = "none";
@@ -27,7 +80,7 @@ export default function Registration({ navigation }) {
         <Text style={styles.title}>Inscription</Text>
         <View style={styles.inputView}>
           <Text>Nom :</Text>
-          <TextInput style={[styles.input, styles.shadowBox]} onChangeText={onChangeName} value={name}/>
+          <TextInput style={[styles.input, styles.shadowBox]} onChangeText={onChangeName} value={lastName}/>
         </View>
         <View style={styles.inputView}>
           <Text>Prénom :</Text>

@@ -73,6 +73,7 @@ module.exports.updatePasswordEmailCustomer = async (req, res) => {
 
     if(oldPassword === undefined && oldEmail === undefined){
         res.sendStatus(400);
+        console.log("Ici");
     } else {
         const client = await pool.connect();
         try{
@@ -83,7 +84,8 @@ module.exports.updatePasswordEmailCustomer = async (req, res) => {
                         await CustomerModel.updatePasswordCustomer(client, oldEmail, await getHash(newPassword));
                         res.sendStatus(204); 
                     } else {
-                        res.sendStatus(404); 
+                        res.sendStatus(400); 
+                        console.log("là");
                     } 
                 } else {
                     res.sendStatus(404);

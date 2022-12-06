@@ -1,33 +1,53 @@
 import axios from "react-native-axios";
 import { Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import authentification from "./authentification";
 
 export default function useFetchCustomer() {
     const loginFetch = async (email, password) => {
-        const response = await axios({
-            method: "post",
-            url: `http://192.168.0.132:3001/user`,
-            data: {
-                email,
-                password
-            }
+        const response = await axios.post(`http://192.168.0.132:3001/user`, {
+            "email": email,
+            "password": password
         });
 
         return {status: response.status, data: response.data};
     };
 
     const profileFetch = async (email) => {
-        const form = new URLSearchParams();
-        form.append("email", email);
-        const response = await axios({
-            method: "get",
-            url: `http://192.168.0.132:3001/customer/data`,
-            headers: await authentification()
+        const token = await AsyncStorage.getItem("token");
+        const response = await axios.get(`http://192.168.0.132:3001/customer/${email}`, { headers: {'Authorization': `Bearer ${token}` }});
+
+        return {status: response.status, data: response.data};
+    };
+
+    const changePassword = async (oldPassword, newPassword, oldEmail) => {
+        const token = await AsyncStorage.getItem("token");
+        const response = await axios.patch(`http://192.168.0.132:3001/customer`, {
+            "oldPassword": oldPassword,
+            "newPassword": newPassword,
+            "oldEmail": oldEmail
+        }, { headers: {'Authorization': `Bearer ${token}` }});
+
+        return {status: response.status};
+    };
+
+    const deleteCustomer = async (id) => {
+        const token = await AsyncStorage.getItem("token");
+        const response = await axios.delete(`http://192.168.0.132:3001/customer`, {
+            "id": id
+        }, { headers: {'Authorization': `Bearer ${token}` }});
+
+        return {status: response.status};
+    };
+
+    const newCustomer = async (lastName, firstName, password, email) => {
+        const response = await axios.post(`http://192.168.0.132:3001/customer`, {
+            "lastName": lastName,
+            "firstName": firstName,
+            "password": password,
+            "email": email
         });
 
-        console.log(response.request)
-        return {status: response.status, data: response.data};
+        return {status: response.status};
     };
 
     const logoutFetch = async () => {
@@ -36,6 +56,9 @@ export default function useFetchCustomer() {
 
     return {
         loginFetch,
-        profileFetch
+        profileFetch,
+        changePassword,
+        deleteCustomer,
+        newCustomer
     };
 };

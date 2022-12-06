@@ -25,13 +25,13 @@ export default function Login({ navigation }) {
         navigation.navigate("Profile");
       } else {
         onChangePassword(null);
-        Alert.alert("EMail ou mot de passe incorrect !");
+        Alert.alert("Erreur !", "Adresse eMail ou mot de passe incorrect !");
       }
     }).catch((e) => {
       switch (e.response.status) {
         case 404:
           onChangePassword(null);
-          Alert.alert("EMail ou mot de passe incorrect !");
+          Alert.alert("Erreur !", "Adresse eMail ou mot de passe incorrect !");
       }
     })
   };
