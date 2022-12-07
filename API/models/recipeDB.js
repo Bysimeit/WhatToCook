@@ -4,7 +4,7 @@
 const e = require("express");
 const { query } = require("express");
 
-module.exports.getListRecipe = async (client, type, time, allergies) => {
+module.exports.getResearchRecipe = async (client, type, time, allergies) => {
     
     const requestSet = [];
     let request = `
@@ -12,7 +12,11 @@ module.exports.getListRecipe = async (client, type, time, allergies) => {
         R.id, 
         R.nameRecipe, 
         R.time, 
-        R.picture 
+        R.picture,
+        R.adddate,
+        R.quoting,
+        R.type,
+        F.price
     FROM 
         Recipe R 
         INNER JOIN Food_Quantity FQ ON FQ.idRecipe = R.id 
@@ -30,8 +34,42 @@ module.exports.getListRecipe = async (client, type, time, allergies) => {
     return await client.query(request);
 }
 
+module.exports.getListRecipe = async(client) => {
+    return await client.query(`
+        SELECT 
+            R.id, 
+            R.nameRecipe, 
+            R.time, 
+            R.picture,
+            R.adddate,
+            R.quoting,
+            R.type,
+            F.price
+        FROM 
+            Recipe R 
+            INNER JOIN Food_Quantity FQ ON FQ.idRecipe = R.id 
+            INNER JOIN Food F ON F.id = FQ.idFood `);
+}
+
 module.exports.getDataRecipe = async (client, id) => {
-    return await client.query("SELECT R.id, R.nameRecipe, R.time, R.type, R.picture, R.quoting, S.text, F.name, FQ.quantity FROM Recipe R INNER JOIN food_quantity FQ ON FQ.idRecipe = R.id INNER JOIN food F ON F.id = FQ.idFood INNER JOIN step s on S.idRecipe = R.id WHERE R.id  = $1 ;",[id]);;
+    return await client.query(`
+        SELECT 
+            R.id, 
+            R.nameRecipe, 
+            R.time, 
+            R.type, 
+            R.picture, 
+            R.quoting, 
+            S.text, 
+            F.name, 
+            F.price,
+            FQ.quantity 
+        FROM 
+            Recipe R 
+            INNER JOIN food_quantity FQ ON FQ.idRecipe = R.id 
+            INNER JOIN food F ON F.id = FQ.idFood 
+            INNER JOIN step s on S.idRecipe = R.id 
+            WHERE R.id  = $1 ;`,[id]);;
 }
 
 //post

@@ -7,29 +7,28 @@ const CustomerRecipeModel = require('../models//customerRecipeDB');
 
 module.exports.getListeRecipe = async (req, res) => {
     const {type, time, allergies} = req.query;
-    const allergiesTab = allergies.split(',');
-    console.log(type);
-    console.log(time);
-    console.log(allergiesTab);
-
-    if(type === undefined || time === undefined){ 
-        res.sendStatus(400);
-    } else {
-        const client = await pool.connect();
-        try {
-            const result = await RecipeModel.getListRecipe(client, type, time, allergiesTab);
-            if(result.rows !== undefined){
-                res.json(result.rows);
-            } else {
-                res.sendStatus(404);
-            }
-            
-        } catch (e) {
-            console.error(e);
-            res.sendStatus(500);
-        } finally {
-            client.release();
+    
+    const client = await pool.connect();
+    try {
+        let result;
+        if(type === undefined || time === undefined){
+            result = await RecipeModel.getListRecipe(client);
+        } else {
+            const allergiesTab = allergies.split(',');
+            result = await RecipeModel.getResearchRecipe(client, type, time, allergiesTab);
         }
+
+        if(result.rows !== undefined){
+            res.json(result.rows);
+        } else {
+            res.sendStatus(404);
+        }           
+                  
+    } catch (e) {
+        console.error(e);
+        res.sendStatus(500);
+    } finally {
+        client.release();
     }
 }
 
