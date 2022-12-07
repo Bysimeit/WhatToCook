@@ -31,7 +31,7 @@ CREATE TABLE Recipe (
     quoting real,
     nameRecipe varchar(30) not null,
     time real not null,
-    picture varchar(80),
+    picture varchar(200),
     type integer not null
 );
 
@@ -91,8 +91,8 @@ INSERT INTO Food(name, idAllergy, isValidated)
 VALUES ('Pain', '1', true), ('Oeufs', '3', true), ('Saumon', '5', true), ('Soja', '6', true);
 INSERT INTO Food(name, isValidated)
 VALUES ('Tomate', true), ('Chocolat', true);
-INSERT INTO Recipe(addDate, quoting, nameRecipe, time, type)
-VALUES(CAST(now() AS date),'3','tarte','30','3'), (CAST(now() AS date),'2','sandwich','45','2'), (CAST(now() AS date),'2','mousseChoco','15','3'), (CAST(now() AS date),'5','chips','45','1'), (CAST(now() AS date),'4','biscuitsoja','25','1'), (CAST(now() AS date),'2','truc','15','3');
+INSERT INTO Recipe(addDate, quoting, nameRecipe, time, picture, type)
+VALUES(CAST(now() AS date),'3','Tarte aux pommes','30', 'https://img-3.journaldesfemmes.fr/qLk0r2uOl6DX_eSpeGJHSh48p18=/800x600/smart/570815b9f5db46eda4d665288a544953/recipe-jdf/10020448.jpg', '3'), (CAST(now() AS date),'4','Lasagne','35', 'https://images.radio-canada.ca/v1/alimentation/recette/4x3/lasagne-25129.jpg', '2'), (CAST(now() AS date),'3','Mousse au chocolat','40', 'https://img.cuisineaz.com/660x660/2017/08/09/i131431-mousse-au-chocolat-au-cooking-chef.jpeg', '3'), (CAST(now() AS date),'5','Salade grecque','15', 'https://assets.afcdn.com/recipe/20190704/94668_w1024h1024c1cx2736cy1824.jpg', '1'), (CAST(now() AS date),'3','Cookie','20', 'https://www.papillesetpupilles.fr/wp-content/uploads/2005/07/Cookies-aux-pe%CC%81pites-de-chocolat-%C2%A9beats1.-shutterstock.jpg', '1'), (CAST(now() AS date),'5','Tiramisu','20', 'https://assets.afcdn.com/recipe/20161123/1509_w1024h1024c1cx1920cy2880.jpg','3');
 INSERT INTO Food_Quantity(quantity, idRecipe, idFood)
 VALUES('2','1','2'), ('200','2','3'), ('100','3','5'), ('100','4','5'), ('100','5','4'), ('100','6','2');
 INSERT INTO Step(idRecipe, text)
