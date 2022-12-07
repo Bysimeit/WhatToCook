@@ -42,16 +42,17 @@ module.exports.getListRecipe = async(client) => {
 
 module.exports.getDataRecipe = async (client, id) => {
     return await client.query(`
-        SELECT 
-            R.*,
-            FQ.quantity 
-        FROM 
-            Recipe R 
-            INNER JOIN food_quantity FQ ON FQ.idRecipe = R.id 
-            INNER JOIN food F ON F.id = FQ.idFood 
-            INNER JOIN step s on S.idRecipe = R.id 
-            WHERE R.id  = $1 
-        GROUP BY R.id;`,[id]);;
+    SELECT
+        R.*,
+        F.name AS food,
+        FQ.quantity,
+        S.text AS step
+    FROM
+        Recipe R
+        INNER JOIN food_quantity FQ ON FQ.idRecipe = R.id
+        INNER JOIN food F ON F.id = FQ.idFood
+        INNER JOIN step s on S.idRecipe = R.id
+        WHERE R.id = $1`,[id]);
 }
 
 //post

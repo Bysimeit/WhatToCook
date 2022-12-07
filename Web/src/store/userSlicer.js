@@ -16,3 +16,7 @@ export const counterSlice = createSlice({
     }
   }
 })
+
+export const {login} = counterSlice.actions
+
+export default counterSlice.reducer

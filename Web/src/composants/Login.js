@@ -1,4 +1,5 @@
 import React from 'react';
+import {login} from '../api/user';
 
 class Login extends React.Component{
 
@@ -8,11 +9,13 @@ class Login extends React.Component{
             email: '',
             password: ''
         };
+        
     }
 
     handleSubmit(event) {
-        alert('Le nom a été soumis : ' + this.state.email + this.state.password);
         event.preventDefault();
+        alert('Le nom a été soumis : ' + this.state.email + this.state.password + login(this.state.email,this.state.password));
+        
     }
 
     render() {
