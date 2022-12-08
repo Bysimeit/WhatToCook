@@ -12,10 +12,10 @@ export default function FoodTile({food}) {
 
     return (
         <Pressable style={styles.container} onLongPress={onDeleteTask}>
-            <Text style={styles.title}>{ food.title }</Text>
+            <Text style={styles.title}>{ food.name }</Text>
             <Text>{ food.quantity }</Text>
             <Text>{ food.weight }</Text>
-            <Text style={styles.expirationDate}>{ food.expirationDate }</Text>
+            <Text style={styles.expirationDate}>{ food.date }</Text>
         </Pressable>
     );
 };

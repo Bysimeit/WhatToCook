@@ -9,8 +9,15 @@ export default function useFetchRecipe() {
 
         return {status: response.status, data: response.data};
     };
+
+    /*
+    const randomRecipeFetch = async () => {
+        const response = await 
+    };
+    */
     
     return {
         recipeFetch
+        //randomRecipeFetch
     };
 };

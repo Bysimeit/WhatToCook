@@ -2,13 +2,13 @@
 
 module.exports.getAllCustomerFood = async (client, idCustomer) => {
 
-    return await client.query("SELECT CF.quantity, F.name, F.id FROM Customer_Food CF INNER JOIN Food F ON F.id = CF.idFood WHERE idCustomer = $1",[idCustomer]);
+    return await client.query("SELECT CF.quantity, F.name, to_char(CF.date,'dd/MM/yyyy') AS date, CF.weight, F.id FROM Customer_Food CF INNER JOIN Food F ON F.id = CF.idFood WHERE idCustomer = $1",[idCustomer]);
 }
 
 //post
 
-module.exports.postNewCustomerFood = async (client, idCustomer, idFood, quantity) => {
-    return await client.query("INSERT INTO Customer_Food(idCustomer, idFood, date, quantity) VALUES ($1,$2,CAST(NOW() AS DATE),$3)", [idCustomer, idFood, quantity]);
+module.exports.postNewCustomerFood = async (client, idCustomer, idFood, quantity, weight) => {
+    return await client.query("INSERT INTO Customer_Food(idCustomer, idFood, date, quantity, weight) VALUES ($1,$2,CAST(NOW() AS DATE),$3,$4)", [idCustomer, idFood, quantity, weight]);
 }
 
 //update

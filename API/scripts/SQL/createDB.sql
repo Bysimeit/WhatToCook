@@ -49,6 +49,7 @@ CREATE TABLE Customer_Food (
     idFood integer references Food(id),
     date date,
     quantity integer not null,
+    weight integer not null,
     PRIMARY KEY (idCustomer,idFood,date)
 );
 
@@ -100,7 +101,7 @@ INSERT INTO Step(idRecipe, text)
 VALUES('1', 'frapper'), ('1', 'casser'), ('1', 'manger');
 INSERT INTO Customer_Recipe(idCustomer, idRecipe)
 VALUES('1', '1'), ('1', '2');
-INSERT INTO Customer_Food(idCustomer, idFood, date, quantity)
-VALUES('1', '2', CAST(now() AS date), '100'), ('1', '5', CAST(now() AS date), '100');
+INSERT INTO Customer_Food(idCustomer, idFood, date, quantity, weight)
+VALUES('1', '2', CAST(now() AS date), '100', '250'), ('1', '5', CAST(now() AS date), '100', '500');
 INSERT INTO Customer_Allergy(idCustomer, idAllergy)
 VALUES('1', '1'), ('1', '6'), ('2', '1');

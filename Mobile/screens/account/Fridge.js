@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, View, StyleSheet, ScrollView, FlatList, Pressable } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,7 +6,11 @@ import { addFood } from "../../redux/actions/foodList";
 import { getFood } from "../../redux/selectors";
 import Dialog from "react-native-dialog";
 import DateTimePicker from '@react-native-community/datetimepicker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import FoodTile from '../../components/FoodTile';
+
+import useFetchFridge from '../../services/useFetchFridge';
+import { setFood } from '../../redux/actions/foodList';
 
 import Header from '../../components/Header';
 import NavBar from '../../components/NavBar';
@@ -75,6 +79,23 @@ export default function Fridge({ navigation }) {
         setVisibleExpirationDate(false);
         onAddNewFood(dateConversion);
     };
+
+    const [idCustomer, setIdCustomer] = React.useState(null);
+    const fetchInfo = async () => {
+        const infoUser = await AsyncStorage.getItem("infoUser");
+        const idCustomer = JSON.parse(infoUser);
+        setIdCustomer(idCustomer.id);
+    };
+
+    const { foodFetch } = useFetchFridge();
+    useEffect(() => {
+        fetchInfo();
+        foodFetch(idCustomer).then((result) => {
+            if (result.status === 200) {
+                dispatch(setFood(result.data));
+            }
+        });
+    }, []);
 
     function showAddFoodTitle() {
         return (

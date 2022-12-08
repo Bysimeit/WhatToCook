@@ -17,23 +17,33 @@ export default function Login({ navigation }) {
 
   const { loginFetch } = useFetchCustomer();
   const handlePressConnect = () => {
-    loginFetch(email, password).then(async (result) => {
-      if (result.status === 200) {
-        Alert.alert("Connexion réussie !");
-        await AsyncStorage.setItem("token", result.data);
-        await AsyncStorage.setItem("eMail", email);
-        navigation.navigate("Profile");
+      if (email !== '') {
+        if (password !== '') {
+          loginFetch(email, password).then(async (result) => {
+            if (result.status === 200) {
+              Alert.alert("Connexion réussie !");
+              onChangeEMail('');
+              onChangePassword('');
+              await AsyncStorage.setItem("token", result.data);
+              await AsyncStorage.setItem("eMail", email);
+              navigation.navigate("Profile");
+            } else {
+              onChangePassword(null);
+              Alert.alert("Erreur !", "Adresse eMail ou mot de passe incorrect !");
+            }
+          }).catch((e) => {
+            switch (e.response.status) {
+              case 404:
+                onChangePassword(null);
+                Alert.alert("Erreur !", "Adresse eMail ou mot de passe incorrect !");
+            }
+          });
+        } else {
+          Alert.alert("Erreur !", "Veuillez insérer votre mot de passe !");
+        }
       } else {
-        onChangePassword(null);
-        Alert.alert("Erreur !", "Adresse eMail ou mot de passe incorrect !");
+        Alert.alert("Erreur !", "Veuillez insérer votre adresse eMail !");
       }
-    }).catch((e) => {
-      switch (e.response.status) {
-        case 404:
-          onChangePassword(null);
-          Alert.alert("Erreur !", "Adresse eMail ou mot de passe incorrect !");
-      }
-    })
   };
 
   const active = "none";
