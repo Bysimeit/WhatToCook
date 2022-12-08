@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 export const counterSlice = createSlice({
   name: 'user',
   initialState: {
+    id: '',
     email: '',
     firstName: '',
     name: '',
@@ -12,7 +13,7 @@ export const counterSlice = createSlice({
 
   reducers: {
     login: (state, action) => {
-      state.value += action.payload;
+      state.id += action.payload.id;
       state.email = action.payload.email;
       state.firstName = action.payload.firstName;
       state.name = action.payload.name;

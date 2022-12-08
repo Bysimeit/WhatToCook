@@ -16,7 +16,9 @@ const getCustomer = async (email) => {
 
 		console.log(response);
 
-
+		const data = response.data
+		return data;
+		
 	} catch (e) {
 		console.log(e);
 		switch (e.response.status) {

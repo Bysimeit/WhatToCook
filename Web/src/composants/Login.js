@@ -1,62 +1,55 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {login} from '../api/user';
-import {getCustomer} from '../api/customer'
+import {loginAxios} from '../api/user';
+import {getCustomer} from '../api/customer';
+import {login} from '../store/userSlicer';
 
-const userData = useSelector((state) => state);
 
-class Login extends React.Component{
+export default function Login(){
 
-    constructor(props){
-        super(props);
-        this.state = {
-            email: userData.email,
-            password: userData.password
-        };       
-    }
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const dispatch = useDispatch();
+    const selector = useSelector((state) => console.log(state));useSelector((state) => console.log(state));  
+    useEffect(() => {
+        console.log(selector)
+    }, [selector]);
 
-    async processLogin(){
-        if(await login(this.state.email,this.state.password)){
-            getCustomer(this.state.email);
+    async function processLogin(){
+        if(await loginAxios(email,password)){
+            const data = await getCustomer(email);
+            dispatch(login(data));
+            
         } else {
             console.log("erreur");
         };
     }
 
-    handleSubmit(event) {
+    function handleSubmit(event) {
         event.preventDefault();
-        alert('Le nom a été soumis : ' + this.state.email + this.state.password);
-        this.processLogin();
-        /*if(login(this.state.email,this.state.password)){
-            getCustomer(this.state.email);
-        } else {
-            alert('Compte introuvable');
-        };*/     
+        alert('Le nom a été soumis : ' + email + password);
+        processLogin(); 
     }
 
-    render() {
-        return(
-            <div className="core">
-                <div className="loginPage">
-                    <h2>Connexion</h2>
-                    <form>
-                        <div>
-                            <label htmlFor="mail">e-mail: </label>
-                            <input type="email" id="mail" onChange={(e) => this.setState({email: e.target.value})}/>
-                        </div>
-                        <div>
-                            <label htmlFor="passWord">Mot de passe : </label>
-                            <input type="password" id="passWord" onChange={(e) => this.setState({password: e.target.value})}/>
-                        </div>
-                        <div className="loginButton">
-                            <button type="submit" onClick={(e) => this.handleSubmit(e)}>Connexion</button>
-                        </div>
-                    </form>
-                </div>             
-            </div>
+    return(
+        <div className="core">
+            <div className="loginPage">
+                <h2>Connexion</h2>
+                <form>
+                    <div>
+                        <label htmlFor="mail">e-mail: </label>
+                        <input type="email" id="mail" onChange={(e) => setEmail(e.target.value)}/>                       
+                    </div>
+                    <div>
+                        <label htmlFor="passWord">Mot de passe : </label>
+                        <input type="password" id="passWord" onChange={(e) => setPassword(e.target.value)}/>
+                    </div>
+                    <div className="loginButton">
+                        <button type="submit" onClick={(e) => handleSubmit(e)}>Connexion</button>                        
+                    </div>
+                </form>
+            </div>             
+        </div>
     ); 
-    }
           
 }
-
-export default Login;

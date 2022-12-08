@@ -3,7 +3,7 @@ import axios from 'axios';
 import {API_URL, instance} from './axiosBase';
 
 
-const login = async (email, password) => {
+const loginAxios = async (email, password) => {
 	
 	try {
 		console.log("debut axios");
@@ -41,4 +41,4 @@ const login = async (email, password) => {
 	}
 };
 
-export {login}
+export {loginAxios}
