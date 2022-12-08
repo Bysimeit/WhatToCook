@@ -12,7 +12,12 @@ export const counterSlice = createSlice({
 
   reducers: {
     login: (state, action) => {
-      state.value += action.payload
+      state.value += action.payload;
+      state.email = '';
+      state.firstName = '';
+      state.name = '';
+      state.picture = '';
+      state.isAdmin =  '';
     }
   }
 })

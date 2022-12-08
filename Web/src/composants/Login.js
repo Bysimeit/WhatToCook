@@ -1,21 +1,37 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import {login} from '../api/user';
+import {getCustomer} from '../api/customer'
 
 class Login extends React.Component{
+
+    
 
     constructor(props){
         super(props);
         this.state = {
             email: '',
             password: ''
+        };       
+    }
+
+    async processLogin(){
+        if(await login(this.state.email,this.state.password)){
+            getCustomer(this.state.email);
+        } else {
+            console.log("erreur");
         };
-        
     }
 
     handleSubmit(event) {
         event.preventDefault();
-        alert('Le nom a été soumis : ' + this.state.email + this.state.password + login(this.state.email,this.state.password));
-        
+        alert('Le nom a été soumis : ' + this.state.email + this.state.password);
+        this.processLogin();
+        /*if(login(this.state.email,this.state.password)){
+            getCustomer(this.state.email);
+        } else {
+            alert('Compte introuvable');
+        };*/     
     }
 
     render() {

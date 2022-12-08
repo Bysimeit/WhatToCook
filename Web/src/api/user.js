@@ -1,5 +1,4 @@
 import axios from 'axios';
-//import jwt_decode from 'jwt-decode';
 
 import {API_URL, instance} from './axiosBase';
 
@@ -8,6 +7,7 @@ const login = async (email, password) => {
 	
 	try {
 		console.log("debut axios");
+		localStorage.setItem('token', undefined);
         const response = await axios({
             method: 'post',
             url: `${API_URL}/user`,
@@ -21,9 +21,6 @@ const login = async (email, password) => {
 		const token = response.data;
 		console.log(token);
 		localStorage.setItem('token', token);
-		/*const decoded = token == null ? null : jwt_decode(token);
-		const status = decoded == null ? null : decoded.status;
-		sessionStorage.setItem('status',status);*/
 
 		/*instance =  axios.create({
 			baseURL: API_URL,
