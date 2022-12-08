@@ -1,17 +1,17 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {login} from '../api/user';
 import {getCustomer} from '../api/customer'
 
-class Login extends React.Component{
+const userData = useSelector((state) => state);
 
-    
+class Login extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
-            email: '',
-            password: ''
+            email: userData.email,
+            password: userData.password
         };       
     }
 
