@@ -1,8 +1,15 @@
-import { ADD_RECIPE } from "./actionsType";
+import { ADD_RECIPE, SET_RECIPES } from "./actionsType";
 
-export function addRecipe(title, time, price, rate, urlImage) {
+export function addRecipe(namerecipe, time, total, quoting, picture) {
     return {
         type: ADD_RECIPE,
-        payload: {title, time, price, rate, urlImage}
+        payload: {namerecipe, time, total, quoting, picture}
     };
+}
+
+export function setRecipes(recipes) {
+    return {
+        type: SET_RECIPES,
+        payload: {recipes}
+    }
 }

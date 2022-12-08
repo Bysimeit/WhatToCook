@@ -6,6 +6,9 @@ import RecipeTile from '../../components/RecipeTile';
 import { useDispatch, useSelector } from 'react-redux';
 import { getRecipe } from "../../redux/selectors";
 
+import useFetchRecipe from '../../services/useFetchRecipe';
+import { setRecipes } from '../../redux/actions/recipeList';
+
 import Header from '../../components/Header';
 import NavBar from '../../components/NavBar';
 
@@ -13,6 +16,18 @@ export default function Receipts({navigation}) {
     const active = "middle";
 
     const recipe = useSelector(getRecipe);
+    const { recipeFetch } = useFetchRecipe();
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        recipeFetch().then((result) => {
+            if (result.status === 200) {
+                dispatch(setRecipes(result.data));
+            }
+        });
+    }, []);
+    
     const renderItem = ({item}) => {
         return (
             <RecipeTile recipe={item} />

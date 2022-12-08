@@ -1,22 +1,21 @@
-import { ADD_RECIPE } from "../actions/actionsType";
+import { ADD_RECIPE, SET_RECIPES } from "../actions/actionsType";
 
-initialStateRecipe = [
-    {id: 0, title: "Tiramusu", time: 30, price: 10, rate: 3, urlImage: "https://assets.afcdn.com/recipe/20161123/1509_w1024h1024c1cx1920cy2880.jpg"},
-    {id: 1, title: "Lasagne", time: 50, price: 20, rate: 4, urlImage: "https://images.radio-canada.ca/v1/alimentation/recette/4x3/lasagne-25129.jpg"},
-    {id: 2, title: "Salade grecque", time: 25, price: 15, rate: 5, urlImage: "https://assets.afcdn.com/recipe/20190704/94668_w1024h1024c1cx2736cy1824.jpg"}
-];
+initialStateRecipe = [];
 
 export const recipeList = (state = initialStateRecipe, action) => {
     switch(action.type) {
         case ADD_RECIPE:
             return [...state, {
                 id: state.length,
-                title: action.payload.title,
+                namerecipe: action.payload.namerecipe,
                 time: action.payload.time,
-                price: action.payload.price,
-                rate: action.payload.rate,
-                urlImage: action.payload.urlImage
+                total: action.payload.total,
+                quoting: action.payload.quoting,
+                picture: action.payload.picture
             }];
+        case SET_RECIPES:
+            state = action.payload.recipes;
+            return state;
         default:
             return state;
     }

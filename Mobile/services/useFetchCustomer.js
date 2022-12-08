@@ -1,10 +1,11 @@
 import axios from "react-native-axios";
-import { Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import { IP_API } from "./config";
 
 export default function useFetchCustomer() {
     const loginFetch = async (email, password) => {
-        const response = await axios.post(`http://192.168.0.132:3001/user`, {
+        const response = await axios.post(`${IP_API}/user`, {
             "email": email,
             "password": password
         });
@@ -14,14 +15,14 @@ export default function useFetchCustomer() {
 
     const profileFetch = async (email) => {
         const token = await AsyncStorage.getItem("token");
-        const response = await axios.get(`http://192.168.0.132:3001/customer/${email}`, { headers: {'Authorization': `Bearer ${token}` }});
+        const response = await axios.get(`${IP_API}/customer/${email}`, { headers: {'Authorization': `Bearer ${token}` }});
 
         return {status: response.status, data: response.data};
     };
 
     const changePassword = async (oldPassword, newPassword, oldEmail) => {
         const token = await AsyncStorage.getItem("token");
-        const response = await axios.patch(`http://192.168.0.132:3001/customer`, {
+        const response = await axios.patch(`${IP_API}/customer`, {
             "oldPassword": oldPassword,
             "newPassword": newPassword,
             "oldEmail": oldEmail
@@ -32,7 +33,7 @@ export default function useFetchCustomer() {
 
     const deleteCustomer = async (id) => {
         const token = await AsyncStorage.getItem("token");
-        const response = await axios.delete(`http://192.168.0.132:3001/customer`, {
+        const response = await axios.delete(`${IP_API}/customer`, {
             "id": id
         }, { headers: {'Authorization': `Bearer ${token}` }});
 
@@ -40,7 +41,7 @@ export default function useFetchCustomer() {
     };
 
     const newCustomer = async (lastName, firstName, password, email) => {
-        const response = await axios.post(`http://192.168.0.132:3001/customer`, {
+        const response = await axios.post(`${IP_API}/customer`, {
             "lastName": lastName,
             "firstName": firstName,
             "password": password,

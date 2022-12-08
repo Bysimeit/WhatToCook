@@ -6,11 +6,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 export default function RecipeTile({recipe}) {
     return (
         <Pressable style={styles.container}>
-            <Image source={{uri: recipe.urlImage}} style={styles.recipeImage}/>
+            <Image source={{uri: recipe.picture}} style={styles.recipeImage}/>
             <View style={styles.recipeDetails}>
-                <Text style={styles.recipeTitle}>{ recipe.title }</Text>
+                <Text style={styles.recipeTitle}>{ recipe.namerecipe }</Text>
                 <View style={styles.viewFav}>
-                    <Text style={styles.favText}>{ recipe.rate }</Text>
+                    <Text style={styles.favText}>{ recipe.quoting }</Text>
                     <Ionicons name='star' size={30} style={styles.starIcon}/>
                 </View>
                 <View style={styles.viewDuration}>
@@ -19,7 +19,7 @@ export default function RecipeTile({recipe}) {
                 </View>
                 <View style={styles.viewPrice}>
                     <Ionicons name='cash-outline' size={30} style={styles.priceIcon}/>
-                    <Text style={styles.priceText}>{ recipe.price } euros</Text>
+                    <Text style={styles.priceText}>{ recipe.total } euros</Text>
                 </View>
             </View>
         </Pressable>
