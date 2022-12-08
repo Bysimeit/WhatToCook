@@ -80,21 +80,17 @@ export default function Fridge({ navigation }) {
         onAddNewFood(dateConversion);
     };
 
-    const [idCustomer, setIdCustomer] = React.useState(null);
     const fetchInfo = async () => {
-        const infoUser = await AsyncStorage.getItem("infoUser");
-        const idCustomer = JSON.parse(infoUser);
-        setIdCustomer(idCustomer.id);
+        foodFetch(JSON.parse(await AsyncStorage.getItem("infoUser")).id).then((result) => {
+            if (result.status === 200) {
+                dispatch(setFood(result.data));
+            }
+        });
     };
 
     const { foodFetch } = useFetchFridge();
     useEffect(() => {
         fetchInfo();
-        foodFetch(idCustomer).then((result) => {
-            if (result.status === 200) {
-                dispatch(setFood(result.data));
-            }
-        });
     }, []);
 
     function showAddFoodTitle() {
