@@ -6,7 +6,7 @@ export const foodList = (state = initialStateFood, action) => {
     switch(action.type) {
         case ADD_FOOD:
             return [...state, {
-                id: state.length,
+                id: action.payload.id,
                 name: action.payload.name,
                 quantity: action.payload.quantity,
                 weight: action.payload.weight,

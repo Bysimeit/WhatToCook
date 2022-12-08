@@ -20,15 +20,20 @@ export default function useFetchFridge() {
             "weight": weight
         }, { headers: {'Authorization': `Bearer ${token}` }});
 
-        return {status: response.status};
+        return {status: response.status, data: response.data};
     };
 
     const deleteFoodFetch = async (idCustomer, idFood) => {
         const token = await AsyncStorage.getItem("token");
-        const response = await axios.delete(`${IP_API}/fridge`, {
-            "idCustomer": idCustomer,
-            "idFood": idFood
-        }, { headers: {'Authorization': `Bearer ${token}` }});
+        const response = await axios({
+            method: "delete",
+            url: `${IP_API}/fridge`,
+            data: {
+                idCustomer,
+                idFood
+            },
+            headers: {'Authorization': `Bearer ${token}` }
+        });
 
         return {status: response.status};
     };

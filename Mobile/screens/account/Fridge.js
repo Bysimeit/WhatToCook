@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Text, View, StyleSheet, ScrollView, FlatList, Pressable } from 'react-native';
+import { Text, View, StyleSheet, ScrollView, FlatList, Pressable, Alert } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
 import { addFood } from "../../redux/actions/foodList";
@@ -33,33 +33,60 @@ export default function Fridge({ navigation }) {
     };
     
     const handleCancelTitle  = () => {
+        setFoodTitle('');
         setVisibleTitle(false);
     };
 
     const handleNextTitle  = () => {
-        setVisibleTitle(false);
-        setVisibleQuantity(true);
+        if (foodTitle !== '') {
+            setVisibleTitle(false);
+            setVisibleQuantity(true);
+        } else {
+            setFoodTitle('');
+            Alert.alert("Erreur !", "Veuillez mettre un nom à votre aliment.");
+        }
     };
     
     const handleCancelQuantity  = () => {
+        setFoodTitle('');
+        setFoodQuantity('');
         setVisibleQuantity(false);
     };
 
     const handleNextQuantity   = () => {
-        setVisibleQuantity(false);
-        setVisibleWeight(true);
+        if (foodQuantity !== '') {
+            setVisibleQuantity(false);
+            setVisibleWeight(true);
+        } else {
+            setFoodTitle('');
+            setFoodQuantity('');
+            Alert.alert("Erreur !", "Veuillez insérer une quantitée.");
+        }
     };
     
     const handleCancelWeight = () => {
+        setFoodTitle(''),
+        setFoodQuantity('');
+        setFoodWeight('');
         setVisibleWeight(false);
     };
 
     const handleNextWeight  = () => {
-        setVisibleWeight(false);
-        setVisibleExpirationDateInfo(true);
+        if (foodWeight !== '') {
+            setVisibleWeight(false);
+            setVisibleExpirationDateInfo(true);
+        } else {
+            setFood(''),
+            setFoodQuantity('');
+            setFoodWeight('');
+            Alert.alert("Erreur !", "Veuillez insérer un poids.");
+        }
     };
 
     const handleCancelExpirationDateInfo = () => {
+        setFood(''),
+        setFoodQuantity('');
+        setFoodWeight('');
         setVisibleExpirationDateInfo(false);
     };
 
@@ -68,9 +95,17 @@ export default function Fridge({ navigation }) {
         setVisibleExpirationDate(true);
     };
 
-    const onAddNewFood = (dateConversion) => {
-        if (foodTitle === "") return;
-        dispatch(addFood(foodTitle, foodQuantity, foodWeight, dateConversion));
+    const { addFoodFetch } = useFetchFridge();
+    const onAddNewFood = async (dateConversion) => {
+        addFoodFetch(JSON.parse(await AsyncStorage.getItem("infoUser")).id, foodTitle, foodQuantity, foodWeight).then((result) => {
+            if (result.status === 201) {
+                dispatch(addFood(result.data, foodTitle, foodQuantity, foodWeight, dateConversion));
+                Alert.alert("Ajouté");
+            }
+        });
+        setFoodTitle(''),
+        setFoodQuantity('');
+        setFoodWeight('');
     }
 
     const onChange = (event, selectedDate) => {
@@ -85,6 +120,9 @@ export default function Fridge({ navigation }) {
             if (result.status === 200) {
                 dispatch(setFood(result.data));
             }
+        }).catch((e) => {
+            console.error(e);
+            Alert.alert("Erreur !", "Un problème est survenu lors de la récupération des données.");
         });
     };
 

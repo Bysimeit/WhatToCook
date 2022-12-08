@@ -33,9 +33,14 @@ export default function useFetchCustomer() {
 
     const deleteCustomer = async (id) => {
         const token = await AsyncStorage.getItem("token");
-        const response = await axios.delete(`${IP_API}/customer`, {
-            "id": id
-        }, { headers: {'Authorization': `Bearer ${token}` }});
+        const response = await axios({
+            method: "delete",
+            url: `${IP_API}/customer`,
+            data: {
+                id
+            },
+            headers: {'Authorization': `Bearer ${token}` }
+        });
 
         return {status: response.status};
     };

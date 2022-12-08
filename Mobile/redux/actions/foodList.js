@@ -1,9 +1,9 @@
 import { ADD_FOOD, DELETE_FOOD, SET_FOOD } from "./actionsType";
 
-export function addFood(name, quantity, weight, expirationDate) {
+export function addFood(id, name, quantity, weight, date) {
     return {
 	    type: ADD_FOOD,
-   		payload: {name, quantity, weight, expirationDate}
+   		payload: {id, name, quantity, weight, date}
     };
 }
 
