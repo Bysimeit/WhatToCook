@@ -44,7 +44,8 @@ module.exports.postNewFoodCustomer = async (req, res) => {
             result = await CustomerFoodModel.postNewCustomerFood(client, idCustomer, idFood, quantity, weight);
             if(result.rows !== undefined){
                 await client.query("COMMIT");
-                res.json(result.rows);
+                const rows = result.rows[0];
+                res.json(rows.idcustomer + ',' + rows.idfood + ',' +  rows.to_char);
             } else {
                 res.sendStatus(404);
             }
