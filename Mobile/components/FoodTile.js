@@ -1,13 +1,24 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Image, Pressable } from 'react-native';
+import { Text, View, StyleSheet, Image, Pressable, Alert } from 'react-native';
 import { useDispatch } from "react-redux";
 import { deleteFood } from "../redux/actions/foodList";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import useFetchFridge from '../services/useFetchFridge';
 
 export default function FoodTile({food}) {
     const dispatch = useDispatch();
 
-    const onDeleteTask = () => {
-        dispatch(deleteFood(food.id));
+    const { deleteFoodFetch } = useFetchFridge();
+    const onDeleteTask = async () => {
+        deleteFoodFetch(JSON.parse(await AsyncStorage.getItem("infoUser")).id, food.id).then((result) => {
+            if (result.status === 204) {
+                dispatch(deleteFood(food.id));
+            }
+        }).catch((e) => {
+            console.error(e);
+            Alert.alert("Erreur !", "Une erreur est survenue lors de la suppression !");
+        });
     }
 
     return (

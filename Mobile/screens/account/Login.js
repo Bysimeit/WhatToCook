@@ -28,13 +28,13 @@ export default function Login({ navigation }) {
               await AsyncStorage.setItem("eMail", email);
               navigation.navigate("Profile");
             } else {
-              onChangePassword(null);
+              onChangePassword('');
               Alert.alert("Erreur !", "Adresse eMail ou mot de passe incorrect !");
             }
           }).catch((e) => {
             switch (e.response.status) {
               case 404:
-                onChangePassword(null);
+                onChangePassword('');
                 Alert.alert("Erreur !", "Adresse eMail ou mot de passe incorrect !");
             }
           });
