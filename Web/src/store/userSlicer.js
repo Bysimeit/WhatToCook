@@ -13,12 +13,14 @@ export const counterSlice = createSlice({
 
   reducers: {
     login: (state, action) => {
-      state.id += action.payload.id;
-      state.email = action.payload.email;
-      state.firstName = action.payload.firstName;
-      state.name = action.payload.name;
-      state.picture = action.payload.picture;
-      state.isAdmin =  action.payload.isAdmin;
+      const data = action.payload[0];
+
+      state.id = data.id;
+      state.email = data.email;
+      state.firstName = data.firstname;
+      state.name = data.name;
+      state.picture = data.picture;
+      state.isAdmin =  data.isAdmin;
     }
   }
 })

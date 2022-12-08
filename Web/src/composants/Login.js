@@ -10,7 +10,7 @@ export default function Login(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
-    const selector = useSelector((state) => console.log(state));useSelector((state) => console.log(state));  
+    const selector = useSelector((state) => state);  
     useEffect(() => {
         console.log(selector)
     }, [selector]);
@@ -18,8 +18,7 @@ export default function Login(){
     async function processLogin(){
         if(await loginAxios(email,password)){
             const data = await getCustomer(email);
-            dispatch(login(data));
-            
+            dispatch(login(data));          
         } else {
             console.log("erreur");
         };
