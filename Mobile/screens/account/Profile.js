@@ -3,6 +3,8 @@ import { Text, View, StyleSheet, Alert, TextInput, Pressable, Image } from 'reac
 import CheckBox from 'expo-checkbox';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProfile } from '../../redux/selectors';
 
 import useFetchCustomer from '../../services/useFetchCustomer';
 
@@ -11,13 +13,18 @@ import NavBar from '../../components/NavBar';
 import ProfileInfos from '../../components/ProfileInfos';
 
 export default function Profile({ navigation }) {
+    const dispatch = useDispatch();
+
+    /*
     const [name, onChangeName] = React.useState('');
     const [firstName, onChangeFirstName] = React.useState('');
     const [eMail, onChangeEMail] = React.useState('');
+    */
 
     const [newsletterSelected, setNewletterSelection] = React.useState(false);
 
-    const { profileFetch } = useFetchCustomer();
+    //const { profileFetch } = useFetchCustomer();
+    /*
     const fillProfile = async () => {
         profileFetch(await AsyncStorage.getItem("eMail")).then(async (result) => {
             if (result.status === 200) {
@@ -34,6 +41,7 @@ export default function Profile({ navigation }) {
             Alert.alert("Erreur !", "Un problème est survenu lors de la récupération des données.");
         });
     };
+    */
 
     const handlePressPassword = () => {
         navigation.navigate('ChangePassword');
@@ -87,6 +95,9 @@ export default function Profile({ navigation }) {
         console.log("Ne veut pas la newsletter");
     }
 
+    const profile = useSelector(getProfile);
+    console.log(profile)
+
     useEffect(() => {
         /*
         AsyncStorage.getItem("profilImg").then((err,urlImage) => {
@@ -100,7 +111,7 @@ export default function Profile({ navigation }) {
             console.log("Ne veut pas la newsletter");
         }
         */
-        fillProfile();
+        //fillProfile();
         getImage();
     }, [navigation]);
 
@@ -125,7 +136,7 @@ export default function Profile({ navigation }) {
                 <Pressable onPress={pickImage}>
                     <Image style={styles.iconUser} source={!image ? require('../../assets/account/iconDefaultUser.png') : {uri: image} }/>
                 </Pressable>
-                <ProfileInfos/>
+                <ProfileInfos profile={profile}/>
                 <Pressable style={[styles.buttonPassword, styles.shadowBox]} onPress={handlePressPassword}>
                     <Text style={styles.textButton}>Changer de mot de passe</Text>
                 </Pressable>

@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View, StyleSheet, TextInput, ScrollView, Pressable, Alert } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch } from 'react-redux';
-import { setProfile } from '../../redux/actions/profileList';
+import { addProfile } from '../../redux/actions/profileList';
 
 import useFetchCustomer from '../../services/useFetchCustomer';
 
@@ -28,18 +28,17 @@ export default function Login({ navigation }) {
               onChangeEMail('');
               onChangePassword('');
               await AsyncStorage.setItem("token", result.data);
-              await AsyncStorage.setItem("eMail", email);
+              //await AsyncStorage.setItem("eMail", email);
 
-              let jsonData;
+              //let jsonData;
               profileFetch(email).then((result) => {
                 if (result.status === 200) {
-                  jsonData = JSON.stringify(result.data[0]);
-                  dispatch(setProfile(jsonData));
+                  //jsonData = JSON.stringify(result.data[0]);
+                  console.log(result.data);
+                  dispatch(addProfile(result.data[0].name, result.data[0].firstname, result.data[0].email));
+                  navigation.navigate("Profile");
                 }
               });
-
-
-              navigation.navigate("Profile");
             } else {
               onChangePassword('');
               Alert.alert("Erreur !", "Adresse eMail ou mot de passe incorrect !");

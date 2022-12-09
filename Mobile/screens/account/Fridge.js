@@ -206,10 +206,6 @@ export default function Fridge({ navigation }) {
     const active = "none";
     const foods = useSelector(getFood);
 
-    useEffect(() =>{
-
-        console.log(foods)
-    }, [foods])
     const renderItem = ({item}) => {
         return (
             <FoodTile food={item} />
