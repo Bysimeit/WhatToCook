@@ -84,7 +84,7 @@ export default function Fridge({ navigation }) {
     };
 
     const handleCancelExpirationDateInfo = () => {
-        setFood(''),
+        setFoodTitle(''),
         setFoodQuantity('');
         setFoodWeight('');
         setVisibleExpirationDateInfo(false);
@@ -116,7 +116,9 @@ export default function Fridge({ navigation }) {
     };
 
     const fetchInfo = async () => {
-        foodFetch(JSON.parse(await AsyncStorage.getItem("infoUser")).id).then((result) => {
+        const resolve = await AsyncStorage.getItem("infoUser");
+        
+        foodFetch(JSON.parse(resolve).id).then((result) => {
             if (result.status === 200) {
                 dispatch(setFood(result.data));
             }
@@ -203,6 +205,11 @@ export default function Fridge({ navigation }) {
 
     const active = "none";
     const foods = useSelector(getFood);
+
+    useEffect(() =>{
+
+        console.log(foods)
+    }, [foods])
     const renderItem = ({item}) => {
         return (
             <FoodTile food={item} />

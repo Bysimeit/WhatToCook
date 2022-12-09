@@ -4,3 +4,5 @@ export const SET_FOOD = "SET_FOOD";
 
 export const ADD_RECIPE = "ADD_RECIPE";
 export const SET_RECIPES = "SET_RECIPES";
+
+export const SET_PROFILE = "SET_PROFILE";

@@ -8,6 +8,7 @@ import useFetchCustomer from '../../services/useFetchCustomer';
 
 import Header from '../../components/Header';
 import NavBar from '../../components/NavBar';
+import ProfileInfos from '../../components/ProfileInfos';
 
 export default function Profile({ navigation }) {
     const [name, onChangeName] = React.useState('');
@@ -124,18 +125,7 @@ export default function Profile({ navigation }) {
                 <Pressable onPress={pickImage}>
                     <Image style={styles.iconUser} source={!image ? require('../../assets/account/iconDefaultUser.png') : {uri: image} }/>
                 </Pressable>
-                <View style={styles.inputView}>
-                    <Text>Nom :</Text>
-                    <TextInput editable={false} style={[styles.input, styles.shadowBox]} onChangeText={onChangeName} value={name}/>
-                </View>
-                <View style={styles.inputView}>
-                    <Text>Prénom :</Text>
-                    <TextInput editable={false} style={[styles.input, styles.shadowBox]} onChangeText={onChangeFirstName} value={firstName}/>
-                </View>
-                <View style={styles.inputView}>
-                    <Text>EMail :</Text>
-                    <TextInput editable={false} style={[styles.input, styles.shadowBox]} onChangeText={onChangeEMail} value={eMail}/>
-                </View>
+                <ProfileInfos/>
                 <Pressable style={[styles.buttonPassword, styles.shadowBox]} onPress={handlePressPassword}>
                     <Text style={styles.textButton}>Changer de mot de passe</Text>
                 </Pressable>

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Text, View, StyleSheet, TextInput, ScrollView, Pressable, Alert } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch } from 'react-redux';
+import { setProfile } from '../../redux/actions/profileList';
 
 import useFetchCustomer from '../../services/useFetchCustomer';
 
@@ -15,7 +17,8 @@ export default function Login({ navigation }) {
     navigation.navigate('PasswordForget');
   };
 
-  const { loginFetch } = useFetchCustomer();
+  const { loginFetch, profileFetch } = useFetchCustomer();
+  const dispatch = useDispatch();
   const handlePressConnect = () => {
       if (email !== '') {
         if (password !== '') {
@@ -26,6 +29,16 @@ export default function Login({ navigation }) {
               onChangePassword('');
               await AsyncStorage.setItem("token", result.data);
               await AsyncStorage.setItem("eMail", email);
+
+              let jsonData;
+              profileFetch(email).then((result) => {
+                if (result.status === 200) {
+                  jsonData = JSON.stringify(result.data[0]);
+                  dispatch(setProfile(jsonData));
+                }
+              });
+
+
               navigation.navigate("Profile");
             } else {
               onChangePassword('');
