@@ -9,9 +9,9 @@ export const profileList = (state = initialStateProfile, action) => {
                 name: action.payload.name,
                 firstname: action.payload.firstname,
                 email: action.payload.email
-            }]
+            }];
         case SET_PROFILE:
-            state = action.payload.recipes
+            state = action.payload.profile
             return state;
         default:
             return state;

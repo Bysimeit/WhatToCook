@@ -11,13 +11,14 @@ export default function useFetchFridge() {
         return {status: response.status, data: response.data};
     };
 
-    const addFoodFetch = async (idCustomer, nameFood, quantity, weight) => {
+    const addFoodFetch = async (idCustomer, nameFood, quantity, weight, date) => {
         const token = await AsyncStorage.getItem("token");
         const response = await axios.post(`${IP_API}/fridge`, {
             "idCustomer": idCustomer,
             "nameFood": nameFood,
             "quantity": quantity,
-            "weight": weight
+            "weight": weight,
+            "date": date
         }, { headers: {'Authorization': `Bearer ${token}` }});
 
         return {status: response.status, data: response.data};

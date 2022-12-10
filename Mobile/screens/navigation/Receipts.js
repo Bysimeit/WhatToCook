@@ -1,13 +1,18 @@
 import React, {useState, useEffect} from 'react';
-import { Text, View, StyleSheet, Image, ScrollView, Pressable } from 'react-native';
+import { Text, View, StyleSheet, Image, ScrollView, Pressable, Alert } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import RecipeTile from '../../components/RecipeTile';
 import { useDispatch, useSelector } from 'react-redux';
 import { getRecipe } from "../../redux/selectors";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import useFetchRecipe from '../../services/useFetchRecipe';
+import useFetchCustomer from '../../services/useFetchCustomer';
+import useFetchFridge from '../../services/useFetchFridge';
 import { setRecipes } from '../../redux/actions/recipeList';
+import { setProfile } from '../../redux/actions/profileList';
+import { setFood } from '../../redux/actions/foodList';
 
 import Header from '../../components/Header';
 import NavBar from '../../components/NavBar';
@@ -17,6 +22,32 @@ export default function Receipts({navigation}) {
 
     const recipe = useSelector(getRecipe);
     const { recipeFetch } = useFetchRecipe();
+    const { profileFetch } = useFetchCustomer();
+    const { foodFetch } = useFetchFridge();
+
+    const [connected, setConnected] = React.useState(null);
+    const [email, setEmail] = React.useState('');
+    const checkConnection = async () => {
+        //const tokenValue = await AsyncStorage.getItem("token");
+        setConnected(await AsyncStorage.getItem("token") !== null);
+        if (connected) {
+            profileFetch(await AsyncStorage.getItem("email")).then(async (result) => {
+                if (result.status === 200) {
+                    dispatch(setProfile(result.data));
+    
+                    foodFetch(result.data[0].id).then((result) => {
+                        if (result.status === 200) {
+                            dispatch(setFood(result.data));
+                        }
+                    });
+                }
+            }).catch((e) => {
+                console.error(e);
+                Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération du profil.");
+            });
+        }
+    }
+    checkConnection();
 
     const dispatch = useDispatch();
 

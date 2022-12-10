@@ -6,15 +6,15 @@ export default function ProfileInfos({profile}) {
         <View>
             <View style={styles.inputView}>
                 <Text>Nom :</Text>
-                <TextInput editable={false} style={[styles.input, styles.shadowBox]} value={profile.name}/>
+                <TextInput editable={false} style={[styles.input, styles.shadowBox]} value={profile[0].name}/>
             </View>
             <View style={styles.inputView}>
                 <Text>Prénom :</Text>
-                <TextInput editable={false} style={[styles.input, styles.shadowBox]} value={profile.firstname}/>
+                <TextInput editable={false} style={[styles.input, styles.shadowBox]} value={profile[0].firstname}/>
             </View>
             <View style={styles.inputView}>
                 <Text>EMail :</Text>
-                <TextInput editable={false} style={[styles.input, styles.shadowBox]} value={profile.email}/>
+                <TextInput editable={false} style={[styles.input, styles.shadowBox]} value={profile[0].email}/>
             </View>
         </View>
     );

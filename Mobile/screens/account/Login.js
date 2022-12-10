@@ -1,10 +1,13 @@
 import React from 'react';
 import { Text, View, StyleSheet, TextInput, ScrollView, Pressable, Alert } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import { useDispatch } from 'react-redux';
-import { addProfile } from '../../redux/actions/profileList';
+import { setProfile } from '../../redux/actions/profileList';
+import { setFood } from '../../redux/actions/foodList';
 
 import useFetchCustomer from '../../services/useFetchCustomer';
+import useFetchFridge from '../../services/useFetchFridge';
 
 import Header from '../../components/Header';
 import NavBar from '../../components/NavBar';
@@ -18,6 +21,8 @@ export default function Login({ navigation }) {
   };
 
   const { loginFetch, profileFetch } = useFetchCustomer();
+  const { foodFetch } = useFetchFridge();
+
   const dispatch = useDispatch();
   const handlePressConnect = () => {
       if (email !== '') {
@@ -28,16 +33,25 @@ export default function Login({ navigation }) {
               onChangeEMail('');
               onChangePassword('');
               await AsyncStorage.setItem("token", result.data);
-              //await AsyncStorage.setItem("eMail", email);
+              await AsyncStorage.setItem("email", email);
 
-              //let jsonData;
-              profileFetch(email).then((result) => {
+              profileFetch(email).then(async (result) => {
                 if (result.status === 200) {
-                  //jsonData = JSON.stringify(result.data[0]);
-                  console.log(result.data);
-                  dispatch(addProfile(result.data[0].name, result.data[0].firstname, result.data[0].email));
+                  const jsonData = JSON.stringify(result.data[0]);
+                  await AsyncStorage.setItem("infoUser", jsonData);
+                  dispatch(setProfile(result.data));
+
+                  foodFetch(result.data[0].id).then((result) => {
+                    if (result.status === 200) {
+                      dispatch(setFood(result.data));
+                    }
+                  });
+
                   navigation.navigate("Profile");
                 }
+              }).catch((e) => {
+                console.error(e);
+                Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération du profil.");
               });
             } else {
               onChangePassword('');
@@ -70,7 +84,7 @@ export default function Login({ navigation }) {
         </View>
         <View style={styles.inputView}>
           <Text>Mot de passe :</Text>
-          <TextInput style={[styles.input, styles.shadowBox]} secureTextEntry={true} onChangeText={onChangePassword}/>
+          <TextInput style={[styles.input, styles.shadowBox]} secureTextEntry={true} onChangeText={onChangePassword} value={password}/>
         </View>
         <Pressable style={[styles.buttonPWForget, styles.shadowBox]} onPress={ handlePressButtonPW }>
             <Text style={styles.textButton}>Mot de passe oublié</Text>

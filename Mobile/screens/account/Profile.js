@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, Alert, TextInput, Pressable, Image } from 'reac
 import CheckBox from 'expo-checkbox';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getProfile } from '../../redux/selectors';
 
 import useFetchCustomer from '../../services/useFetchCustomer';
@@ -13,35 +13,7 @@ import NavBar from '../../components/NavBar';
 import ProfileInfos from '../../components/ProfileInfos';
 
 export default function Profile({ navigation }) {
-    const dispatch = useDispatch();
-
-    /*
-    const [name, onChangeName] = React.useState('');
-    const [firstName, onChangeFirstName] = React.useState('');
-    const [eMail, onChangeEMail] = React.useState('');
-    */
-
     const [newsletterSelected, setNewletterSelection] = React.useState(false);
-
-    //const { profileFetch } = useFetchCustomer();
-    /*
-    const fillProfile = async () => {
-        profileFetch(await AsyncStorage.getItem("eMail")).then(async (result) => {
-            if (result.status === 200) {
-                const jsonData = JSON.stringify(result.data[0]);
-                await AsyncStorage.setItem("infoUser", jsonData);
-                onChangeName(result.data[0].name);
-                onChangeFirstName(result.data[0].firstname);
-                onChangeEMail(result.data[0].email);
-            } else {
-                Alert.alert("Erreur !", "Un problème est survenu lors de la récupération des données.");
-            }
-        }).catch((e) => {
-            console.error(e);
-            Alert.alert("Erreur !", "Un problème est survenu lors de la récupération des données.");
-        });
-    };
-    */
 
     const handlePressPassword = () => {
         navigation.navigate('ChangePassword');
@@ -96,22 +68,8 @@ export default function Profile({ navigation }) {
     }
 
     const profile = useSelector(getProfile);
-    console.log(profile)
 
     useEffect(() => {
-        /*
-        AsyncStorage.getItem("profilImg").then((err,urlImage) => {
-            setImage(urlImage);
-        }).catch((error) => {
-            console.log(error);
-        });
-        if (newsletterSelected) {
-            console.log("Veut la newsletter");
-        } else {
-            console.log("Ne veut pas la newsletter");
-        }
-        */
-        //fillProfile();
         getImage();
     }, [navigation]);
 

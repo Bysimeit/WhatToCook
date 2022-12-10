@@ -8,7 +8,6 @@ export default function FetchrecipeList() {
     const fillRecipeList = async () => {
         recipeFetch().then(async (result) => {
             if (result.status === 200) {
-                console.log(result.data);
                 setStateRecipe(result.data);
             }
         });

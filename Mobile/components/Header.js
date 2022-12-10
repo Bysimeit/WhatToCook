@@ -10,14 +10,12 @@ import useFetchCustomer from '../services/useFetchCustomer';
 export default function Header({ navigation }) {
     const [isMenuVisible, setMenuVisible] = useState(false);
 
-    let tokenValue;
     const [connected, setConnected] = React.useState(null);
-    const test = async () => {
-        tokenValue = await AsyncStorage.getItem("token");
+    const checkConnection = async () => {
+        const tokenValue = await AsyncStorage.getItem("token");
         setConnected(tokenValue !== null)
     }
-
-    test();
+    checkConnection();
 
     const handlePressLogin = () => {
         navigation.navigate('Login');
@@ -48,6 +46,7 @@ export default function Header({ navigation }) {
     const handlePressLogOut = async () => {
         await AsyncStorage.removeItem("token");
         await AsyncStorage.removeItem("infoUser");
+        await AsyncStorage.removeItem("email");
         navigation.navigate('Login');
         setMenuVisible(false);
     };

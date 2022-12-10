@@ -10,7 +10,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import FoodTile from '../../components/FoodTile';
 
 import useFetchFridge from '../../services/useFetchFridge';
-import { setFood } from '../../redux/actions/foodList';
 
 import Header from '../../components/Header';
 import NavBar from '../../components/NavBar';
@@ -76,7 +75,7 @@ export default function Fridge({ navigation }) {
             setVisibleWeight(false);
             setVisibleExpirationDateInfo(true);
         } else {
-            setFood(''),
+            setFoodTitle(''),
             setFoodQuantity('');
             setFoodWeight('');
             Alert.alert("Erreur !", "Veuillez insérer un poids.");
@@ -97,11 +96,14 @@ export default function Fridge({ navigation }) {
 
     const { addFoodFetch } = useFetchFridge();
     const onAddNewFood = async (dateConversion) => {
-        addFoodFetch(JSON.parse(await AsyncStorage.getItem("infoUser")).id, foodTitle, foodQuantity, foodWeight).then((result) => {
-            if (result.status === 201) {
+        addFoodFetch(JSON.parse(await AsyncStorage.getItem("infoUser")).id, foodTitle, foodQuantity, foodWeight, dateConversion).then(async (result) => {
+            if (result.status === 200) {
                 dispatch(addFood(result.data, foodTitle, foodQuantity, foodWeight, dateConversion));
                 Alert.alert("Ajouté");
             }
+        }).catch((e) => {
+            console.error(e);
+            Alert.alert("Erreur !", "Un problème est survenu lors de l'ajout d'un aliment.");
         });
         setFoodTitle(''),
         setFoodQuantity('');
@@ -115,6 +117,7 @@ export default function Fridge({ navigation }) {
         onAddNewFood(dateConversion);
     };
 
+    /*
     const fetchInfo = async () => {
         const resolve = await AsyncStorage.getItem("infoUser");
         
@@ -127,10 +130,11 @@ export default function Fridge({ navigation }) {
             Alert.alert("Erreur !", "Un problème est survenu lors de la récupération des données.");
         });
     };
+    */
 
-    const { foodFetch } = useFetchFridge();
+    //const { foodFetch } = useFetchFridge();
     useEffect(() => {
-        fetchInfo();
+        //fetchInfo();
     }, []);
 
     function showAddFoodTitle() {
