@@ -44,14 +44,15 @@ module.exports.getDataRecipe = async (client, id) => {
     return await client.query(`
     SELECT
         R.*,
-        array_agg((FQ.quantity, f.name)) AS foods
-    FROM 
+        array_agg((FQ.quantity, f.name)) AS foods,
+        (SELECT array_agg(s.text) AS steps FROM step s WHERE s.idrecipe = r.id)
+    FROM
         recipe R
-    JOIN food_quantity fq ON R.id = fq.idrecipe
-    JOIN food f ON fq.idfood = f.id
-    WHERE 
+        JOIN food_quantity fq ON R.id = fq.idrecipe
+        JOIN food f ON fq.idfood = f.id
+    WHERE
         R.id = $1
-    GROUP BY 
+    GROUP BY
         R.id`,[id]);
 }
 

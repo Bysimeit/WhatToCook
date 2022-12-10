@@ -10,6 +10,12 @@ export default function useFetchRecipe() {
         return {status: response.status, data: response.data};
     };
 
+    const recipeDataFetch = async (id) => {
+        const response = await axios.get(`${IP_API}/recipe/${id}`);
+
+        return {status: response.status, data: response.data};
+    };
+
     /*
     const randomRecipeFetch = async () => {
         const response = await 
@@ -17,7 +23,8 @@ export default function useFetchRecipe() {
     */
     
     return {
-        recipeFetch
+        recipeFetch,
+        recipeDataFetch
         //randomRecipeFetch
     };
 };

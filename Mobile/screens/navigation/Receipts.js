@@ -61,7 +61,7 @@ export default function Receipts({navigation}) {
     
     const renderItem = ({item}) => {
         return (
-            <RecipeTile recipe={item} />
+            <RecipeTile recipe={item} navigation={navigation}/>
         );
     }
     

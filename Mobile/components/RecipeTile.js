@@ -1,11 +1,31 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Image, Pressable } from 'react-native';
-import { useDispatch } from "react-redux";
+import { Text, View, StyleSheet, Image, Pressable, Alert } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function RecipeTile({recipe}) {
+import useFetchRecipe from '../services/useFetchRecipe';
+
+export default function RecipeTile({recipe, navigation}) {
+    const { recipeDataFetch } = useFetchRecipe();
+
+    const consultData = async () => {
+        recipeDataFetch(recipe.id).then(async (result) => {
+            if (result.status === 200) {
+                await AsyncStorage.removeItem("recipeData");
+                //console.log(result.data)
+
+                navigation.navigate("RecipeDetail", {
+                    data: result.data
+                });
+            }
+        }).catch((e) => {
+            console.error(e);
+            Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération de la recette.");
+        });
+    }
+
     return (
-        <Pressable style={styles.container}>
+        <Pressable style={styles.container} onPress={consultData}>
             <Image source={{uri: recipe.picture}} style={styles.recipeImage}/>
             <View style={styles.recipeDetails}>
                 <Text style={styles.recipeTitle}>{ recipe.namerecipe }</Text>

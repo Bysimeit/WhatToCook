@@ -13,6 +13,7 @@ import ChangePassword from './screens/account/ChangePassword';
 import PasswordForget from './screens/account/PasswordForget';
 import Allergies from './screens/account/Allergies';
 import Fridge from './screens/account/Fridge';
+import RecipeDetail from './screens/navigation/RecipeDetail';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -33,8 +34,8 @@ export default function App() {
             tabBarStyle: { display: 'none' },
             headerShown: false
         }}>
-          <Tab.Screen name="Research" component={ Research } />
           <Tab.Screen name="Receipts" component={ Receipts } />
+          <Tab.Screen name="Research" component={ Research } />
           <Tab.Screen name="Discovery" component={ Discovery } />
           <Tab.Screen name="Login" component={ Login } />
           <Tab.Screen name="PasswordForget" component={ PasswordForget } />
@@ -43,6 +44,7 @@ export default function App() {
           <Tab.Screen name="ChangePassword" component={ ChangePassword } />
           <Tab.Screen name="Fridge" component={ Fridge } />
           <Tab.Screen name="Allergies" component={ Allergies } />
+          <Tab.Screen name="RecipeDetail" component={ RecipeDetail } />
         </Tab.Navigator>
       </NavigationContainer>
     </Provider>

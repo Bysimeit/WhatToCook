@@ -1,20 +1,23 @@
 import React, {useState, useEffect} from 'react';
 import { Text, View, StyleSheet, Image, ScrollView, Pressable } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import RecipeData from '../../components/RecipeData';
 
 import Header from '../../components/Header';
 import NavBar from '../../components/NavBar';
 
-export default function Discovery({navigation}) {
-    const active = "right";
+export default function RecipeDetail({route, navigation}) {
+    const active = "none";
+
+    const dataJSON = route.params;
 
     return (
         <View style={styles.page}>
             <View style={styles.content}>
-                <Text style={styles.title}>Découverte</Text>
-                <Text style={styles.subTitle}>Nous vous proposons de découvrir la recette suivante :</Text>
-                <RecipeData/>
+                <Text style={styles.title}>Détail de la recette</Text>
+                <Text style={styles.subTitle}>Voici les différents aliments et étapes pour réaliser la recette :</Text>
+                <RecipeData recipeData={dataJSON.data[0]}/>
             </View>
             <Header navigation={navigation}/>
             <NavBar navigation={navigation} active={active}/>
