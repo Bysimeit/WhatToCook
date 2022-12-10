@@ -23,7 +23,7 @@ module.exports.getResearchRecipe = async (client, type, time, allergies) => {
         requestSet.push(` '${allergie}' `);
     }
     request += requestSet.join();
-    request += `))) GROUP BY R.ip`;
+    request += `))) GROUP BY R.id, adddate, quoting, namerecipe, time, picture, type`;
     console.log(request);
     return await client.query(request);
 }
