@@ -28,9 +28,9 @@ module.exports.getAllFood = async (req, res) => {
 }
 
 module.exports.postNewFoodCustomer = async (req, res) => {
-    const {idCustomer, nameFood, quantity, weight} = req.body;
+    const {idCustomer, nameFood, quantity, weight, date} = req.body;
 
-    if(idCustomer === undefined || nameFood === undefined || quantity === undefined || weight === undefined) {
+    if(idCustomer === undefined || nameFood === undefined || quantity === undefined || weight === undefined || date === undefined) {
         res.sendStatus(400);
     } else {
         const client = await pool.connect();
@@ -41,7 +41,7 @@ module.exports.postNewFoodCustomer = async (req, res) => {
                 result = await FoodModel.postNewFood(client, nameFood, false);              
             }       
             let idFood = result.rows[0].id;
-            result = await CustomerFoodModel.postNewCustomerFood(client, idCustomer, idFood, quantity, weight);
+            result = await CustomerFoodModel.postNewCustomerFood(client, idCustomer, idFood, quantity, weight, date);
             if(result.rows !== undefined){
                 await client.query("COMMIT");
                 const rows = result.rows[0];
