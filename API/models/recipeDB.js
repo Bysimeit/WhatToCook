@@ -24,20 +24,12 @@ module.exports.getResearchRecipe = async (client, type, time, allergies) => {
     }
     request += requestSet.join();
     request += `))) GROUP BY R.id, adddate, quoting, namerecipe, time, picture, type`;
-    console.log(request);
+
     return await client.query(request);
 }
 
 module.exports.getRandomRecipe = async(client) => {
-    return await client.query(`
-    SELECT
-        R.*,
-        SUM (F.price) AS total
-    FROM
-        Recipe R
-        INNER JOIN Food_Quantity FQ ON FQ.idRecipe = R.id
-        INNER JOIN Food F ON F.id = FQ.idFood
-    GROUP BY random(), R.id limit 10`);
+    return await client.query(`SELECT count(*) AS recipes FROM recipe`);
 }
 
 module.exports.getListRecipe = async(client) => {
@@ -57,7 +49,8 @@ module.exports.getDataRecipe = async (client, id) => {
     SELECT
         R.*,
         array_agg((FQ.quantity, f.name)) AS foods,
-        (SELECT array_agg(s.text) AS steps FROM step s WHERE s.idrecipe = r.id)
+        (SELECT array_agg(s.text) AS steps FROM step s WHERE s.idrecipe = r.id),
+        SUM (F.price) AS total
     FROM
         recipe R
         JOIN food_quantity fq ON R.id = fq.idrecipe

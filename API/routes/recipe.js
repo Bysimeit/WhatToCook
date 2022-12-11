@@ -1,5 +1,5 @@
 const AuthoMiddleware = require("../middleware/authorization");
-const RecipeController = require("../controllers/recipeCtrl")
+const RecipeController = require("../controllers/recipeCtrl");
 const JWTMiddleWare = require("../middleware/identification");
 
 const Router = require("express-promise-router");
@@ -9,7 +9,7 @@ router.get('/', RecipeController.getListeRecipe); //ajouter la façon d'être co
 router.get('/:id', RecipeController.getDataRecipe);
 router.get('/random', RecipeController.getRandomRecipe);
 router.post('/', JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, RecipeController.postNewRecipe);
-router.patch('/', JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, RecipeController.udpateRecipe); 
+router.patch('/', JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, RecipeController.udpateRecipe);
 router.delete('/', JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, RecipeController.deleteRecipe);
 
 

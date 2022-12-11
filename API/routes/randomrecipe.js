@@ -1,11 +1,10 @@
 const AuthoMiddleware = require("../middleware/authorization");
-const UserController = require("../controllers/userCtrl");
+const RecipeController = require("../controllers/recipeCtrl");
 const JWTMiddleWare = require("../middleware/identification");
 
 const Router = require("express-promise-router");
 const router = new Router;
 
-router.post('/', UserController.login);
-
+router.get('/', RecipeController.getRandomRecipe);
 
 module.exports = router;

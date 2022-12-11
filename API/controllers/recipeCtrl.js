@@ -33,16 +33,22 @@ module.exports.getListeRecipe = async (req, res) => {
 }
 
 module.exports.getRandomRecipe = async (req, res) => {
-    
     const client = await pool.connect();
+    
     try {
-        let result = await RecipeModel.getRandomRecipe();
+        let result;
+        result = await RecipeModel.getRandomRecipe(client);
+        
+        let randomNumber = Math.random();
+        let randomNumberBetween = Math.floor(randomNumber * result.rows[0].recipes) + 1;
 
-        if(result.rows !== undefined){
+        result = await RecipeModel.getDataRecipe(client, randomNumberBetween);
+
+        if (result.rows !== undefined) {
             res.json(result.rows);
         } else {
             res.sendStatus(404);
-        }           
+        }
                   
     } catch (e) {
         console.error(e);
