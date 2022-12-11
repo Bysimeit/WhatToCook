@@ -28,6 +28,18 @@ module.exports.getResearchRecipe = async (client, type, time, allergies) => {
     return await client.query(request);
 }
 
+module.exports.getRandomRecipe = async(client) => {
+    return await client.query(`
+    SELECT
+        R.*,
+        SUM (F.price) AS total
+    FROM
+        Recipe R
+        INNER JOIN Food_Quantity FQ ON FQ.idRecipe = R.id
+        INNER JOIN Food F ON F.id = FQ.idFood
+    GROUP BY random(), R.id limit 10`);
+}
+
 module.exports.getListRecipe = async(client) => {
     return await client.query(`
     SELECT

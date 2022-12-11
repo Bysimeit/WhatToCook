@@ -32,6 +32,26 @@ module.exports.getListeRecipe = async (req, res) => {
     }
 }
 
+module.exports.getRandomRecipe = async (req, res) => {
+    
+    const client = await pool.connect();
+    try {
+        let result = await RecipeModel.getRandomRecipe();
+
+        if(result.rows !== undefined){
+            res.json(result.rows);
+        } else {
+            res.sendStatus(404);
+        }           
+                  
+    } catch (e) {
+        console.error(e);
+        res.sendStatus(500);
+    } finally {
+        client.release();
+    }
+}
+
 module.exports.getDataRecipe = async (req, res) => {
     const idText = req.params.id;
     const id = parseInt(idText);
