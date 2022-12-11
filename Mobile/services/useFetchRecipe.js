@@ -16,15 +16,15 @@ export default function useFetchRecipe() {
         return {status: response.status, data: response.data};
     };
 
-    /*
     const randomRecipeFetch = async () => {
-        const response = await 
+        const response = await axios.get(`${IP_API}/randomrecipe`);
+
+        return {status: response.status, data: response.data};
     };
-    */
     
     return {
         recipeFetch,
-        recipeDataFetch
-        //randomRecipeFetch
+        recipeDataFetch,
+        randomRecipeFetch
     };
-};
+}

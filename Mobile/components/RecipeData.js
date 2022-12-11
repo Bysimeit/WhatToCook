@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Text, View, StyleSheet, Image, Pressable, TextInput } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default function DiscoveryTile({recipeData}) {
+export default function RecipeData({recipeData}) {
     const [numberPerson, onChangeNumber] = React.useState('1');
     
     const starOne = () => {
