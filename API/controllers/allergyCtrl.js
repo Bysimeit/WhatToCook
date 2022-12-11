@@ -44,17 +44,19 @@ module.exports.postNewAllergy = async (req, res) => {
 module.exports.updateAllergy = async (req, res) => {
     const {id, name} = req.body;
 
-    
-    const client = await pool.connect();
-    
-    try{
-        await AllergyModel.updateAllergy(client, name, id);
-        res.sendStatus(204);
-    } catch (error){
-        console.error(error);
-        res.sendStatus(500);
-    } finally {
-        client.release();
+    if(id === undefined || name === undefined){
+        res.sendStatus(400);
+    } else {
+        const client = await pool.connect(); 
+        try{
+            await AllergyModel.updateAllergy(client, name, id);
+            res.sendStatus(204);
+        } catch (error){
+            console.error(error);
+            res.sendStatus(500);
+        } finally {
+            client.release();
+        }
     }
 }
 

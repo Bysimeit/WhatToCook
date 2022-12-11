@@ -1,7 +1,6 @@
 //get
 
 module.exports.getAllCustomerFood = async (client, idCustomer) => {
-
     return await client.query("SELECT CF.quantity, F.name, to_char(CF.date,'dd/MM/yyyy') AS date, CF.weight, F.id FROM Customer_Food CF INNER JOIN Food F ON F.id = CF.idFood WHERE idCustomer = $1",[idCustomer]);
 }
 
