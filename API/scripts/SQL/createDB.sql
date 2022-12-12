@@ -3,7 +3,7 @@
 DROP TABLE IF EXISTS Allergy CASCADE;
 CREATE TABLE Allergy (
     id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    name varchar(30) UNIQUE  not null
+    name varchar(50) UNIQUE  not null
 );
 
 DROP TABLE IF EXISTS Customer CASCADE;
@@ -86,7 +86,7 @@ DROP TABLE IF EXISTS Recipe_Step CASCADE;
 -- Insert
 
 INSERT INTO Allergy(name)
-VALUES('Gluten'),('Crustacean'),('Eggs'),('Peanuts'),('Fish'),('Soy'),('Lactose'),('Nuts'),('Celery'),('Mustard'),('SesameSeed'),('Anhydride'),('Lupin'),('Mollusc');
+VALUES('Gluten'),('Crustacés'),('Œufs'),('Arachides'),('Poisson'),('Soja'),('Lactose'),('Fruits à coques'),('Céleri'),('Moutarde'),('Graine de sésame'),('Anhydride sulfureux et sulfites'),('Lupin'),('Mollusques');
 INSERT INTO Customer(email, firstName, name, password, isAdmin)
 VALUES('admin@gmail.com','Admin','Private','$2b$10$Ov.jqcwGxqGghlEAqJWHrO/EM/GXiC93rRlURiigwHYnZd1vZ.SnO',true), ('user1@gmail.com','user1','name1','$2b$10$1Hlc.OahudqUXb414C05wOSpBHU5ReP8DnWjuPowvlC13vnB314vu',false);
 INSERT INTO Food(name, idAllergy, isValidated, price)
