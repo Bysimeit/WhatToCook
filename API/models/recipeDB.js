@@ -8,22 +8,26 @@ module.exports.getResearchRecipe = async (client, type, time, allergies) => {
     
     const requestSet = [];
     let request = `
-    SELECT 
+    SELECT
         R.*,
-        SUM (F.price) AS total
-    FROM 
-        Recipe R 
-        INNER JOIN Food_Quantity FQ ON FQ.idRecipe = R.id 
-        INNER JOIN Food F ON F.id = FQ.idFood 
-        WHERE time <= ${time} AND type = ${type} AND (F.idAllergy is null OR F.idAllergy NOT IN ( 
-            SELECT A.id 
-            FROM Allergy A 
-            WHERE (A.name) IN (`;
+        F.idallergy
+    FROM
+        Recipe R
+        INNER JOIN Food_Quantity FQ ON FQ.idRecipe = R.id
+        INNER JOIN Food F ON F.id = FQ.idFood
+    WHERE R.time <= 50 AND R.type = 3 AND R.id NOT IN (
+        SELECT
+            R.id
+        FROM
+            Recipe R
+            INNER JOIN Food_Quantity FQ ON FQ.idRecipe = R.id
+            INNER JOIN Food F ON F.id = FQ.idFood
+        WHERE F.idAllergy is null OR F.idAllergy IN (`;
     for (let allergie of allergies) {
         requestSet.push(` '${allergie}' `);
     }
     request += requestSet.join();
-    request += `))) GROUP BY R.id, adddate, quoting, namerecipe, time, picture, type`;
+    request += `))`;
 
     return await client.query(request);
 }
