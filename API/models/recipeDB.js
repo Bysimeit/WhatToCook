@@ -14,7 +14,7 @@ module.exports.getResearchRecipe = async (client, type, time, allergies) => {
         Recipe R
         INNER JOIN Food_Quantity FQ ON FQ.idRecipe = R.id
         INNER JOIN Food F ON F.id = FQ.idFood
-    WHERE R.time <= 50 AND R.type = 3 AND R.id NOT IN (
+    WHERE R.time <= $1 AND R.type = $2 AND R.id NOT IN (
         SELECT
             R.id
         FROM
@@ -28,7 +28,7 @@ module.exports.getResearchRecipe = async (client, type, time, allergies) => {
     request += requestSet.join();
     request += `))GROUP BY R.id`;
 
-    return await client.query(request);
+    return await client.query(request, [time, type]);
 }
 
 module.exports.getRandomRecipe = async(client) => {
