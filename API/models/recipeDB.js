@@ -9,7 +9,8 @@ module.exports.getResearchRecipe = async (client, type, time, allergies) => {
     const requestSet = [];
     let request = `
     SELECT
-        R.*
+        R.*,
+        SUM (F.price) AS total
     FROM
         Recipe R
         INNER JOIN Food_Quantity FQ ON FQ.idRecipe = R.id
