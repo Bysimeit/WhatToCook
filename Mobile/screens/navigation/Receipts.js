@@ -26,9 +26,8 @@ export default function Receipts({navigation}) {
     const { foodFetch } = useFetchFridge();
 
     const [connected, setConnected] = React.useState(null);
-    const [email, setEmail] = React.useState('');
     const checkConnection = async () => {
-        //const tokenValue = await AsyncStorage.getItem("token");
+
         setConnected(await AsyncStorage.getItem("token") !== null);
         if (connected) {
             profileFetch(await AsyncStorage.getItem("email")).then(async (result) => {

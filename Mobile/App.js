@@ -14,6 +14,7 @@ import PasswordForget from './screens/account/PasswordForget';
 import Allergies from './screens/account/Allergies';
 import Fridge from './screens/account/Fridge';
 import RecipeDetail from './screens/navigation/RecipeDetail';
+import ResultResearch from './screens/navigation/ResultResearch';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -45,6 +46,7 @@ export default function App() {
           <Tab.Screen name="Fridge" component={ Fridge } />
           <Tab.Screen name="Allergies" component={ Allergies } />
           <Tab.Screen name="RecipeDetail" component={ RecipeDetail } />
+          <Tab.Screen name="ResultResearch" component={ ResultResearch } />
         </Tab.Navigator>
       </NavigationContainer>
     </Provider>

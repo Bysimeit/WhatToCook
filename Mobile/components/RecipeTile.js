@@ -12,8 +12,6 @@ export default function RecipeTile({recipe, navigation}) {
         recipeDataFetch(recipe.id).then(async (result) => {
             if (result.status === 200) {
                 await AsyncStorage.removeItem("recipeData");
-                //console.log(result.data)
-
                 navigation.navigate("RecipeDetail", {
                     data: result.data
                 });
@@ -28,18 +26,18 @@ export default function RecipeTile({recipe, navigation}) {
         <Pressable style={styles.container} onPress={consultData}>
             <Image source={{uri: recipe.picture}} style={styles.recipeImage}/>
             <View style={styles.recipeDetails}>
-                <Text style={styles.recipeTitle}>{ recipe.namerecipe }</Text>
+                <Text style={styles.recipeTitle}>{recipe.namerecipe}</Text>
                 <View style={styles.viewFav}>
                     <Text style={styles.favText}>{ recipe.quoting }</Text>
                     <Ionicons name='star' size={30} style={styles.starIcon}/>
                 </View>
                 <View style={styles.viewDuration}>
                     <Ionicons name='timer-outline' size={30} style={styles.timeIcon}/>
-                    <Text style={styles.timeText}>{ recipe.time } minutes</Text>
+                    <Text style={styles.timeText}>{recipe.time} minutes</Text>
                 </View>
                 <View style={styles.viewPrice}>
                     <Ionicons name='cash-outline' size={30} style={styles.priceIcon}/>
-                    <Text style={styles.priceText}>{ recipe.total } euros</Text>
+                    <Text style={styles.priceText}>{recipe.total} euros</Text>
                 </View>
             </View>
         </Pressable>

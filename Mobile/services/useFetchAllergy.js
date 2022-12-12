@@ -8,4 +8,8 @@ export default function useFetchAllergy() {
 
         return {status: response.status, data: response.data};
     };
+
+    return {
+        allAllergyFetch
+    };
 }

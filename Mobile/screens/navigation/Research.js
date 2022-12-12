@@ -1,33 +1,21 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Text, View, StyleSheet, ScrollView, TextInput, Button, Alert, Pressable } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 import CheckBox from 'expo-checkbox';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import useFetchAllergy from '../../services/useFetchAllergy';
+import useFetchRecipe from '../../services/useFetchRecipe';
+
 import Header from '../../components/Header';
 import NavBar from '../../components/NavBar';
 
 export default function Research({ navigation }) {
-    const [value, setValue] = React.useState('starter');
-    const [number, onChangeNumber] = React.useState('');
+    const [valueType, setValueType] = React.useState('1');
+    const [numberTime, onChangeNumberTime] = React.useState();
 
     const [fridgeSelected, setFridgeSelection] = React.useState(false);
-
-    const [glutenSelected, setGlutenSelection] = React.useState(false);
-    const [crustaceanSelected, setCrustaceanSelection] = React.useState(false);
-    const [eggsSelected, setEggsSelection] = React.useState(false);
-    const [peanutsSelected, setPeanutsSelection] = React.useState(false);
-    const [fishSelected, setFishSelection] = React.useState(false);
-    const [soySelected, setSoySelection] = React.useState(false);
-    const [lactoseSelected, setLactoseSelection] = React.useState(false);
-    const [nutsSelected, setNutsSelection] = React.useState(false);
-    const [celerySelected, setCelerySelection] = React.useState(false);
-    const [mustardSelected, setMustardSelection] = React.useState(false);
-    const [sesameSeedSelected, setSesameSeedSelection] = React.useState(false);
-    const [anhydrideSelected, setAnhydrideSelection] = React.useState(false);
-    const [lupinSelected, setLupinSelection] = React.useState(false);
-    const [molluscSelected, setMolluscSelection] = React.useState(false);
 
     const active = "left";
 
@@ -43,6 +31,83 @@ export default function Research({ navigation }) {
 
     checkIsConnected();
 
+    const { allAllergyFetch } = useFetchAllergy();
+
+    const [allAllergyName, setAllAllergyName] = React.useState();
+    const [allAllergy, setAllAllergy] = React.useState();
+
+    const [selectedAllergy, setSelectedAllergy] = React.useState([]);
+
+    const forAllergy = () => {
+        if (allAllergyName !== undefined) {
+            return (
+                <View>
+                    {allAllergyName.map(allergy => (
+                        <View key={allergy} style={styles.checkBoxContainer}>
+                            <CheckBox
+                                value={selectedAllergy.includes(allergy)}
+                                onValueChange={() => {
+                                    if (selectedAllergy.includes(allergy)) {
+                                        setSelectedAllergy(selectedAllergy.filter(i => i !== allergy));
+                                    } else {
+                                        setSelectedAllergy([...selectedAllergy, allergy]);
+                                    }
+                                }} style={styles.checkbox} color='grey'/>
+                            <Text style={styles.checkBoxLabel}>{allergy}</Text>
+                        </View>
+                    ))}
+                </View>
+            );
+        }
+    };
+
+    const { recipeSearchFetch } = useFetchRecipe();
+    const startResearch = () => {
+        if (numberTime === undefined) {
+            Alert.alert("Erreur !", "Veuillez indiquer la durée durant laquelle vous pouvez cuisiner.");
+        } else {
+            let idAllergies = [];
+            if (selectedAllergy.length === 0) {
+                idAllergies.push(0);
+            } else {
+                for (let i = 0; i < selectedAllergy.length; i++) {
+                    for (let y = 0; y < allAllergy.length; y++) {
+                        if (selectedAllergy[i] === allAllergy[y].name) {
+                            idAllergies.push(allAllergy[y].id);
+                        }
+                    }
+                }
+            }
+
+            recipeSearchFetch(valueType, numberTime, idAllergies).then((result) => {
+                if (result.status === 200) {
+                    navigation.navigate("ResultResearch", {
+                        data: result.data
+                    })
+                }
+            }).catch((e) => {
+                console.error(e);
+                Alert.alert("Erreur !", "Une erreur est survenue lors de la recherce des recettes.");
+            });
+        }
+    };
+
+    useEffect(() => {
+        allAllergyFetch().then((result) => {
+            if (result.status === 200) {
+                let nameAllergy = [];
+                for (let i = 0; i < result.data.length; i++) {
+                    nameAllergy.push(result.data[i].name);
+                }
+                setAllAllergyName(nameAllergy);
+                setAllAllergy(result.data);
+            }
+        }).catch((e) => {
+            console.error(e);
+            Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération des allergies.");
+        });
+    }, []);
+
     return (
         <View style={styles.page}>
             <ScrollView style={styles.mainPage}>
@@ -50,25 +115,25 @@ export default function Research({ navigation }) {
                 <View style={styles.container}>
                     <View>
                         <Text>Quelle type de plat cherchez-vous ?</Text>
-                        <RadioButton.Group onValueChange={newValue => setValue(newValue)} value={value}>
+                        <RadioButton.Group onValueChange={newValue => setValueType(newValue)} value={valueType}>
                             <View style={styles.buttonLabel}>
                                 <Text style={{marginTop: '2.8%'}} >Entrée</Text>
-                                <RadioButton value="starter" color='grey' />
+                                <RadioButton value="1" color='grey' />
                             </View>
                             <View style={styles.buttonLabel}>
                                 <Text style={{marginTop: '2.8%'}} >Plat</Text>
-                                <RadioButton value="dish" color='grey' />
+                                <RadioButton value="2" color='grey' />
                             </View>
                             <View style={styles.buttonLabel}>
                                 <Text style={{marginTop: '2.8%'}} >Dessert</Text>
-                                <RadioButton value="dessert" color='grey' />
+                                <RadioButton value="3" color='grey' />
                             </View>
                         </RadioButton.Group>
                     </View>
                     <View style={styles.separeView}>
                         <Text>Combien de temps pouvez-vous cuisiner ?</Text>
                         <View style={styles.numericField}>
-                            <TextInput keyboardType='numeric' onChangeText={onChangeNumber} value={number} style={styles.input} placeholder='0' maxLength={3} />
+                            <TextInput keyboardType='numeric' onChangeText={onChangeNumberTime} value={numberTime} style={styles.input} placeholder='0' maxLength={3} />
                             <Text style={{marginTop: '3.5%'}} > minutes</Text>
                         </View>
                     </View>
@@ -89,65 +154,10 @@ export default function Research({ navigation }) {
                     </View>
                     <View style={styles.separeView}>
                         <Text>Avez-vous des allergies ?</Text>
-                        <View style={styles.checkBoxContainer}>
-                            <CheckBox value={glutenSelected} onValueChange={setGlutenSelection} style={styles.checkbox} color='grey' />
-                            <Text style={styles.checkBoxLabel}>Gluten</Text>
-                        </View>
-                        <View style={styles.checkBoxContainer}>
-                            <CheckBox value={crustaceanSelected} onValueChange={setCrustaceanSelection} style={styles.checkbox} color='grey' />
-                            <Text style={styles.checkBoxLabel}>Crustacés</Text>
-                        </View>
-                        <View style={styles.checkBoxContainer}>
-                            <CheckBox value={eggsSelected} onValueChange={setEggsSelection} style={styles.checkbox} color='grey' />
-                            <Text style={styles.checkBoxLabel}>Œufs</Text>
-                        </View>
-                        <View style={styles.checkBoxContainer}>
-                            <CheckBox value={peanutsSelected} onValueChange={setPeanutsSelection} style={styles.checkbox} color='grey' />
-                            <Text style={styles.checkBoxLabel}>Arachides</Text>
-                        </View>
-                        <View style={styles.checkBoxContainer}>
-                            <CheckBox value={fishSelected} onValueChange={setFishSelection} style={styles.checkbox} color='grey' />
-                            <Text style={styles.checkBoxLabel}>Poisson</Text>
-                        </View>
-                        <View style={styles.checkBoxContainer}>
-                            <CheckBox value={soySelected} onValueChange={setSoySelection} style={styles.checkbox} color='grey' />
-                            <Text style={styles.checkBoxLabel}>Soja</Text>
-                        </View>
-                        <View style={styles.checkBoxContainer}>
-                            <CheckBox value={lactoseSelected} onValueChange={setLactoseSelection} style={styles.checkbox} color='grey' />
-                            <Text style={styles.checkBoxLabel}>Lactose</Text>
-                        </View>
-                        <View style={styles.checkBoxContainer}>
-                            <CheckBox value={nutsSelected} onValueChange={setNutsSelection} style={styles.checkbox} color='grey' />
-                            <Text style={styles.checkBoxLabel}>Fruits à coques</Text>
-                        </View>
-                        <View style={styles.checkBoxContainer}>
-                            <CheckBox value={celerySelected} onValueChange={setCelerySelection} style={styles.checkbox} color='grey' />
-                            <Text style={styles.checkBoxLabel}>Céleri</Text>
-                        </View>
-                        <View style={styles.checkBoxContainer}>
-                            <CheckBox value={mustardSelected} onValueChange={setMustardSelection} style={styles.checkbox} color='grey' />
-                            <Text style={styles.checkBoxLabel}>Moutarde</Text>
-                        </View>
-                        <View style={styles.checkBoxContainer}>
-                            <CheckBox value={sesameSeedSelected} onValueChange={setSesameSeedSelection} style={styles.checkbox} color='grey' />
-                            <Text style={styles.checkBoxLabel}>Graine de sésame</Text>
-                        </View>
-                        <View style={styles.checkBoxContainer}>
-                            <CheckBox value={anhydrideSelected} onValueChange={setAnhydrideSelection} style={styles.checkbox} color='grey' />
-                            <Text style={styles.checkBoxLabel}>Anhydride sulfureux et sulfites</Text>
-                        </View>
-                        <View style={styles.checkBoxContainer}>
-                            <CheckBox value={lupinSelected} onValueChange={setLupinSelection} style={styles.checkbox} color='grey' />
-                            <Text style={styles.checkBoxLabel}>Lupin</Text>
-                        </View>
-                        <View style={[styles.checkBoxContainer, styles.lastCheckBox]}>
-                            <CheckBox value={molluscSelected} onValueChange={setMolluscSelection} style={styles.checkbox} color='grey' />
-                            <Text style={styles.checkBoxLabel}>Mollusques</Text>
-                        </View>
+                        {forAllergy()}
                     </View>
-                    <View>
-                        <Button title='Rechercher' color="#787474" onPress={() => Alert.alert('Ptdr, il n\'y a pas encore l\'API.')} />
+                    <View style={styles.buttonSearch}>
+                        <Button title='Rechercher' color="#787474" onPress={startResearch} />
                     </View>
                 </View>
             </ScrollView>
@@ -231,5 +241,8 @@ const styles = StyleSheet.create({
     },
     loginAllowedLabel: {
         display: 'none'
+    },
+    buttonSearch: {
+        marginTop: 10
     }
 });

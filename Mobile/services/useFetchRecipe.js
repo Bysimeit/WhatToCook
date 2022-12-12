@@ -21,10 +21,17 @@ export default function useFetchRecipe() {
 
         return {status: response.status, data: response.data};
     };
+
+    const recipeSearchFetch = async (type, time, allergies) => {
+        const response = await axios.get(`${IP_API}/recipe?type=${type}&time=${time}&allergies=${allergies}`);
+
+        return {status: response.status, data: response.data};
+    };
     
     return {
         recipeFetch,
         recipeDataFetch,
-        randomRecipeFetch
+        randomRecipeFetch,
+        recipeSearchFetch
     };
 }
