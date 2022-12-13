@@ -15,19 +15,25 @@ module.exports.getResearchRecipe = async (client, type, time, allergies) => {
         Recipe R
         INNER JOIN Food_Quantity FQ ON FQ.idRecipe = R.id
         INNER JOIN Food F ON F.id = FQ.idFood
-    WHERE R.time <= $1 AND R.type = $2 AND R.id NOT IN (
-        SELECT
-            R.id
-        FROM
-            Recipe R
-            INNER JOIN Food_Quantity FQ ON FQ.idRecipe = R.id
-            INNER JOIN Food F ON F.id = FQ.idFood
-        WHERE F.idAllergy is null OR F.idAllergy IN (`;
-    for (let allergie of allergies) {
-        requestSet.push(` '${allergie}' `);
+    WHERE R.time <= $1 AND R.type = $2 ` 
+    if(allergies[0] != 0){
+        request += `AND R.id NOT IN (
+            SELECT
+                R.id
+            FROM
+                Recipe R
+                INNER JOIN Food_Quantity FQ ON FQ.idRecipe = R.id
+                INNER JOIN Food F ON F.id = FQ.idFood
+            WHERE F.idAllergy is null OR F.idAllergy IN (`;
+        for (let allergie of allergies) {
+            requestSet.push(` '${allergie}' `);
+        }
+        request += requestSet.join();
+        request += `))`;
     }
-    request += requestSet.join();
-    request += `))GROUP BY R.id`;
+    
+    request += `GROUP BY R.id`
+    console.log(request);
 
     return await client.query(request, [time, type]);
 }
