@@ -31,15 +31,17 @@ module.exports.getAllCustomerAllergy = async (req, res) => {
 module.exports.postNewCustomerAllergy = async (req, res) => {
     const {idAllergies, idCustomer} = req.body;
 
-    if(idAllergies === undefined || idCustomer === undefined){
+    if(idCustomer === undefined) {
         res.sendStatus(400);
     } else {
         const client = await pool.connect();
         try {
             await client.query("BEGIN"); 
             await CustomerAllergyModel.deleteCustomerAllergy(client, idCustomer);
-            for (let idAllergy of idAllergies) {
-                await CustomerAllergyModel.postNewCustomerAllergy(client, idCustomer, idAllergy);
+            if (idAllergies !== undefined) {
+                for (let idAllergy of idAllergies) {
+                    await CustomerAllergyModel.postNewCustomerAllergy(client, idCustomer, idAllergy);
+                }
             }
             await client.query("COMMIT");
             res.sendStatus(201);
