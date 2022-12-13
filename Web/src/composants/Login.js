@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, {useState, useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {loginAxios} from '../api/user';
 import {getCustomer} from '../api/customer';
 import {login} from '../store/userSlicer';
@@ -12,7 +12,8 @@ export default function Login(){
     const dispatch = useDispatch();
     const selector = useSelector((state) => state);  
     useEffect(() => {
-        console.log(selector)
+        console.log(selector);
+        console.log(localStorage.getItem('token'));
     }, [selector]);
 
     async function processLogin(){

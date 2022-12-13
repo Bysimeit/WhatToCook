@@ -1,14 +1,16 @@
 import React from "react";
-
-import { Link } from "react-router-dom"
-import { useNavigate } from "react-router-dom"
+import {useSelector} from 'react-redux';
+import {Link} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+import picture from '../pictures/imgProfileDefault.jpg';
 
 export default function MenuBar() {
 
-    let navigate = useNavigate();
+    const navigate = useNavigate();
+    const selector = useSelector((state) => state);
     
     function handleClick(){
-        navigate("/Connexion")
+        navigate("/Login")
     }
 
     return (
@@ -21,10 +23,15 @@ export default function MenuBar() {
                 <h2>|</h2>
                 <Link className="option">Découverte</Link>
             </div>
-            <div className="buttons">
-                <button onClick={() => handleClick()}>Connexion</button>
-                <button>Inscrption</button>        
-            </div>
+            {localStorage.getItem('token') == null
+                ?   <div className="buttons">
+                        <button onClick={() => handleClick()}>Connexion</button>
+                        <button>Inscrption</button>        
+                    </div>
+
+                :   <img src={picture} className="menuPicture" alt="photo de profile"/>
+            }
+            
         </div>
     );
 

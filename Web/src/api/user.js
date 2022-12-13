@@ -1,13 +1,13 @@
 import axios from 'axios';
 
-import {API_URL, instance} from './axiosBase';
+import {API_URL} from './axiosBase';
 
 
 const loginAxios = async (email, password) => {
 	
 	try {
 		console.log("debut axios");
-		localStorage.setItem('token', undefined);
+		localStorage.removeItem('token');
         const response = await axios({
             method: 'post',
             url: `${API_URL}/user`,
@@ -21,11 +21,6 @@ const loginAxios = async (email, password) => {
 		const token = response.data;
 		console.log(token);
 		localStorage.setItem('token', token);
-
-		/*instance =  axios.create({
-			baseURL: API_URL,
-			headers: {'Authorization': 'Bearer '+ token}
-		});*/
 
 		return token != null;
 	} catch (e) {

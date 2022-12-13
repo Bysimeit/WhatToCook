@@ -7,6 +7,9 @@ import logo3 from '../pictures/img3Welcome.jpg';
 
 export default function WelcomePage() {
     
+    localStorage.removeItem('token');
+    console.log(localStorage.getItem('token'));
+
     return (
         <div>
             <MenuBar/>

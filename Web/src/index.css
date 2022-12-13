@@ -120,6 +120,15 @@ button:hover {
   flex-direction: row;
 }
 
+.menuPicture{
+  border-radius: 50%;
+  height: 5%;
+  width: 5%;
+  margin-right: 30px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
 .options {
   display: flex;
   margin-left: auto;

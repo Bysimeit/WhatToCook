@@ -16,7 +16,7 @@ const Router = () => {
         <BrowserRouter>
             <Routes>
             <Route path="/" element={<WelcomePage/>} />
-            <Route path="/Connexion" element={<LoginPage/>}/>
+            <Route path="/login" element={<LoginPage/>}/>
             
             {/* pour le test interne*/}
             <Route path="/Admin" element={<ClientAreaPage/>}/>
