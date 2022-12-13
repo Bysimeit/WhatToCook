@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet, Text, View } from 'react-native';
 import Constants from 'expo-constants';
+import NetInfo from '@react-native-community/netinfo';
 
 import Home from './screens/Home';
 import Research from './screens/navigation/Research';
@@ -25,6 +26,16 @@ import { store } from "./redux/store";
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+  const netInfo = NetInfo.useNetInfo();
+
+  if (netInfo.isConnected === null) {
+    console.log("Démarrage");
+  } else {
+    if (!netInfo.isConnected) {
+      Alert.alert("Attention !", "Vous n'êtes pas connecté à internet !\nVérifier votre connexion.");
+    }
+  }
+
   return (
     <Provider store={store}>
       <NavigationContainer>
