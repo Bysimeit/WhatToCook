@@ -7,7 +7,7 @@ module.exports.getAllCustomerFood = async (client, idCustomer) => {
 //post
 
 module.exports.postNewCustomerFood = async (client, idCustomer, idFood, quantity, weight, date) => {
-    return await client.query("INSERT INTO Customer_Food(idCustomer, idFood, date, quantity, weight) VALUES ($1,$2,TO_DATE($3,'DD/MM/YYYY'),$4,$5) RETURNING idcustomer,idfood, to_char(date, 'dd/MM/yyyy')", [idCustomer, idFood, date, quantity, weight]);
+    return await client.query("INSERT INTO Customer_Food(idCustomer, idFood, date, quantity, weight) VALUES ($1,$2,TO_DATE($3,'DD/MM/YYYY'),$4,$5) RETURNING idfood", [idCustomer, idFood, date, quantity, weight]);
 }
 
 //update

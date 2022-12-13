@@ -33,7 +33,6 @@ module.exports.getResearchRecipe = async (client, type, time, allergies) => {
     }
     
     request += `GROUP BY R.id`
-    console.log(request);
 
     return await client.query(request, [time, type]);
 }

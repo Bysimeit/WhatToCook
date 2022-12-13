@@ -45,12 +45,10 @@ module.exports.postNewFoodCustomer = async (req, res) => {
             if(result.rows !== undefined){
                 await client.query("COMMIT");
                 const rows = result.rows[0];
-                res.json(rows.idcustomer + ',' + rows.idfood + ',' +  rows.to_char);
+                res.json(rows.idfood);
             } else {
                 res.sendStatus(404);
             }
-            console.log(result);
-            
         } catch (e) {
             await client.query("ROLLBACK");
             console.error(e);
