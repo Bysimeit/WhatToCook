@@ -12,7 +12,6 @@ export default function Allergies({ navigation }) {
     const { allAllergyFetch, customerAllergyFetch, customerChangeAllergy } = useFetchAllergy();
     const [allAllergyName, setAllAllergyName] = React.useState();
     const [allAllergy, setAllAllergy] = React.useState();
-
     const [selectedAllergy, setSelectedAllergy] = React.useState([]);
     
     const forAllergy = () => {
@@ -38,42 +37,40 @@ export default function Allergies({ navigation }) {
         }
     };
 
-    const customerAllergy = async () => {
-        customerAllergyFetch(JSON.parse(await AsyncStorage.getItem("infoUser")).id).then((result) => {
-            if (result.status === 200) {
-                console.log(result.data)
-                let pushAllergy = [];
-                for (let i = 0; i < result.data.length; i++) {
-                    for (let y = 0; y < allAllergy.length; y++) {
-                        if (result.data[i].idallergy === allAllergy[y].id) {
-                            pushAllergy.push(allAllergy[y].name);
-                        }
-                    }
-                }
-                setSelectedAllergy(pushAllergy);
-            }
-        }).catch((e) => {
-            console.error(e);
-            Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération des allergies de l'utilisateur.");
-        });
-    }
-
     useEffect(() => {
-        allAllergyFetch().then((result) => {
+        allAllergyFetch().then(async (result) => {
             if (result.status === 200) {
                 let nameAllergy = [];
                 for (let i = 0; i < result.data.length; i++) {
                     nameAllergy.push(result.data[i].name);
                 }
+
                 setAllAllergyName(nameAllergy);
                 setAllAllergy(result.data);
+                const allAllergy = result.data;
+
+                customerAllergyFetch(JSON.parse(await AsyncStorage.getItem("infoUser")).id).then((result) => {
+                    if (result.status === 200) {
+                        console.log(result.data)
+                        let pushAllergy = [];
+                        for (let i = 0; i < result.data.length; i++) {
+                            for (let y = 0; y < allAllergy.length; y++) {
+                                if (result.data[i].idallergy === allAllergy[y].id) {
+                                    pushAllergy.push(allAllergy[y].name);
+                                }
+                            }
+                        }
+                        setSelectedAllergy(pushAllergy);
+                    }
+                }).catch((e) => {
+                    console.error(e);
+                    Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération des allergies de l'utilisateur.");
+                });
             }
         }).catch((e) => {
             console.error(e);
             Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération des allergies.");
         });
-
-        customerAllergy();
     }, []);
 
     const handlePressUpdate = async () => {
@@ -90,9 +87,14 @@ export default function Allergies({ navigation }) {
             }
         }
 
-        customerChangeAllergy(JSON.parse(await AsyncStorage.getItem("infoUser")).id, idAllergies);
-
-        Alert.alert("Mise à jour réussie !", "Vos allergies ont bien été mise à jour.");
+        customerChangeAllergy(JSON.parse(await AsyncStorage.getItem("infoUser")).id, idAllergies).then((result) => {
+            if (result.status === 201) {
+                Alert.alert("Mise à jour réussie !", "Vos allergies ont bien été mise à jour.");
+            }
+        }).catch((e) => {
+            console.error(e);
+            Alert.alert("Erreur !", "Une erreur est survenue lors de la mise à jour de vos allergies.");
+        });
     };
 
     const active = "none";
