@@ -24,7 +24,7 @@ module.exports.getResearchRecipe = async (client, type, time, allergies) => {
                 Recipe R
                 INNER JOIN Food_Quantity FQ ON FQ.idRecipe = R.id
                 INNER JOIN Food F ON F.id = FQ.idFood
-            WHERE F.idAllergy is null OR F.idAllergy IN (`;
+            WHERE F.idAllergy IN (`;
         for (let allergie of allergies) {
             requestSet.push(` '${allergie}' `);
         }
