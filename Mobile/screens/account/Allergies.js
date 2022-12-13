@@ -1,27 +1,97 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, View, StyleSheet, Alert, ScrollView, Pressable } from 'react-native';
 import CheckBox from 'expo-checkbox';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import useFetchAllergy from '../../services/useFetchAllergy';
 
 import Header from '../../components/Header';
 import NavBar from '../../components/NavBar';
 
 export default function Allergies({ navigation }) {
-    const [glutenSelected, setGlutenSelection] = React.useState(false);
-    const [crustaceanSelected, setCrustaceanSelection] = React.useState(false);
-    const [eggsSelected, setEggsSelection] = React.useState(false);
-    const [peanutsSelected, setPeanutsSelection] = React.useState(false);
-    const [fishSelected, setFishSelection] = React.useState(false);
-    const [soySelected, setSoySelection] = React.useState(false);
-    const [lactoseSelected, setLactoseSelection] = React.useState(false);
-    const [nutsSelected, setNutsSelection] = React.useState(false);
-    const [celerySelected, setCelerySelection] = React.useState(false);
-    const [mustardSelected, setMustardSelection] = React.useState(false);
-    const [sesameSeedSelected, setSesameSeedSelection] = React.useState(false);
-    const [anhydrideSelected, setAnhydrideSelection] = React.useState(false);
-    const [lupinSelected, setLupinSelection] = React.useState(false);
-    const [molluscSelected, setMolluscSelection] = React.useState(false);
+    const { allAllergyFetch, customerAllergyFetch, customerChangeAllergy } = useFetchAllergy();
+    const [allAllergyName, setAllAllergyName] = React.useState();
+    const [allAllergy, setAllAllergy] = React.useState();
 
-    const handlePressUpdate = () => {
+    const [selectedAllergy, setSelectedAllergy] = React.useState([]);
+    
+    const forAllergy = () => {
+        if (allAllergyName !== undefined) {
+            return (
+                <View>
+                    {allAllergyName.map(allergy => (
+                        <View key={allergy} style={styles.checkBoxContainer}>
+                            <CheckBox
+                                value={selectedAllergy.includes(allergy)}
+                                onValueChange={() => {
+                                    if (selectedAllergy.includes(allergy)) {
+                                        setSelectedAllergy(selectedAllergy.filter(i => i !== allergy));
+                                    } else {
+                                        setSelectedAllergy([...selectedAllergy, allergy]);
+                                    }
+                                }} style={styles.checkbox} color='grey'/>
+                            <Text style={styles.checkBoxLabel}>{allergy}</Text>
+                        </View>
+                    ))}
+                </View>
+            );
+        }
+    };
+
+    const customerAllergy = async () => {
+        customerAllergyFetch(JSON.parse(await AsyncStorage.getItem("infoUser")).id).then((result) => {
+            if (result.status === 200) {
+                console.log(result.data)
+                let pushAllergy = [];
+                for (let i = 0; i < result.data.length; i++) {
+                    for (let y = 0; y < allAllergy.length; y++) {
+                        if (result.data[i].idallergy === allAllergy[y].id) {
+                            pushAllergy.push(allAllergy[y].name);
+                        }
+                    }
+                }
+                setSelectedAllergy(pushAllergy);
+            }
+        }).catch((e) => {
+            console.error(e);
+            Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération des allergies de l'utilisateur.");
+        });
+    }
+
+    useEffect(() => {
+        allAllergyFetch().then((result) => {
+            if (result.status === 200) {
+                let nameAllergy = [];
+                for (let i = 0; i < result.data.length; i++) {
+                    nameAllergy.push(result.data[i].name);
+                }
+                setAllAllergyName(nameAllergy);
+                setAllAllergy(result.data);
+            }
+        }).catch((e) => {
+            console.error(e);
+            Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération des allergies.");
+        });
+
+        customerAllergy();
+    }, []);
+
+    const handlePressUpdate = async () => {
+        let idAllergies = [];
+        if (selectedAllergy.length === 0) {
+            idAllergies.push(0);
+        } else {
+            for (let i = 0; i < selectedAllergy.length; i++) {
+                for (let y = 0; y < allAllergy.length; y++) {
+                    if (selectedAllergy[i] === allAllergy[y].name) {
+                        idAllergies.push(allAllergy[y].id);
+                    }
+                }
+            }
+        }
+
+        customerChangeAllergy(JSON.parse(await AsyncStorage.getItem("infoUser")).id, idAllergies);
+
         Alert.alert("Mise à jour réussie !", "Vos allergies ont bien été mise à jour.");
     };
 
@@ -32,62 +102,7 @@ export default function Allergies({ navigation }) {
             <View style={styles.content}>
                 <Text style={styles.title}>Mes allergies</Text>
                 <ScrollView style={styles.separeView}>
-                    <View style={styles.checkBoxContainer}>
-                        <CheckBox value={glutenSelected} onValueChange={setGlutenSelection} style={styles.checkbox} color='grey' />
-                        <Text style={styles.checkBoxLabel}>Gluten</Text>
-                    </View>
-                    <View style={styles.checkBoxContainer}>
-                        <CheckBox value={crustaceanSelected} onValueChange={setCrustaceanSelection} style={styles.checkbox} color='grey' />
-                        <Text style={styles.checkBoxLabel}>Crustacés</Text>
-                    </View>
-                    <View style={styles.checkBoxContainer}>
-                        <CheckBox value={eggsSelected} onValueChange={setEggsSelection} style={styles.checkbox} color='grey' />
-                        <Text style={styles.checkBoxLabel}>Œufs</Text>
-                    </View>
-                    <View style={styles.checkBoxContainer}>
-                        <CheckBox value={peanutsSelected} onValueChange={setPeanutsSelection} style={styles.checkbox} color='grey' />
-                        <Text style={styles.checkBoxLabel}>Arachides</Text>
-                    </View>
-                    <View style={styles.checkBoxContainer}>
-                        <CheckBox value={fishSelected} onValueChange={setFishSelection} style={styles.checkbox} color='grey' />
-                        <Text style={styles.checkBoxLabel}>Poisson</Text>
-                    </View>
-                    <View style={styles.checkBoxContainer}>
-                        <CheckBox value={soySelected} onValueChange={setSoySelection} style={styles.checkbox} color='grey' />
-                        <Text style={styles.checkBoxLabel}>Soja</Text>
-                    </View>
-                    <View style={styles.checkBoxContainer}>
-                        <CheckBox value={lactoseSelected} onValueChange={setLactoseSelection} style={styles.checkbox} color='grey' />
-                        <Text style={styles.checkBoxLabel}>Lactose</Text>
-                    </View>
-                    <View style={styles.checkBoxContainer}>
-                        <CheckBox value={nutsSelected} onValueChange={setNutsSelection} style={styles.checkbox} color='grey' />
-                        <Text style={styles.checkBoxLabel}>Fruits à coques</Text>
-                    </View>
-                    <View style={styles.checkBoxContainer}>
-                        <CheckBox value={celerySelected} onValueChange={setCelerySelection} style={styles.checkbox} color='grey' />
-                        <Text style={styles.checkBoxLabel}>Céleri</Text>
-                    </View>
-                    <View style={styles.checkBoxContainer}>
-                        <CheckBox value={mustardSelected} onValueChange={setMustardSelection} style={styles.checkbox} color='grey' />
-                        <Text style={styles.checkBoxLabel}>Moutarde</Text>
-                    </View>
-                    <View style={styles.checkBoxContainer}>
-                        <CheckBox value={sesameSeedSelected} onValueChange={setSesameSeedSelection} style={styles.checkbox} color='grey' />
-                        <Text style={styles.checkBoxLabel}>Graine de sésame</Text>
-                    </View>
-                    <View style={styles.checkBoxContainer}>
-                        <CheckBox value={anhydrideSelected} onValueChange={setAnhydrideSelection} style={styles.checkbox} color='grey' />
-                        <Text style={styles.checkBoxLabel}>Anhydride sulfureux et sulfites</Text>
-                    </View>
-                    <View style={styles.checkBoxContainer}>
-                        <CheckBox value={lupinSelected} onValueChange={setLupinSelection} style={styles.checkbox} color='grey' />
-                        <Text style={styles.checkBoxLabel}>Lupin</Text>
-                    </View>
-                    <View style={[styles.checkBoxContainer, styles.lastCheckBox]}>
-                        <CheckBox value={molluscSelected} onValueChange={setMolluscSelection} style={styles.checkbox} color='grey' />
-                        <Text style={styles.checkBoxLabel}>Mollusques</Text>
-                    </View>
+                    {forAllergy()}
                     <Pressable style={[styles.buttonUpdate, styles.shadowBox]} onPress={handlePressUpdate}>
                     <Text style={styles.textButton}>Mettre à jour</Text>
                 </Pressable>

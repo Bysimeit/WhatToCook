@@ -20,6 +20,7 @@ export default function Research({ navigation }) {
     const active = "left";
 
     const [isConnected, setIsConnected] = React.useState(false);
+
     const checkIsConnected = async () => {
         const token = await AsyncStorage.getItem("token");
         if (token) {

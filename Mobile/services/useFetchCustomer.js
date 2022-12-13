@@ -15,7 +15,7 @@ export default function useFetchCustomer() {
 
     const profileFetch = async (email) => {
         const token = await AsyncStorage.getItem("token");
-        const response = await axios.get(`${IP_API}/customer/${email}`, { headers: {'Authorization': `Bearer ${token}` }});
+        const response = await axios.get(`${IP_API}/customer/${email}`, { headers: {'Authorization': `Bearer ${token}`}});
 
         return {status: response.status, data: response.data};
     };

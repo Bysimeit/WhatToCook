@@ -40,7 +40,7 @@ export default function ChangePassword({ navigation }) {
                 Alert.alert("Erreur !", "Veuillez insérer votre nouveau mot de passe.");
             }
         } else {
-            Alert.alert("Erreur !", "Veuillez insérer mon ancien mot de passe.");
+            Alert.alert("Erreur !", "Veuillez insérer votre ancien mot de passe.");
         }
     }
     const handlePressBack= () => {

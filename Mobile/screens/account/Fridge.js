@@ -94,11 +94,14 @@ export default function Fridge({ navigation }) {
         setVisibleExpirationDate(true);
     };
 
+    const [fridgeLength, setFridgeLength] = React.useState();
+
     const { addFoodFetch } = useFetchFridge();
     const onAddNewFood = async (dateConversion) => {
         addFoodFetch(JSON.parse(await AsyncStorage.getItem("infoUser")).id, foodTitle, foodQuantity, foodWeight, dateConversion).then(async (result) => {
             if (result.status === 200) {
                 dispatch(addFood(result.data, foodTitle, foodQuantity, foodWeight, dateConversion));
+                console.log(result.data);
                 Alert.alert("Ajouté");
             }
         }).catch((e) => {
@@ -130,12 +133,13 @@ export default function Fridge({ navigation }) {
             Alert.alert("Erreur !", "Un problème est survenu lors de la récupération des données.");
         });
     };
-    */
+    
 
     //const { foodFetch } = useFetchFridge();
     useEffect(() => {
         //fetchInfo();
     }, []);
+    */
 
     function showAddFoodTitle() {
         return (
@@ -209,6 +213,10 @@ export default function Fridge({ navigation }) {
 
     const active = "none";
     const foods = useSelector(getFood);
+
+    useEffect(() => {
+        setFridgeLength(foods.length);
+    }, []);
 
     const renderItem = ({item}) => {
         return (
