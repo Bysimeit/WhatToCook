@@ -1,8 +1,5 @@
 const pool = require('../models/database');
-const FoodModel = require('../models/foodDB');
 const CustomerRecipeModel = require('../models/customerRecipeDB');
-const FoodQuantityModel = require('../models/foodQuantityDB');
-const AllergyModel = require('../models/allergyDB');
 
 module.exports.getFavoriteRecipe = async (req, res) => {
     const idTexte = req.params.id;
@@ -28,17 +25,21 @@ module.exports.getFavoriteRecipe = async (req, res) => {
     }
 }
 
-module.exports.postFavoriteRecipe = async (req, res) => {
-    const {idCustomer, idRecipe} = req.body;
+module.exports.updateFavoriteRecipe = async (req, res) => {
+    const {idCustomer, idRecipe, isFavorite} = req.body;
 
-    if(idCustomer === undefined || idRecipe === undefined){
+    if(idCustomer === undefined || idRecipe === undefined || isFavorite === undefined){
         res.sendStatus(400);
     } else {
         const client = await pool.connect();
         try {
-            const result = await CustomerRecipeModel.postNewCustomerFood(client, idCustomer, idRecipe);
-            if(result.rows !== undefined){
-                res.json(result.rows);
+            let result = await CustomerRecipeModel.getLine(client, idCustomer, idRecipe);
+            if(result.rows === undefined){
+                result = await CustomerRecipeModel.postNewLine(client, idCustomer, idRecipe);
+            } 
+            if(result.rows === undefined){
+                result = await CustomerRecipeModel.updateIsFavorite(client, idCustomer, idRecipe, isFavorite);
+                res.sendStatus(204);
             } else {
                 res.sendStatus(404);
             }
@@ -48,21 +49,5 @@ module.exports.postFavoriteRecipe = async (req, res) => {
         } finally {
             client.release();
         }
-    }
-}
-
-module.exports.deleteFavoriteRecipe = async (req, res) => {
-    const {idCustomer, idRecipe} = req.body;
-
-    
-    const client = await pool.connect();
-    try{
-        await CustomerRecipeModel.deleteFavoriteRecipeRecipe(client, idCustomer, idRecipe);
-        res.sendStatus(204);
-    } catch (error){
-        console.error(error);
-        res.sendStatus(500);
-    } finally {
-        client.release();
     }
 }
