@@ -5,6 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch } from 'react-redux';
 import { setProfile } from '../../redux/actions/profileList';
 import { setFood } from '../../redux/actions/foodList';
+import { setConnected } from '../../redux/actions/connectedStatus';
 
 import useFetchCustomer from '../../services/useFetchCustomer';
 import useFetchFridge from '../../services/useFetchFridge';
@@ -40,6 +41,11 @@ export default function Login({ navigation }) {
                   const jsonData = JSON.stringify(result.data[0]);
                   await AsyncStorage.setItem("infoUser", jsonData);
                   dispatch(setProfile(result.data));
+                  let connected = {
+                    id: result.data[0].id,
+                    status: true
+                  };
+                  dispatch(setConnected(connected));
 
                   foodFetch(result.data[0].id).then((result) => {
                     if (result.status === 200) {

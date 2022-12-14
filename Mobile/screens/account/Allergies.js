@@ -51,7 +51,6 @@ export default function Allergies({ navigation }) {
 
                 customerAllergyFetch(JSON.parse(await AsyncStorage.getItem("infoUser")).id).then((result) => {
                     if (result.status === 200) {
-                        console.log(result.data)
                         let pushAllergy = [];
                         for (let i = 0; i < result.data.length; i++) {
                             for (let y = 0; y < allAllergy.length; y++) {

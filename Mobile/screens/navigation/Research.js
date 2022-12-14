@@ -4,6 +4,8 @@ import { RadioButton } from 'react-native-paper';
 import CheckBox from 'expo-checkbox';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSelector } from 'react-redux';
+import { getConnected } from "../../redux/selectors";
 
 import useFetchAllergy from '../../services/useFetchAllergy';
 import useFetchRecipe from '../../services/useFetchRecipe';
@@ -21,16 +23,7 @@ export default function Research({ navigation }) {
 
     const [isConnected, setIsConnected] = React.useState(false);
 
-    const checkIsConnected = async () => {
-        const token = await AsyncStorage.getItem("token");
-        if (token) {
-            setIsConnected(true);
-        } else {
-            setIsConnected(false);
-        }
-    };
-
-    checkIsConnected();
+    const connectedRedux = useSelector(getConnected);
 
     const { allAllergyFetch } = useFetchAllergy();
 
@@ -140,14 +133,14 @@ export default function Research({ navigation }) {
                     </View>
                     <View style={styles.separeView}>
                         <View>
-                            <View style={isConnected ? styles.loginAllowedLabel : styles.loginRequireLabel}>
+                            <View style={connectedRedux.status ? styles.loginAllowedLabel : styles.loginRequireLabel}>
                                 <Ionicons name="lock-closed-outline" size={25} />
                                 <Text style={{margin: 4}}>Connexion requise</Text>
                             </View>
-                            <View style={isConnected ? styles.loginAllowed : styles.loginRequire}>
+                            <View style={connectedRedux.status ? styles.loginAllowed : styles.loginRequire}>
                                 <Text>Uniquement les recettes faisable avec le frigo ?</Text>
                                 <View style={styles.checkBoxContainer}>
-                                    <CheckBox value={fridgeSelected} onValueChange={setFridgeSelection} style={styles.checkbox} color='grey' disabled={!isConnected} />
+                                    <CheckBox value={fridgeSelected} onValueChange={setFridgeSelection} style={styles.checkbox} color='grey' disabled={!connectedRedux.status} />
                                     <Text style={styles.checkBoxLabel}>Oui</Text>
                                 </View>
                             </View>

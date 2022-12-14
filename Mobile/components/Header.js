@@ -4,18 +4,16 @@ import Constants from "expo-constants";
 import { useState } from "react";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch, useSelector } from "react-redux";
+import { setConnected } from "../redux/actions/connectedStatus";
+import { getConnected } from "../redux/selectors";
 
 import useFetchCustomer from '../services/useFetchCustomer';
 
 export default function Header({ navigation }) {
     const [isMenuVisible, setMenuVisible] = useState(false);
 
-    const [connected, setConnected] = React.useState(null);
-    const checkConnection = async () => {
-        const tokenValue = await AsyncStorage.getItem("token");
-        setConnected(tokenValue !== null)
-    }
-    checkConnection();
+    const connectedRedux = useSelector(getConnected);
 
     const handlePressLogin = () => {
         navigation.navigate('Login');
@@ -43,8 +41,14 @@ export default function Header({ navigation }) {
     };
 
     const { logoutFetch } = useFetchCustomer();
+    const dispatch = useDispatch();
     const handlePressLogOut = async () => {
         await AsyncStorage.removeItem("token");
+        let connected = {
+            id: JSON.parse(await AsyncStorage.getItem("infoUser")).id,
+            status: false
+        };
+        dispatch(setConnected(connected));
         await AsyncStorage.removeItem("infoUser");
         await AsyncStorage.removeItem("email");
         navigation.navigate('Login');
@@ -52,7 +56,7 @@ export default function Header({ navigation }) {
     };
 
     const showMenu = () => {
-        if (!connected) {
+        if (!connectedRedux.status) {
             return (
                 <View style={[
                     { display: isMenuVisible ? "flex" : "none" },
