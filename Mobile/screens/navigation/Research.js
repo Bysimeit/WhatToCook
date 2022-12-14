@@ -21,11 +21,9 @@ export default function Research({ navigation }) {
 
     const active = "left";
 
-    const [isConnected, setIsConnected] = React.useState(false);
-
     const connectedRedux = useSelector(getConnected);
 
-    const { allAllergyFetch } = useFetchAllergy();
+    const { allAllergyFetch, customerAllergyFetch } = useFetchAllergy();
 
     const [allAllergyName, setAllAllergyName] = React.useState();
     const [allAllergy, setAllAllergy] = React.useState();
@@ -86,15 +84,41 @@ export default function Research({ navigation }) {
         }
     };
 
+    const fetchCustomerAllergy = (resultPred) => {
+        const userActive = connectedRedux.id;
+        if (userActive !== undefined) {
+            customerAllergyFetch(connectedRedux.id).then((result) => {
+                if (result.status === 200) {
+                    let pushAllergy = [];
+                    for (let i = 0; i < result.data.length; i++) {
+                        for (let y = 0; y < resultPred.length; y++) {
+                            if (result.data[i].idallergy === resultPred[y].id) {
+                                pushAllergy.push(resultPred[y].name);
+                            }
+                        }
+                    }
+                    setSelectedAllergy(pushAllergy);
+                }
+            }).catch((e) => {
+                console.error(e);
+                Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération des allergies de l'utilisateur.");
+            });
+        } else {
+            setSelectedAllergy([]);
+        }
+    };
+
     useEffect(() => {
-        allAllergyFetch().then((result) => {
+        allAllergyFetch().then(async (result) => {
             if (result.status === 200) {
                 let nameAllergy = [];
                 for (let i = 0; i < result.data.length; i++) {
                     nameAllergy.push(result.data[i].name);
                 }
+
                 setAllAllergyName(nameAllergy);
                 setAllAllergy(result.data);
+                fetchCustomerAllergy(result.data);
             }
         }).catch((e) => {
             console.error(e);

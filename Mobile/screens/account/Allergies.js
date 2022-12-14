@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { Text, View, StyleSheet, Alert, ScrollView, Pressable } from 'react-native';
 import CheckBox from 'expo-checkbox';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSelector } from 'react-redux';
+import { getConnected } from '../../redux/selectors';
 
 import useFetchAllergy from '../../services/useFetchAllergy';
 
@@ -37,6 +39,32 @@ export default function Allergies({ navigation }) {
         }
     };
 
+    const connectedRedux = useSelector(getConnected);
+
+    const fetchCustomerAllergy = (resultPred) => {
+        const userActive = connectedRedux.id;
+        if (userActive !== undefined) {
+            customerAllergyFetch(connectedRedux.id).then((result) => {
+                if (result.status === 200) {
+                    let pushAllergy = [];
+                    for (let i = 0; i < result.data.length; i++) {
+                        for (let y = 0; y < resultPred.length; y++) {
+                            if (result.data[i].idallergy === resultPred[y].id) {
+                                pushAllergy.push(resultPred[y].name);
+                            }
+                        }
+                    }
+                    setSelectedAllergy(pushAllergy);
+                }
+            }).catch((e) => {
+                console.error(e);
+                Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération des allergies de l'utilisateur.");
+            });
+        } else {
+            setSelectedAllergy([]);
+        }
+    };
+
     useEffect(() => {
         allAllergyFetch().then(async (result) => {
             if (result.status === 200) {
@@ -47,24 +75,7 @@ export default function Allergies({ navigation }) {
 
                 setAllAllergyName(nameAllergy);
                 setAllAllergy(result.data);
-                const allAllergy = result.data;
-
-                customerAllergyFetch(JSON.parse(await AsyncStorage.getItem("infoUser")).id).then((result) => {
-                    if (result.status === 200) {
-                        let pushAllergy = [];
-                        for (let i = 0; i < result.data.length; i++) {
-                            for (let y = 0; y < allAllergy.length; y++) {
-                                if (result.data[i].idallergy === allAllergy[y].id) {
-                                    pushAllergy.push(allAllergy[y].name);
-                                }
-                            }
-                        }
-                        setSelectedAllergy(pushAllergy);
-                    }
-                }).catch((e) => {
-                    console.error(e);
-                    Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération des allergies de l'utilisateur.");
-                });
+                fetchCustomerAllergy(result.data);
             }
         }).catch((e) => {
             console.error(e);

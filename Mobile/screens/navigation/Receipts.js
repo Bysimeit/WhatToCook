@@ -13,6 +13,7 @@ import useFetchFridge from '../../services/useFetchFridge';
 import { setRecipes } from '../../redux/actions/recipeList';
 import { setProfile } from '../../redux/actions/profileList';
 import { setFood } from '../../redux/actions/foodList';
+import { setConnected } from "../../redux/actions/connectedStatus";
 
 import Header from '../../components/Header';
 import NavBar from '../../components/NavBar';
@@ -25,14 +26,18 @@ export default function Receipts({navigation}) {
     const { profileFetch } = useFetchCustomer();
     const { foodFetch } = useFetchFridge();
 
-    const [connected, setConnected] = React.useState(null);
+    const [connectedToken, setTokenConnected] = React.useState(null);
     const checkConnection = async () => {
-
-        setConnected(await AsyncStorage.getItem("token") !== null);
-        if (connected) {
+        setTokenConnected(await AsyncStorage.getItem("token") !== null);
+        if (connectedToken) {
             profileFetch(await AsyncStorage.getItem("email")).then(async (result) => {
                 if (result.status === 200) {
                     dispatch(setProfile(result.data));
+                    let connection = {
+                        id: result.data[0].id,
+                        status: true
+                    };
+                    dispatch(setConnected(connection));
     
                     foodFetch(result.data[0].id).then((result) => {
                         if (result.status === 200) {

@@ -44,8 +44,9 @@ export default function Header({ navigation }) {
     const dispatch = useDispatch();
     const handlePressLogOut = async () => {
         await AsyncStorage.removeItem("token");
+        const idCustomer = JSON.parse(await AsyncStorage.getItem("infoUser")).id
         let connected = {
-            id: JSON.parse(await AsyncStorage.getItem("infoUser")).id,
+            id: idCustomer,
             status: false
         };
         dispatch(setConnected(connected));
