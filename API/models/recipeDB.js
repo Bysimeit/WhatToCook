@@ -64,6 +64,8 @@ module.exports.getResearchRecipe = async (client, type, time, allergies, foods) 
     
     request += ` GROUP BY R.id`
 
+    console.log(request);
+
     if(type !== undefined && time !== undefined){
         return await client.query(request, [time, type]);  
     } else if(type === undefined && time !== undefined){

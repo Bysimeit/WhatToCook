@@ -11,18 +11,19 @@ module.exports.getListeRecipe = async (req, res) => {
     const client = await pool.connect();
     try {
         let result;
-        if(allergies !== undefined){
-            const allergiesTab = allergies.split(',');
-            let foodsTab;
-            if(foods === undefined){ 
-                foodsTab = [0];
-            } else {
-                foodsTab = foods.split(',');
-            }
-            result = await RecipeModel.getResearchRecipe(client, type, time, allergiesTab, foodsTab);
-        } else{
-            res.sendStatus(400);
+        let allergiesTab;
+        if(allergies === undefined){ 
+            allergiesTab = [0];
+        } else {
+            allergiesTab = foods.split(',');
         }
+        let foodsTab;
+        if(foods === undefined){ 
+            foodsTab = [0];
+        } else {
+            foodsTab = foods.split(',');
+        }
+        result = await RecipeModel.getResearchRecipe(client, type, time, allergiesTab, foodsTab);
 
         if(result.rows[0] !== undefined){
             res.json(result.rows);
