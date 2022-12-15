@@ -15,7 +15,7 @@ module.exports.getListeRecipe = async (req, res) => {
         if(allergies === undefined){ 
             allergiesTab = [0];
         } else {
-            allergiesTab = foods.split(',');
+            allergiesTab = allergies.split(',');
         }
         let foodsTab;
         if(foods === undefined){ 
