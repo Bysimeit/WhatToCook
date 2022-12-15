@@ -12,12 +12,7 @@ module.exports.getAllFood = async (req, res) => {
         const client = await pool.connect();
         try {
             const result = await CustomerFoodModel.getAllCustomerFood(client, idCustomer);
-            if(result.rows[0] !== undefined) {
-                res.json(result.rows);
-            } else {
-                res.sendStatus(404);
-            }
-            
+            res.json(result.rows);
         } catch (e) {
             console.error(e);
             res.sendStatus(500);
