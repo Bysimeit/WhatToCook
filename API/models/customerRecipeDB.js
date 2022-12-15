@@ -30,11 +30,14 @@ module.exports.getCommentCustomer = async (client, idCustomer) => {
 module.exports.getFavoriteRecipe = async (client, idCustomer) => {
     return await client.query(`
     SELECT
-        R.*
+        R.*,
+        SUM (F.price) AS total
     FROM
         Recipe R
         INNER JOIN Customer_Recipe CR ON CR.idRecipe = R.id
-    WHERE CR.idCustomer = $1 AND CR.isFavorite = true`,[idCustomer]);
+        INNER JOIN Food_Quantity FQ ON FQ.idRecipe = R.id
+        INNER JOIN Food F ON F.id = FQ.idFood
+    WHERE CR.idCustomer = $1 AND CR.isFavorite = true GROUP BY R.id`,[idCustomer]);
 }
 
 //post 
