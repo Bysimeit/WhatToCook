@@ -8,7 +8,7 @@ module.exports.getAllAllergy = async (req, res) => {
     const client = await pool.connect();
     try {
         const result = await AllergyModel.getAllAllergy(client);
-        if(result.rows !== undefined){
+        if(result.rows[0] !== undefined){
             res.json(result.rows);
         } else {
             res.sendStatus(404);

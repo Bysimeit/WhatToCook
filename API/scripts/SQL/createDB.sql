@@ -65,6 +65,8 @@ DROP TABLE IF EXISTS Customer_Recipe CASCADE;
 CREATE TABLE Customer_Recipe (
     idCustomer integer references Customer(id),
     idRecipe integer references Recipe(id),
+    comment varchar,
+    isFavorite boolean DEFAULT false,
     PRIMARY KEY (idCustomer,idRecipe)
 );
 
@@ -99,8 +101,10 @@ INSERT INTO Food_Quantity(quantity, idRecipe, idFood)
 VALUES('2','1','2'), ('200','2','3'), ('100','3','5'), ('100','4','5'), ('100','5','4'), ('100','6','2');
 INSERT INTO Step(idRecipe, text)
 VALUES('1', 'frapper'), ('1', 'casser'), ('1', 'manger');
-INSERT INTO Customer_Recipe(idCustomer, idRecipe)
-VALUES('1', '1'), ('1', '2');
+INSERT INTO Customer_Recipe(idCustomer, idRecipe, comment)
+VALUES('1', '1', 'cool comme recette');
+INSERT INTO Customer_Recipe(idCustomer, idRecipe, isFavorite)
+VALUES('1', '2', true);
 INSERT INTO Customer_Food(idCustomer, idFood, date, quantity, weight)
 VALUES('1', '2', CAST(now() AS date), '100', '250'), ('1', '5', CAST(now() AS date), '100', '500');
 INSERT INTO Customer_Allergy(idCustomer, idAllergy)

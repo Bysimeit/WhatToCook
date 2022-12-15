@@ -12,7 +12,7 @@ module.exports.getAllFood = async (req, res) => {
         const client = await pool.connect();
         try {
             const result = await CustomerFoodModel.getAllCustomerFood(client, idCustomer);
-            if(result.rows !== undefined) {
+            if(result.rows[0] !== undefined) {
                 res.json(result.rows);
             } else {
                 res.sendStatus(404);
@@ -42,7 +42,7 @@ module.exports.postNewFoodCustomer = async (req, res) => {
             }       
             let idFood = result.rows[0].id;
             result = await CustomerFoodModel.postNewCustomerFood(client, idCustomer, idFood, quantity, weight, date);
-            if(result.rows !== undefined){
+            if(result.rows[0] !== undefined){
                 await client.query("COMMIT");
                 const rows = result.rows[0];
                 res.json(rows.idfood);

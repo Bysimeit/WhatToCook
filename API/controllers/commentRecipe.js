@@ -2,7 +2,7 @@ const pool = require('../models/database');
 const CustomerRecipeModel = require('../models/customerRecipeDB');
 
 module.exports.getAllCommentCustomer = async (req, res) => {
-    const idTexte = req.params.id;
+    const idTexte = req.query.idCustomer;
     const idCustomer = parseInt(idTexte);
 
     if(idCustomer === undefined){
@@ -10,7 +10,7 @@ module.exports.getAllCommentCustomer = async (req, res) => {
     } else {
         const client = await pool.connect();
         try {
-            const result = await CustomerRecipeModel.getFavoriteRecipe(client, idCustomer);
+            const result = await CustomerRecipeModel.getCommentCustomer(client, idCustomer);
             if(result.rows !== undefined){
                 res.json(result.rows);
             } else {
@@ -27,14 +27,15 @@ module.exports.getAllCommentCustomer = async (req, res) => {
 
 module.exports.getCommentRecipe = async (req, res) => {
     const idTexte = req.params.id;
-    const idCustomer = parseInt(idTexte);
+    const idRecipe = parseInt(idTexte);
 
-    if(idCustomer === undefined){
+    if(idRecipe === undefined){
         res.sendStatus(400);
     } else {
         const client = await pool.connect();
         try {
-            const result = await CustomerRecipeModel.getFavoriteRecipe(client, idCustomer);
+            const result = await CustomerRecipeModel.getCommentRecipe(client, idRecipe);
+            console.log(result);       
             if(result.rows !== undefined){
                 res.json(result.rows);
             } else {
@@ -49,26 +50,27 @@ module.exports.getCommentRecipe = async (req, res) => {
     }
 }
 
-module.exports.updateFavoriteRecipe = async (req, res) => {
-    const {idCustomer, idRecipe, isFavorite} = req.body;
+module.exports.updateComment = async (req, res) => {
+    const {idCustomer, idRecipe, comment} = req.body;
 
-    if(idCustomer === undefined || idRecipe === undefined || isFavorite === undefined){
+    if(idCustomer === undefined || idRecipe === undefined || comment === undefined){
         res.sendStatus(400);
     } else {
         const client = await pool.connect();
         try {
+            await client.query("BEGIN"); 
             let result = await CustomerRecipeModel.getLine(client, idCustomer, idRecipe);
             if(result.rows === undefined){
                 result = await CustomerRecipeModel.postNewLine(client, idCustomer, idRecipe);
             } 
-            if(result.rows === undefined){
-                result = await CustomerRecipeModel.updateIsFavorite(client, idCustomer, idRecipe, isFavorite);
-                res.sendStatus(204);
-            } else {
-                res.sendStatus(404);
-            }
+            
+            await CustomerRecipeModel.updateComment(client, idCustomer, idRecipe, comment);
+            await client.query("COMMIT");
+            res.sendStatus(204);
+      
         } catch (e) {
             console.error(e);
+            await client.query("ROLLBACK");
             res.sendStatus(500);
         } finally {
             client.release();

@@ -6,19 +6,25 @@ const FoodQuantityModel = require('../models//foodQuantityDB');
 const CustomerRecipeModel = require('../models//customerRecipeDB');
 
 module.exports.getListeRecipe = async (req, res) => {
-    const {type, time, allergies} = req.query;
+    const {type, time, allergies, foods} = req.query;
     
     const client = await pool.connect();
     try {
         let result;
-        if(type === undefined || time === undefined){
-            result = await RecipeModel.getListRecipe(client);
-        } else {
+        if(allergies !== undefined){
             const allergiesTab = allergies.split(',');
-            result = await RecipeModel.getResearchRecipe(client, type, time, allergiesTab);
+            let foodsTab;
+            if(foods === undefined){ 
+                foodsTab = [0];
+            } else {
+                foodsTab = foods.split(',');
+            }
+            result = await RecipeModel.getResearchRecipe(client, type, time, allergiesTab, foodsTab);
+        } else{
+            res.sendStatus(400);
         }
 
-        if(result.rows !== undefined){
+        if(result.rows[0] !== undefined){
             res.json(result.rows);
         } else {
             res.sendStatus(404);
@@ -44,7 +50,7 @@ module.exports.getRandomRecipe = async (req, res) => {
 
         result = await RecipeModel.getDataRecipe(client, randomNumberBetween);
 
-        if (result.rows !== undefined) {
+        if (result.rows[0] !== undefined) {
             res.json(result.rows);
         } else {
             res.sendStatus(404);
@@ -68,7 +74,7 @@ module.exports.getDataRecipe = async (req, res) => {
         const client = await pool.connect();
         try {
             const result = await RecipeModel.getDataRecipe(client, id);
-            if(result.rows !== undefined){
+            if(result.rows[0] !== undefined){
                 res.json(result.rows);
             } else {
                 res.sendStatus(404);
@@ -94,7 +100,7 @@ module.exports.postNewRecipe = async (req, res) => {
             await client.query("BEGIN"); 
             let result = await RecipeModel.postNewRecipe(client, name, type, time, picture);
 
-            if(result.rows !== undefined){
+            if(result.rows[0] !== undefined){
                 const idRecipe = result.rows[0].id;
 
                 for(let step of steps){
@@ -160,14 +166,13 @@ module.exports.udpateRecipe = async (req, res) => {
                 if(food.quantity !== undefined && result.rows[0].id !== undefined){
                     let idFood = result.rows[0].id
                     await FoodQuantityModel.NewFoodQte(client, id, idFood, food.quantity);
+                    await client.query("COMMIT");
+                    res.sendStatus(204);
                 } else {
                     res.sendStatus(404);
                 }
             }
-                    
-            await client.query("COMMIT");
-            res.sendStatus(204);
-            
+                         
         } catch (error) {
             await client.query("ROLLBACK");
             console.error(error);

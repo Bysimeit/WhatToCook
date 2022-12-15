@@ -5,7 +5,9 @@ const FridgeRouter = require('./fridge');
 const AllergyRouter = require('./allergy');
 const FoodRouter = require('./food');
 const CustomerAllergieRouter = require('./customerAllergy');
-const RandomRecipe = require("./randomrecipe");
+const RandomRecipeRouter = require("./randomrecipe");
+const FavoriteRecipeRouter = require("./favoriteRecipe");
+const CommentRouter = require("./comment");
 
 const router = require("express").Router();
 
@@ -16,6 +18,8 @@ router.use("/fridge", FridgeRouter);
 router.use("/allergy", AllergyRouter);
 router.use("/food", FoodRouter);
 router.use("/customerAllergy", CustomerAllergieRouter);
-router.use("/randomrecipe", RandomRecipe);
+router.use("/randomrecipe", RandomRecipeRouter);
+router.use("/favorite", FavoriteRecipeRouter);
+router.use("/comment", CommentRouter);
 
 module.exports = router;

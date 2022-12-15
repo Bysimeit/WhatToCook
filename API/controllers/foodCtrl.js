@@ -9,7 +9,7 @@ module.exports.getAllFood = async (req, res) => {
     const client = await pool.connect();
     try {
         const result = await FoodModel.getAllFood(client);
-        if(result.rows !== undefined){
+        if(result.rows[0] !== undefined){
             res.json(result.rows);
         } else {
             res.sendStatus(404);
@@ -65,12 +65,12 @@ module.exports.updateFood = async (req, res) => {
                 const result = await AllergyModel.getAllergy(client, allergy); 
                 if(result.rows[0].id !== undefined){
                     await FoodModel.updateFood(client, id, name, result.rows[0].id); 
+                    await client.query("COMMIT");
+                    res.sendStatus(204);
                 } else {
                     res.sendStatus(404);
                 }
-            }            
-            await client.query("COMMIT");
-            res.sendStatus(204);                
+            }                                     
         } catch (error){
             await client.query("ROLLBACK");
             console.error(error);

@@ -11,7 +11,7 @@ module.exports.getFavoriteRecipe = async (req, res) => {
         const client = await pool.connect();
         try {
             const result = await CustomerRecipeModel.getFavoriteRecipe(client, idCustomer);
-            if(result.rows !== undefined){
+            if(result.rows[0] !== undefined){
                 res.json(result.rows);
             } else {
                 res.sendStatus(404);
@@ -33,18 +33,21 @@ module.exports.updateFavoriteRecipe = async (req, res) => {
     } else {
         const client = await pool.connect();
         try {
+            await client.query("BEGIN"); 
             let result = await CustomerRecipeModel.getLine(client, idCustomer, idRecipe);
-            if(result.rows === undefined){
+            if(result.rows[0] === undefined){
                 result = await CustomerRecipeModel.postNewLine(client, idCustomer, idRecipe);
             } 
-            if(result.rows === undefined){
-                result = await CustomerRecipeModel.updateIsFavorite(client, idCustomer, idRecipe, isFavorite);
-                res.sendStatus(204);
+            if(result.rows[0] === undefined){
+                result = await CustomerRecipeModel.updateIsFavorite(client, idCustomer, idRecipe, isFavorite);  
+                await client.query("COMMIT");
+                res.sendStatus(204);    
             } else {
                 res.sendStatus(404);
-            }
+            }          
         } catch (e) {
             console.error(e);
+            await client.query("ROLLBACK");
             res.sendStatus(500);
         } finally {
             client.release();

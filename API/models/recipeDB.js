@@ -1,10 +1,7 @@
 
 //get 
 
-const e = require("express");
-const { query } = require("express");
-
-module.exports.getResearchRecipe = async (client, type, time, allergies) => {
+module.exports.getResearchRecipe = async (client, type, time, allergies, foods) => {
     
     const requestSet = [];
     let request = `
@@ -14,10 +11,22 @@ module.exports.getResearchRecipe = async (client, type, time, allergies) => {
     FROM
         Recipe R
         INNER JOIN Food_Quantity FQ ON FQ.idRecipe = R.id
-        INNER JOIN Food F ON F.id = FQ.idFood
-    WHERE R.time <= $1 AND R.type = $2 ` 
+        INNER JOIN Food F ON F.id = FQ.idFood`;
+    if(type !== undefined && time !== undefined){
+        request += ` WHERE R.time <= $1 AND R.type = $2`;   
+    } else if(type === undefined && time !== undefined){
+        request += ` WHERE R.time <= $1`;
+    } else if(time === undefined && type !== undefined){
+        request += ` WHERE R.type = $1`;
+    } 
+    
     if(allergies[0] != 0){
-        request += `AND R.id NOT IN (
+        if(type === undefined && time === undefined){
+            request += ` WHERE ` ;
+        } else {
+            request += ` AND  ` ;
+        }
+        request += `R.id NOT IN (
             SELECT
                 R.id
             FROM
@@ -29,28 +38,46 @@ module.exports.getResearchRecipe = async (client, type, time, allergies) => {
             requestSet.push(` '${allergie}' `);
         }
         request += requestSet.join();
-        request += `))`;
-    }
-    
-    request += `GROUP BY R.id`
+        request += `)) `;
+    } 
 
-    return await client.query(request, [time, type]);
+    if(foods[0] != 0){
+        if(type === undefined && time === undefined && allergies[0] == 0){
+            request += ` WHERE ` ;
+        } else {
+            request += ` AND  ` ;
+        }
+        request += `R.id IN (
+            SELECT
+                R.id
+            FROM
+                Recipe R
+                INNER JOIN Food_Quantity FQ ON FQ.idRecipe = R.id
+                INNER JOIN Food F ON F.id = FQ.idFood
+            WHERE F.name IN (`;
+        for (let food of foods) {
+            requestSet.push(` '${food}' `);
+        }
+        request += requestSet.join();
+        request += `)) `;
+    } 
+    
+    request += ` GROUP BY R.id`
+
+    if(type !== undefined && time !== undefined){
+        return await client.query(request, [time, type]);  
+    } else if(type === undefined && time !== undefined){
+        return await client.query(request, [time]);
+    } else if(time === undefined && type !== undefined){
+        return await client.query(request, [type]);
+    } else {
+        return await client.query(request);
+    }
+
 }
 
 module.exports.getRandomRecipe = async(client) => {
     return await client.query(`SELECT count(*) AS recipes FROM recipe`);
-}
-
-module.exports.getListRecipe = async(client) => {
-    return await client.query(`
-    SELECT
-        R.*,
-        SUM (F.price) AS total
-    FROM
-        Recipe R
-        INNER JOIN Food_Quantity FQ ON FQ.idRecipe = R.id
-        INNER JOIN Food F ON F.id = FQ.idFood
-    GROUP BY R.id;`);
 }
 
 module.exports.getDataRecipe = async (client, id) => {
