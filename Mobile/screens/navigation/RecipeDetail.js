@@ -17,7 +17,7 @@ export default function RecipeDetail({route, navigation}) {
             <View style={styles.content}>
                 <Text style={styles.title}>Détail de la recette</Text>
                 <Text style={styles.subTitle}>Voici les différents aliments et étapes pour réaliser la recette :</Text>
-                <RecipeData recipeData={dataJSON.data[0]}/>
+                <RecipeData recipeData={dataJSON.data[0]} navigation={navigation}/>
             </View>
             <Header navigation={navigation}/>
             <NavBar navigation={navigation} active={active}/>

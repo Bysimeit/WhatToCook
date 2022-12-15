@@ -7,3 +7,5 @@ export const getProfile = store => store.profileList;
 export const getConnected = store => store.connectedStatus;
 
 export const getAllergies = store => store.allergyList;
+
+export const getFavorite = store => store.favoriteList;

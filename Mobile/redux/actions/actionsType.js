@@ -13,3 +13,7 @@ export const SET_CONNECTED = "SET_CONNECTED";
 
 export const ADD_ALLERGY = "ADD_ALLERGY";
 export const SET_ALLERGY = "SET_ALLERGY";
+
+export const ADD_FAVORITE = "ADD_FAVORITE";
+export const SET_FAVORITE = "SET_FAVORITE";
+export const DELETE_FAVORITE = "DELETE_FAVORITE";

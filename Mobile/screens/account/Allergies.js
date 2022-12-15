@@ -70,9 +70,7 @@ export default function Allergies({ navigation }) {
 
     const handlePressUpdate = async () => {
         let idAllergies = [];
-        if (selectedAllergy.length === 0) {
-            idAllergies.push(0);
-        } else {
+        if (selectedAllergy.length !== 0) {
             for (let i = 0; i < selectedAllergy.length; i++) {
                 for (let y = 0; y < allAllergy.length; y++) {
                     if (selectedAllergy[i] === allAllergy[y].name) {
@@ -101,8 +99,8 @@ export default function Allergies({ navigation }) {
                 <ScrollView style={styles.separeView}>
                     {forAllergy()}
                     <Pressable style={[styles.buttonUpdate, styles.shadowBox]} onPress={handlePressUpdate}>
-                    <Text style={styles.textButton}>Mettre à jour</Text>
-                </Pressable>
+                        <Text style={styles.textButton}>Mettre à jour</Text>
+                    </Pressable>
                 </ScrollView>
             </View>
             <Header navigation={navigation}/>

@@ -6,7 +6,7 @@ export const recipeList = (state = initialStateRecipe, action) => {
     switch(action.type) {
         case ADD_RECIPE:
             return [...state, {
-                id: state.length,
+                id: action.payload.id,
                 namerecipe: action.payload.namerecipe,
                 time: action.payload.time,
                 total: action.payload.total,

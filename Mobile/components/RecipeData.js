@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Text, View, StyleSheet, Image, Pressable, TextInput } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default function RecipeData({recipeData}) {
+export default function RecipeData({recipeData, navigation}) {
     const [numberPerson, onChangeNumber] = React.useState('1');
     
     const starOne = () => {
@@ -90,6 +90,12 @@ export default function RecipeData({recipeData}) {
         return stringOutput;
     };
 
+    const favotitePress = () => {
+        navigation.navigate("RecipeComFav", {
+            data: recipeData
+        });
+    };
+
     return (
         <View style={styles.content}>
             <Text style={styles.titleRecipe}>Nom : {recipeData.namerecipe}</Text>
@@ -106,9 +112,9 @@ export default function RecipeData({recipeData}) {
             <View style={styles.numberPerson}>
                 <Text>Nombre de personne :</Text>
                 <TextInput keyboardType='numeric' style={styles.input} maxLength={2} onChangeText={onChangeNumber} value={numberPerson}/>
-                <View style={styles.reviewButton}>
+                <Pressable style={styles.reviewButton} onPress={favotitePress}>
                     <Ionicons name='bookmark-outline' size={25} style={styles.reviewIcon}/>
-                </View>
+                </Pressable>
             </View>
             <View style={styles.foodView}>
                 <Text style={styles.titleRequired}>Aliments requis :</Text>

@@ -11,11 +11,13 @@ import useFetchRecipe from '../../services/useFetchRecipe';
 import useFetchCustomer from '../../services/useFetchCustomer';
 import useFetchFridge from '../../services/useFetchFridge';
 import useFetchAllergy from '../../services/useFetchAllergy';
+import useFetchFavorite from '../../services/useFetchFavorite';
 import { setRecipes } from '../../redux/actions/recipeList';
 import { setProfile } from '../../redux/actions/profileList';
 import { setFood } from '../../redux/actions/foodList';
 import { setConnected } from "../../redux/actions/connectedStatus";
 import { setAllergy } from '../../redux/actions/allergyList';
+import { setFavorite } from '../../redux/actions/favoriteList';
 
 import Header from '../../components/Header';
 import NavBar from '../../components/NavBar';
@@ -28,6 +30,7 @@ export default function Receipts({navigation}) {
     const { profileFetch } = useFetchCustomer();
     const { foodFetch } = useFetchFridge();
     const { customerAllergyFetch } = useFetchAllergy();
+    const { customerFavoriteFetch } = useFetchFavorite();
 
     const [connectedToken, setTokenConnected] = React.useState(null);
     const checkConnection = async () => {
@@ -60,6 +63,15 @@ export default function Receipts({navigation}) {
                           console.error(e);
                           Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération des allergies de l'utilisateur.");
                       });
+
+                    customerFavoriteFetch(result.data[0].id).then((result) => {
+                        if (result.status === 200) {
+                            dispatch(setFavorite(result.data));
+                        }
+                    }).catch((e) => {
+                        console.error(e);
+                        Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération des recettes favorites.");
+                    });
                 }
             }).catch((e) => {
                 console.error(e);

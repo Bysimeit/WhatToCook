@@ -11,6 +11,7 @@ import { setAllergy } from '../../redux/actions/allergyList';
 import useFetchCustomer from '../../services/useFetchCustomer';
 import useFetchFridge from '../../services/useFetchFridge';
 import useFetchAllergy from '../../services/useFetchAllergy';
+import useFetchFavorite from '../../services/useFetchFavorite';
 
 import Header from '../../components/Header';
 import NavBar from '../../components/NavBar';
@@ -26,6 +27,7 @@ export default function Login({ navigation }) {
   const { loginFetch, profileFetch } = useFetchCustomer();
   const { foodFetch } = useFetchFridge();
   const { customerAllergyFetch } = useFetchAllergy();
+  const { customerFavoriteFetch } = useFetchFavorite();
 
   const dispatch = useDispatch();
   const handlePressConnect = () => {
@@ -54,6 +56,9 @@ export default function Login({ navigation }) {
                     if (result.status === 200) {
                       dispatch(setFood(result.data));
                     }
+                  }).catch((e) => {
+                    console.error(e);
+                    Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération du frigo");
                   });
                   
                   customerAllergyFetch(result.data[0].id).then((result) => {
@@ -67,6 +72,15 @@ export default function Login({ navigation }) {
                   }).catch((e) => {
                       console.error(e);
                       Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération des allergies de l'utilisateur.");
+                  });
+
+                  customerFavoriteFetch(result.data[0].id).then((result) => {
+                    if (result.status === 200) {
+                      dispatch(setFavorite(result.data));
+                    }
+                  }).catch((e) => {
+                    console.error(e);
+                    Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération des recettes favorites !");
                   });
 
                   navigation.navigate("Profile");

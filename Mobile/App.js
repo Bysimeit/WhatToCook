@@ -13,9 +13,11 @@ import Profile from './screens/account/Profile';
 import ChangePassword from './screens/account/ChangePassword';
 import PasswordForget from './screens/account/PasswordForget';
 import Allergies from './screens/account/Allergies';
+import Favorite from './screens/account/Favorite';
 import Fridge from './screens/account/Fridge';
 import RecipeDetail from './screens/navigation/RecipeDetail';
 import ResultResearch from './screens/navigation/ResultResearch';
+import RecipeComFav from './screens/navigation/RecipeComFav';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -54,10 +56,12 @@ export default function App() {
           <Tab.Screen name="Registration" component={ Registration } />
           <Tab.Screen name="Profile" component={ Profile } />
           <Tab.Screen name="ChangePassword" component={ ChangePassword } />
+          <Tab.Screen name="Favorite" component={ Favorite } />
           <Tab.Screen name="Fridge" component={ Fridge } />
           <Tab.Screen name="Allergies" component={ Allergies } />
           <Tab.Screen name="RecipeDetail" component={ RecipeDetail } />
           <Tab.Screen name="ResultResearch" component={ ResultResearch } />
+          <Tab.Screen name="RecipeComFav" component={ RecipeComFav } />
         </Tab.Navigator>
       </NavigationContainer>
     </Provider>

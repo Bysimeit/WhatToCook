@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setConnected } from "../redux/actions/connectedStatus";
 import { getConnected } from "../redux/selectors";
 import { setAllergy } from '../redux/actions/allergyList';
+import { setFood } from '../redux/actions/foodList';
+import { setFavorite } from '../redux/actions/favoriteList';
 
 import useFetchCustomer from '../services/useFetchCustomer';
 
@@ -29,7 +31,7 @@ export default function Header({ navigation }) {
         setMenuVisible(false);
     };
     const handlePressFavorites = () => {
-        console.log('Favoris');
+        navigation.navigate('Favorite');
         setMenuVisible(false);
     };
     const handlePressMyFridge = () => {
@@ -44,7 +46,6 @@ export default function Header({ navigation }) {
     const { logoutFetch } = useFetchCustomer();
     const dispatch = useDispatch();
     const handlePressLogOut = async () => {
-        await AsyncStorage.removeItem("token");
         const idCustomer = JSON.parse(await AsyncStorage.getItem("infoUser")).id
         let connected = {
             id: idCustomer,
@@ -52,6 +53,9 @@ export default function Header({ navigation }) {
         };
         dispatch(setConnected(connected));
         dispatch(setAllergy([]));
+        dispatch(setFood([]));
+        dispatch(setFavorite([]));
+        await AsyncStorage.removeItem("token");
         await AsyncStorage.removeItem("infoUser");
         await AsyncStorage.removeItem("email");
         navigation.navigate('Login');
