@@ -26,7 +26,7 @@ module.exports.postNewFood = async (req, res) => {
     const {name, allergy} = req.body;
 
     if(name === undefined){
-        res.sendStatus(400);
+        res.status(400).json("Nom de nourriture manquant");
     } else {
         const client = await pool.connect();
         try {
@@ -54,7 +54,7 @@ module.exports.updateFood = async (req, res) => {
     const {id, name, allergy} = req.body;
 
     if(id === undefined || name === undefined){
-        res.sendStatus(400);
+        res.status(400).json("Données manquantes");
     } else {
         const client = await pool.connect();
         try{

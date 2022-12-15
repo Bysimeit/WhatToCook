@@ -28,7 +28,7 @@ module.exports.getCustomer = async (req, res) => {
     const email = req.params.email;
 
     if(email === undefined){
-        res.sendStatus(400);
+        res.status(400).json("Email manquant");
     } else {
         const client = await pool.connect();
         try{
@@ -52,7 +52,7 @@ module.exports.postNewCustomer = async (req, res) => {
     const {lastName, firstName, password, email} = req.body;
 
     if(lastName === undefined || firstName === undefined || password === undefined || email === undefined){
-        res.sendStatus(400);
+        res.status(400).json("Données manquantes");
     } else {
         const client = await pool.connect();
         try {
@@ -72,8 +72,7 @@ module.exports.updatePasswordEmailCustomer = async (req, res) => {
 
 
     if(oldPassword === undefined && oldEmail === undefined){
-        res.sendStatus(400);
-        console.log("Ici");
+        res.status(400).json("Données manquantes");
     } else {
         const client = await pool.connect();
         try{
@@ -84,8 +83,7 @@ module.exports.updatePasswordEmailCustomer = async (req, res) => {
                         await CustomerModel.updatePasswordCustomer(client, oldEmail, await getHash(newPassword));
                         res.sendStatus(204); 
                     } else {
-                        res.sendStatus(400); 
-                        console.log("là");
+                        res.status(400).json("Mot de passe incorrecte");
                     } 
                 } else {
                     res.sendStatus(404);

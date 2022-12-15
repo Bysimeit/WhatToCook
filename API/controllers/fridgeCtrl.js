@@ -7,7 +7,7 @@ module.exports.getAllFood = async (req, res) => {
     const idCustomer = parseInt(idTexte);
 
     if(idCustomer === undefined){ 
-        res.sendStatus(400);
+        res.status(400).json("Id client manquant");
     } else {
         const client = await pool.connect();
         try {
@@ -31,7 +31,7 @@ module.exports.postNewFoodCustomer = async (req, res) => {
     const {idCustomer, nameFood, quantity, weight, date} = req.body;
 
     if(idCustomer === undefined || nameFood === undefined || quantity === undefined || weight === undefined || date === undefined) {
-        res.sendStatus(400);
+        res.status(400).json("Données manquantes");
     } else {
         const client = await pool.connect();
         try {

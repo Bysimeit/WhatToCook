@@ -6,7 +6,7 @@ module.exports.getFavoriteRecipe = async (req, res) => {
     const idCustomer = parseInt(idTexte);
 
     if(idCustomer === undefined){
-        res.sendStatus(400);
+        res.status(400).json("Id client manquant");
     } else {
         const client = await pool.connect();
         try {
@@ -29,7 +29,7 @@ module.exports.updateFavoriteRecipe = async (req, res) => {
     const {idCustomer, idRecipe, isFavorite} = req.body;
 
     if(idCustomer === undefined || idRecipe === undefined || isFavorite === undefined){
-        res.sendStatus(400);
+        res.status(400).json("Données manquantes");
     } else {
         const client = await pool.connect();
         try {

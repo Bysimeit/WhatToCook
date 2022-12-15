@@ -7,7 +7,7 @@ module.exports.getAllCustomerAllergy = async (req, res) => {
     const idCustomer = parseInt(idText);
 
     if(idCustomer === undefined){
-        res.sendStatus(400);
+        res.status(400).json("Id client manquant");
     } else {
         const client = await pool.connect();
         try {
@@ -32,7 +32,7 @@ module.exports.postNewCustomerAllergy = async (req, res) => {
     const {idAllergies, idCustomer} = req.body;
 
     if(idCustomer === undefined) {
-        res.sendStatus(400);
+        res.status(400).json("Id client manquant");
     } else {
         const client = await pool.connect();
         try {

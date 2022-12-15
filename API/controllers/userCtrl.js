@@ -9,7 +9,7 @@ module.exports.login = async (req, res) => {
     const {email, password} = req.body;
     
     if(email === undefined || password === undefined){
-        res.sendStatus(400);
+        res.status(400).json("Données manquantes");
     } else {
         const client = await pool.connect();
         try {

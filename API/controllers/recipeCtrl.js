@@ -11,18 +11,21 @@ module.exports.getListeRecipe = async (req, res) => {
     const client = await pool.connect();
     try {
         let result;
+
         let allergiesTab;
         if(allergies === undefined){ 
             allergiesTab = [0];
         } else {
             allergiesTab = allergies.split(',');
         }
+
         let foodsTab;
         if(foods === undefined){ 
             foodsTab = [0];
         } else {
             foodsTab = foods.split(',');
         }
+
         result = await RecipeModel.getResearchRecipe(client, type, time, allergiesTab, foodsTab);
 
         if(result.rows[0] !== undefined){
@@ -70,7 +73,7 @@ module.exports.getDataRecipe = async (req, res) => {
     const id = parseInt(idText);
 
     if(id === undefined){ 
-        res.sendStatus(400);
+        res.status(400).json("Id recette manquant");
     } else {
         const client = await pool.connect();
         try {
@@ -94,7 +97,7 @@ module.exports.postNewRecipe = async (req, res) => {
     const {name, time, type, picture, steps, foods} = req.body;
 
     if(name === undefined || time === undefined || type === undefined || steps === undefined || foods === undefined){ 
-        res.sendStatus(400);
+        res.status(400).json("Données manquantes");
     } else {
         const client = await pool.connect();
         try {
@@ -144,7 +147,7 @@ module.exports.udpateRecipe = async (req, res) => {
     const {id, name, time, type, picture, steps, foods} = req.body;
 
     if(id === undefined || name === undefined || time === undefined || type === undefined || steps === undefined || foods === undefined){ 
-        res.sendStatus(400);
+        res.status(400).json("Données manquantes");
     } else {
         const client = await pool.connect();
         try {

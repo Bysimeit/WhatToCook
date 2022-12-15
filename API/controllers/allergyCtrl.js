@@ -26,7 +26,7 @@ module.exports.postNewAllergy = async (req, res) => {
     const {name} = req.body;
 
     if(name === undefined){
-        res.sendStatus(400);
+        res.status(400).json("nom de recette manquant");
     } else {
         const client = await pool.connect();
         try {
@@ -45,7 +45,7 @@ module.exports.updateAllergy = async (req, res) => {
     const {id, name} = req.body;
 
     if(id === undefined || name === undefined){
-        res.sendStatus(400);
+        res.status(400).json("Données manquantes");
     } else {
         const client = await pool.connect(); 
         try{

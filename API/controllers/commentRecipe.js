@@ -6,7 +6,7 @@ module.exports.getAllCommentCustomer = async (req, res) => {
     const idCustomer = parseInt(idTexte);
 
     if(idCustomer === undefined){
-        res.sendStatus(400);
+        res.status(400).json("Données manquantes");
     } else {
         const client = await pool.connect();
         try {
@@ -30,7 +30,7 @@ module.exports.getCommentRecipe = async (req, res) => {
     const idRecipe = parseInt(idTexte);
 
     if(idRecipe === undefined){
-        res.sendStatus(400);
+        res.status(400).json("Id recette manquant");
     } else {
         const client = await pool.connect();
         try {
@@ -54,7 +54,7 @@ module.exports.updateComment = async (req, res) => {
     const {idCustomer, idRecipe, comment} = req.body;
 
     if(idCustomer === undefined || idRecipe === undefined || comment === undefined){
-        res.sendStatus(400);
+        res.status(400).json("Données manquantes");
     } else {
         const client = await pool.connect();
         try {
