@@ -5,7 +5,7 @@ import CheckBox from 'expo-checkbox';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSelector } from 'react-redux';
-import { getConnected } from "../../redux/selectors";
+import { getAllergies, getConnected } from "../../redux/selectors";
 
 import useFetchAllergy from '../../services/useFetchAllergy';
 import useFetchRecipe from '../../services/useFetchRecipe';
@@ -84,29 +84,16 @@ export default function Research({ navigation }) {
         }
     };
 
-    const fetchCustomerAllergy = (resultPred) => {
-        const userActive = connectedRedux.id;
-        if (userActive !== undefined) {
-            customerAllergyFetch(connectedRedux.id).then((result) => {
-                if (result.status === 200) {
-                    let pushAllergy = [];
-                    for (let i = 0; i < result.data.length; i++) {
-                        for (let y = 0; y < resultPred.length; y++) {
-                            if (result.data[i].idallergy === resultPred[y].id) {
-                                pushAllergy.push(resultPred[y].name);
-                            }
-                        }
-                    }
-                    setSelectedAllergy(pushAllergy);
-                }
-            }).catch((e) => {
-                console.error(e);
-                Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération des allergies de l'utilisateur.");
-            });
+    const allergyRedux = useSelector(getAllergies);
+    const fetchCustomerAllergy = () => {
+        if (allergyRedux !== undefined) {
+            setSelectedAllergy(allergyRedux);
         } else {
             setSelectedAllergy([]);
         }
+        console.log(allergyRedux)
     };
+    //fetchCustomerAllergy();
 
     useEffect(() => {
         allAllergyFetch().then(async (result) => {
@@ -118,13 +105,25 @@ export default function Research({ navigation }) {
 
                 setAllAllergyName(nameAllergy);
                 setAllAllergy(result.data);
-                fetchCustomerAllergy(result.data);
+
+                let allergyNamePush = [];
+                for (let i = 0; i < allergyRedux.length; i++) {
+                    for (let y = 0; y < result.data.length; y++) {
+                        if (allergyRedux[i] === result.data[y].id) {
+                            allergyNamePush.push(result.data[y].name);
+                        }
+                    }
+                }
+                setSelectedAllergy(allergyNamePush);
+
+                //fetchCustomerAllergy(result.data);
+                //fetchCustomerAllergy();
             }
         }).catch((e) => {
             console.error(e);
             Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération des allergies.");
         });
-    }, []);
+    }, [allergyRedux]);
 
     return (
         <View style={styles.page}>

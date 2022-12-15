@@ -7,6 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch, useSelector } from "react-redux";
 import { setConnected } from "../redux/actions/connectedStatus";
 import { getConnected } from "../redux/selectors";
+import { setAllergy } from '../redux/actions/allergyList';
 
 import useFetchCustomer from '../services/useFetchCustomer';
 
@@ -50,6 +51,7 @@ export default function Header({ navigation }) {
             status: false
         };
         dispatch(setConnected(connected));
+        dispatch(setAllergy([]));
         await AsyncStorage.removeItem("infoUser");
         await AsyncStorage.removeItem("email");
         navigation.navigate('Login');

@@ -6,9 +6,11 @@ import { useDispatch } from 'react-redux';
 import { setProfile } from '../../redux/actions/profileList';
 import { setFood } from '../../redux/actions/foodList';
 import { setConnected } from '../../redux/actions/connectedStatus';
+import { setAllergy } from '../../redux/actions/allergyList';
 
 import useFetchCustomer from '../../services/useFetchCustomer';
 import useFetchFridge from '../../services/useFetchFridge';
+import useFetchAllergy from '../../services/useFetchAllergy';
 
 import Header from '../../components/Header';
 import NavBar from '../../components/NavBar';
@@ -23,6 +25,7 @@ export default function Login({ navigation }) {
 
   const { loginFetch, profileFetch } = useFetchCustomer();
   const { foodFetch } = useFetchFridge();
+  const { customerAllergyFetch } = useFetchAllergy();
 
   const dispatch = useDispatch();
   const handlePressConnect = () => {
@@ -51,6 +54,19 @@ export default function Login({ navigation }) {
                     if (result.status === 200) {
                       dispatch(setFood(result.data));
                     }
+                  });
+                  
+                  customerAllergyFetch(result.data[0].id).then((result) => {
+                    if (result.status === 200) {
+                        let pushAllergy = [];
+                        for (let i = 0; i < result.data.length; i++) {
+                          pushAllergy.push(result.data[i].idallergy);
+                        }
+                        dispatch(setAllergy(pushAllergy));
+                    }
+                  }).catch((e) => {
+                      console.error(e);
+                      Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération des allergies de l'utilisateur.");
                   });
 
                   navigation.navigate("Profile");

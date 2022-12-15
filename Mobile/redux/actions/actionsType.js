@@ -10,3 +10,6 @@ export const SET_PROFILE = "SET_PROFILE";
 
 export const ADD_CONNECTED = "ADD_CONNECTED";
 export const SET_CONNECTED = "SET_CONNECTED";
+
+export const ADD_ALLERGY = "ADD_ALLERGY";
+export const SET_ALLERGY = "SET_ALLERGY";
