@@ -85,15 +85,6 @@ export default function Research({ navigation }) {
     };
 
     const allergyRedux = useSelector(getAllergies);
-    const fetchCustomerAllergy = () => {
-        if (allergyRedux !== undefined) {
-            setSelectedAllergy(allergyRedux);
-        } else {
-            setSelectedAllergy([]);
-        }
-        console.log(allergyRedux)
-    };
-    //fetchCustomerAllergy();
 
     useEffect(() => {
         allAllergyFetch().then(async (result) => {
@@ -115,9 +106,6 @@ export default function Research({ navigation }) {
                     }
                 }
                 setSelectedAllergy(allergyNamePush);
-
-                //fetchCustomerAllergy(result.data);
-                //fetchCustomerAllergy();
             }
         }).catch((e) => {
             console.error(e);
