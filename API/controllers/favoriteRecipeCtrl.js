@@ -38,7 +38,7 @@ module.exports.updateFavoriteRecipe = async (req, res) => {
             if(result.rows[0] === undefined){
                 result = await CustomerRecipeModel.postNewLine(client, idCustomer, idRecipe);
             } 
-            console.log(result);
+            
             if(result.rows[0] !== undefined){
                 result = await CustomerRecipeModel.updateIsFavorite(client, idCustomer, idRecipe, isFavorite);  
                 await client.query("COMMIT");
