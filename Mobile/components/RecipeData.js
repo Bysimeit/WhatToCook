@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Image, Pressable, TextInput } from 'react-native';
+import { Text, View, StyleSheet, Image, Pressable, TextInput, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function RecipeData({recipeData, navigation}) {
@@ -47,7 +47,7 @@ export default function RecipeData({recipeData, navigation}) {
             stringOutput += `Il n'y a pas d'étape pour cette recette.`;
         } else {
             for (let i = 0; i < recipeData.steps.length; i++) {
-                stringOutput += `${i+1}. ${recipeData.steps[i]}\n`;
+                stringOutput += `${i+1}. ${recipeData.steps[i]}\n\n`;
             }
         }
 
@@ -58,36 +58,30 @@ export default function RecipeData({recipeData, navigation}) {
         if (numberPerson <= 1) {
             numberPerson = 1;
         }
-        
+
+        let data = [];
+
+        const newString = recipeData.foods.replace(regex, '"');
+
+        const regex = /\((\d+),(.*?),(.*?)\)/g;
+        const regex2 = /\\"/g;
+        let match;
+
+        while ((match = regex.exec(newString)) !== null) {
+            const value = match[1];
+            const characters = match[2].replace(regex2, '');
+            const name = match[3].replace(regex2, '');
+            
+            data.push({ value, characters, name });
+        }
+
         let stringOutput = '';
-        if (recipeData.foods === null) {
-            stringOutput += `Il n'y a pas d'aliment pour cette recette.`;
-        } else {
-            const chiffres = [];
-            let regex = /\d+/g;
-            const chaine = recipeData.foods;
-
-            let resultats = chaine.match(regex);
-
-            for (const resultat of resultats) {
-                chiffres.push(parseInt(resultat));
-            }
-
-            const alphabet = [];
-            regex = /[a-zA-Z]+/g;
-
-            resultats = chaine.match(regex);
-
-            for (const resultat of resultats) {
-                alphabet.push(resultat);
-            }
-
-            for (let i = 0; i < chiffres.length; i++) {
-                stringOutput += `• ${chiffres[i] * numberPerson} ${alphabet[i]}\n`;
-            }
+        for (let i = 0; i < data.length; i++) {
+            stringOutput += `• ${data[i].value * numberPerson} ${data[i].characters} ${data[i].name}\n`;
         }
 
         return stringOutput;
+        
     };
 
     const favotitePress = () => {
@@ -97,7 +91,7 @@ export default function RecipeData({recipeData, navigation}) {
     };
 
     return (
-        <View style={styles.content}>
+        <ScrollView style={styles.content}>
             <Text style={styles.titleRecipe}>Nom : {recipeData.namerecipe}</Text>
             <Text style={styles.titleRecipe}>Durée : {recipeData.time} minutes</Text>
             <Text style={styles.rateRecipe}>Notes :</Text>
@@ -124,7 +118,7 @@ export default function RecipeData({recipeData, navigation}) {
                 <Text style={styles.titleRequired}>Étapes :</Text>
                 <Text style={styles.foodAndSteps}>{steps()}</Text>
             </View>
-        </View>
+        </ScrollView>
     );
 }
 
@@ -182,6 +176,8 @@ const styles = StyleSheet.create({
         marginLeft: 5
     },
     stepsView: {
-        marginTop: 10
+        marginTop: 10,
+        marginRight: 20,
+        paddingBottom: 200
     }
 });
