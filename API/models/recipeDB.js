@@ -7,7 +7,7 @@ module.exports.getResearchRecipe = async (client, type, time, allergies, foods) 
     let request = `
     SELECT
         R.*,
-        SUM (F.price) AS total
+        sum(CAST(F.price AS decimal(6,2))) AS total
     FROM
         Recipe R
         INNER JOIN Food_Quantity FQ ON FQ.idRecipe = R.id
@@ -86,7 +86,7 @@ module.exports.getDataRecipe = async (client, id) => {
         R.*,
         array_agg((FQ.quantity, FQ.unit, f.name)) AS foods,
         (SELECT array_agg(s.text) AS steps FROM step s WHERE s.idrecipe = r.id),
-        SUM (F.price) AS total
+        sum(CAST(F.price AS decimal(6,2))) AS total
     FROM
         recipe R
         JOIN food_quantity fq ON R.id = fq.idrecipe

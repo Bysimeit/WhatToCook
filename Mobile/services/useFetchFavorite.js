@@ -11,7 +11,19 @@ export default function useFetchFavorite() {
         return {status: response.status, data: response.data};
     };
 
+    const changeCustomerFavorite = async (idCustomer, idRecipe, isFavorite) => {
+        const token = await AsyncStorage.getItem("token");
+        const response = await axios.patch(`${IP_API}/favorite`, {
+            "idCustomer": idCustomer,
+            "idRecipe": idRecipe,
+            "isFavorite": isFavorite
+        }, { headers: {'Authorization': `Bearer ${token}` }});
+
+        return {status: response.status, data: response.data};
+    };
+
     return {
-        customerFavoriteFetch
+        customerFavoriteFetch,
+        changeCustomerFavorite
     };
 }

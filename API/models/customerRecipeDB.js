@@ -31,7 +31,7 @@ module.exports.getFavoriteRecipe = async (client, idCustomer) => {
     return await client.query(`
     SELECT
         R.*,
-        SUM (F.price) AS total
+        sum(CAST(F.price AS decimal(6,2))) AS total
     FROM
         Recipe R
         INNER JOIN Customer_Recipe CR ON CR.idRecipe = R.id

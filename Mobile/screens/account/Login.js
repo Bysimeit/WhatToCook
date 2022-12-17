@@ -7,6 +7,7 @@ import { setProfile } from '../../redux/actions/profileList';
 import { setFood } from '../../redux/actions/foodList';
 import { setConnected } from '../../redux/actions/connectedStatus';
 import { setAllergy } from '../../redux/actions/allergyList';
+import { setFavorite } from '../../redux/actions/favoriteList';
 
 import useFetchCustomer from '../../services/useFetchCustomer';
 import useFetchFridge from '../../services/useFetchFridge';

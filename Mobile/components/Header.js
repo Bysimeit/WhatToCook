@@ -10,6 +10,7 @@ import { getConnected } from "../redux/selectors";
 import { setAllergy } from '../redux/actions/allergyList';
 import { setFood } from '../redux/actions/foodList';
 import { setFavorite } from '../redux/actions/favoriteList';
+import { setProfile } from '../redux/actions/profileList';
 
 import useFetchCustomer from '../services/useFetchCustomer';
 
@@ -52,6 +53,7 @@ export default function Header({ navigation }) {
             status: false
         };
         dispatch(setConnected(connected));
+        dispatch(setProfile([]));
         dispatch(setAllergy([]));
         dispatch(setFood([]));
         dispatch(setFavorite([]));
