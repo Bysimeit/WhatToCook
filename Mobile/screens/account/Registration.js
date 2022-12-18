@@ -46,8 +46,7 @@ export default function Registration({ navigation }) {
                       Alert.alert("Erreur !", "Veuillez réessayer !");
                     }
                   }).catch((e) => {
-                    console.error(e);
-                    Alert.alert("Erreur !", "Adresse mail déjà existante !");
+                    Alert.alert("Erreur !", e.message);
                   });
                 } else {
                   Alert.alert("Erreur !", "Veuillez faire correspondre vos mots de passe !");

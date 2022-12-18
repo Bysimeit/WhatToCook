@@ -24,9 +24,9 @@ export default function PasswordForget({ navigation }) {
                 <Text style={styles.title}>Mot de passe oublié</Text>
                 <View style={styles.inputView}>
                     <Text>EMail :</Text>
-                    <TextInput style={[styles.input, styles.shadowBox]} onChangeText={onChangeEMail} value={eMail}/>
+                    <TextInput style={[styles.input, styles.shadowBox]} onChangeText={onChangeEMail} value={eMail} editable={false}/>
                 </View>
-                <Pressable style={[styles.buttonPassword, styles.shadowBox]} onPress={handlePressSend}>
+                <Pressable style={[styles.buttonPassword, styles.shadowBox]} onPress={handlePressSend} disabled={true}>
                     <Text style={styles.textButton}>Envoyer</Text>
                 </Pressable>
                 <Pressable style={[styles.buttonBack, styles.shadowBox]} onPress={handlePressBack}>

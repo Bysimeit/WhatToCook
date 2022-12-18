@@ -63,8 +63,7 @@ export default function Allergies({ navigation }) {
                 setSelectedAllergy(allergyNamePush);
             }
         }).catch((e) => {
-            console.error(e);
-            Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération des allergies.");
+            Alert.alert("Erreur !", e.message);
         });
     }, [allergyRedux]);
 
@@ -85,8 +84,7 @@ export default function Allergies({ navigation }) {
                 Alert.alert("Mise à jour réussie !", "Vos allergies ont bien été mise à jour.");
             }
         }).catch((e) => {
-            console.error(e);
-            Alert.alert("Erreur !", "Une erreur est survenue lors de la mise à jour de vos allergies.");
+            Alert.alert("Erreur !", e.message);
         });
     };
 

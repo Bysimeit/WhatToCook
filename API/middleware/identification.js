@@ -15,7 +15,7 @@ module.exports.identification = async (req, res, next) => {
         }
         catch (e) {
             console.error(e);
-            res.sendStatus(400);
+            res.status(400).json("Connexion expirée");
         }
     } else {
         res.sendStatus(401);

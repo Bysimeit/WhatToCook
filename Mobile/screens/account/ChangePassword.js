@@ -22,13 +22,13 @@ export default function ChangePassword({ navigation }) {
                         changePassword(oldPassword, newPassword, await AsyncStorage.getItem("eMail")).then(async (result) => {
                             if (result.status === 204) {
                                 Alert.alert("Mot de passe changé !", "Votre mot de passe a bien été mis à jour.");
+                                onChangeOldPassword('');
+                                onChangeNewPassword('');
+                                onChangeNewPasswordConfirm('');
                                 navigation.navigate('Profile');
-                            } else {
-                                Alert.alert("Erreur !", "Une erreur est survenue, veuillez réessayer !");
                             }
                         }).catch((e) => {
-                            console.error(e);
-                            Alert.alert("Erreur !", "Votre ancien mot de passe est incorrect !");
+                            Alert.alert("Erreur !", e.message);
                         });
                     } else {
                         Alert.alert("Erreur !", "Votre nouveau mot de passe ne correspond pas avec la confirmation.");

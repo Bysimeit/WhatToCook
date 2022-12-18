@@ -17,8 +17,7 @@ export default function RecipeTile({recipe, navigation}) {
                 });
             }
         }).catch((e) => {
-            console.error(e);
-            Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération de la recette.");
+            Alert.alert("Erreur !", e.message);
         });
     }
 

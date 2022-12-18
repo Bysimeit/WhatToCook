@@ -42,8 +42,7 @@ export default function Profile({ navigation }) {
                                 navigation.navigate("Login");
                             }
                         }).catch((e) => {
-                            console.error(e);
-                            Alert.alert("Erreur !", "Une erreur est survenue.");
+                            Alert.alert("Erreur !", e.message);
                         });
                     }
                 }

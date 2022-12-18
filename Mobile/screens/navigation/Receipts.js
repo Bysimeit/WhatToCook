@@ -49,6 +49,8 @@ export default function Receipts({navigation}) {
                         if (result.status === 200) {
                             dispatch(setFood(result.data));
                         }
+                    }).catch((e) => {
+                        Alert.alert("Erreur !", e.message);
                     });
 
                     customerAllergyFetch(result.data[0].id).then((result) => {
@@ -60,8 +62,7 @@ export default function Receipts({navigation}) {
                             dispatch(setAllergy(pushAllergy));
                         }
                       }).catch((e) => {
-                          console.error(e);
-                          Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération des allergies de l'utilisateur.");
+                          Alert.alert("Erreur !", e.message);
                       });
 
                     customerFavoriteFetch(result.data[0].id).then((result) => {
@@ -70,12 +71,11 @@ export default function Receipts({navigation}) {
                         }
                     }).catch((e) => {
                         console.error(e);
-                        Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération des recettes favorites.");
+                        Alert.alert("Erreur !", e.message);
                     });
                 }
             }).catch((e) => {
-                console.error(e);
-                Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération du profil.");
+                Alert.alert("Erreur !", e.message);
             });
         }
     }

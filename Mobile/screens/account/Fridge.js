@@ -99,14 +99,12 @@ export default function Fridge({ navigation }) {
         addFoodFetch(JSON.parse(await AsyncStorage.getItem("infoUser")).id, foodTitle, foodQuantity, foodWeight, dateConversion).then(async (result) => {
             if (result.status === 200) {
                 dispatch(addFood(result.data, foodTitle, foodQuantity, foodWeight, dateConversion));
-                console.log(result.data);
                 Alert.alert("Ajouté");
             }
         }).catch((e) => {
-            console.error(e);
-            Alert.alert("Erreur !", "Un problème est survenu lors de l'ajout d'un aliment.");
+            Alert.alert("Erreur !", e.message);
         });
-        setFoodTitle(''),
+        setFoodTitle('');
         setFoodQuantity('');
         setFoodWeight('');
     }

@@ -31,8 +31,7 @@ export default function ComFavData({recipe}) {
                     Alert.alert("Ajouté !", "La recette a bien été ajoutée dans vos favoris.");
                 }
             }).catch((e) => {
-                console.error(e);
-                Alert.alert("Erreur !", "Une erreur est survnue lors de la modification de vos favoris.");
+                Alert.alert("Erreur !", e.message);
             });
             setIsFavorite(false);
         } else {
@@ -42,8 +41,7 @@ export default function ComFavData({recipe}) {
                     Alert.alert("Ajouté !", "La recette a bien été ajoutée dans vos favoris.");
                 }
             }).catch((e) => {
-                console.error(e);
-                Alert.alert("Erreur !", "Une erreur est survnue lors de la modification de vos favoris.");
+                Alert.alert("Erreur !", e.message);
             });
             setIsFavorite(true);
         }

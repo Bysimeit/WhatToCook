@@ -16,8 +16,7 @@ export default function FoodTile({food}) {
                 dispatch(deleteFood(food.id));
             }
         }).catch((e) => {
-            console.error(e);
-            Alert.alert("Erreur !", "Une erreur est survenue lors de la suppression !");
+            Alert.alert("Erreur !", e.message);
         });
     }
 

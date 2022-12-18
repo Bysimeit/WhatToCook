@@ -58,8 +58,7 @@ export default function Login({ navigation }) {
                       dispatch(setFood(result.data));
                     }
                   }).catch((e) => {
-                    console.error(e);
-                    Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération du frigo");
+                    Alert.alert("Erreur !", e.message);
                   });
                   
                   customerAllergyFetch(result.data[0].id).then((result) => {
@@ -71,8 +70,7 @@ export default function Login({ navigation }) {
                         dispatch(setAllergy(pushAllergy));
                     }
                   }).catch((e) => {
-                      console.error(e);
-                      Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération des allergies de l'utilisateur.");
+                      Alert.alert("Erreur !", e.message);
                   });
 
                   customerFavoriteFetch(result.data[0].id).then((result) => {
@@ -80,26 +78,18 @@ export default function Login({ navigation }) {
                       dispatch(setFavorite(result.data));
                     }
                   }).catch((e) => {
-                    console.error(e);
-                    Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération des recettes favorites !");
+                    Alert.alert("Erreur !", e.message);
                   });
 
                   navigation.navigate("Profile");
                 }
               }).catch((e) => {
-                console.error(e);
-                Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération du profil.");
+                Alert.alert("Erreur !", e.message);
               });
-            } else {
-              onChangePassword('');
-              Alert.alert("Erreur !", "Adresse eMail ou mot de passe incorrect !");
             }
           }).catch((e) => {
-            switch (e.response.status) {
-              case 404:
-                onChangePassword('');
-                Alert.alert("Erreur !", "Adresse eMail ou mot de passe incorrect !");
-            }
+            onChangePassword('');
+            Alert.alert("Erreur !", e.message);
           });
         } else {
           Alert.alert("Erreur !", "Veuillez insérer votre mot de passe !");

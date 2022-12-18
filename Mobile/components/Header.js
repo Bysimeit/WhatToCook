@@ -12,8 +12,6 @@ import { setFood } from '../redux/actions/foodList';
 import { setFavorite } from '../redux/actions/favoriteList';
 import { setProfile } from '../redux/actions/profileList';
 
-import useFetchCustomer from '../services/useFetchCustomer';
-
 export default function Header({ navigation }) {
     const [isMenuVisible, setMenuVisible] = useState(false);
 
@@ -44,7 +42,6 @@ export default function Header({ navigation }) {
         setMenuVisible(false);
     };
 
-    const { logoutFetch } = useFetchCustomer();
     const dispatch = useDispatch();
     const handlePressLogOut = async () => {
         const idCustomer = JSON.parse(await AsyncStorage.getItem("infoUser")).id
