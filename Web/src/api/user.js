@@ -19,10 +19,9 @@ const loginAxios = async (email, password) => {
 
         
 		const token = response.data;
-		console.log(token);
 		localStorage.setItem('token', token);
 
-		return token != null;
+		return token;
 	} catch (e) {
 		console.log(e);
 		switch (e.response.status) {
@@ -36,4 +35,28 @@ const loginAxios = async (email, password) => {
 	}
 };
 
-export {loginAxios}
+const verifTokenAxios = async (token) => {
+	
+	try {
+		console.log("debut axios");
+        const response = await axios({
+            method: 'get',
+			headers: {'Authorization': 'Bearer ' + token},
+            url: `${API_URL}/user`,
+        });
+
+		return response;
+	} catch (e) {
+		console.log(e);
+		switch (e.response.status) {
+		case 400:
+			throw new Error('L\'email et le mot de passe sont obligatoires');
+		case 404:
+			throw new Error('L\'email ou/et le mot de passe est/sont incorrect(s)');
+		default: 
+			throw new Error('Une erreur s\'est produite, veuillez réessayer plus tard');
+		}
+	}
+};
+
+export {loginAxios, verifTokenAxios}

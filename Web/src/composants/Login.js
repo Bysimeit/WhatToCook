@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {loginAxios} from '../api/user';
 import {getCustomer} from '../api/customer';
-import {login} from '../store/userSlicer';
-
+import {login, setToken} from '../store/userSlicer';
+import {useNavigate} from "react-router-dom";
 
 export default function Login(){
 
@@ -11,18 +11,20 @@ export default function Login(){
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
     const selector = useSelector((state) => state);  
-    useEffect(() => {
-        console.log(selector);
-        console.log(localStorage.getItem('token'));
-    }, [selector]);
+    const token = useSelector((state) => state.user.token);
+    const navigate = useNavigate();
 
     async function processLogin(){
-        if(await loginAxios(email,password)){
+        const newToken = await loginAxios(email,password);
+        if(newToken){       
             const data = await getCustomer(email);
-            dispatch(login(data));          
+            dispatch(setToken(newToken));
+            dispatch(login(data));     
+            navigate("/Admin");
         } else {
             console.log("erreur");
         };
+        console.log(token);
     }
 
     function handleSubmit(event) {

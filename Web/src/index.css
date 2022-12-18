@@ -172,3 +172,20 @@ button:hover {
 
 
 
+.hamburger-menu aside {
+  width: 150px;                /* menu width */
+  }
+.hamburger-menu {
+  color: gainsboro;            /* menu font color */
+  background-color: teal;      /* menu background color */
+  }
+.hamburger-menu aside ul li.current {
+  border-color: white;         /* border color for selected menu item */
+  }
+.hamburger-menu aside ul li.current >span,
+.hamburger-menu aside ul li.current >a,
+.hamburger-menu aside ul li >span:hover,
+.hamburger-menu aside ul li >a:hover {
+  color: white;                /* menu font highlight color */
+  background-color: darkcyan;  /* menu background highlight color */
+  }

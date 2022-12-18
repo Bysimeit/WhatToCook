@@ -41,8 +41,6 @@ const getCustomer = async (email) => {
             url: `${API_URL}/customer/${email}`,
         });
 
-		console.log(response);
-
 		const data = response.data
 		return data;
 		

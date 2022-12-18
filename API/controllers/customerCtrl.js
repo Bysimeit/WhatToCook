@@ -33,7 +33,7 @@ module.exports.getCustomer = async (req, res) => {
         const client = await pool.connect();
         try{
             const result = await CustomerModel.getDataCustomer(client, email);
-            if(result.rows !== undefined){
+            if(result.rows[0] !== undefined){
                 res.json(result.rows);
             } else {
                 res.sendStatus(404);

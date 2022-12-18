@@ -8,19 +8,24 @@ import {
 import WelcomePage from '../screens/WelcomePage';
 import LoginPage from '../screens/LoginPage';
 import ClientAreaPage from '../screens/ClientAreaPage';
+import ListCommentsPage from '../screens/ListCommentsPage';
+
 import ChangePassWord from '../screens/ChangePassWordPage';
+import Protected from '../composants/PrivateRoute';
 
 
 const Router = () => {
     return(
         <BrowserRouter>
             <Routes>
-            <Route path="/" element={<WelcomePage/>} />
-            <Route path="/login" element={<LoginPage/>}/>
-            
-            {/* pour le test interne*/}
-            <Route path="/Admin" element={<ClientAreaPage/>}/>
-            <Route path="/ChangePassword" element={<ChangePassWord/>} />
+                <Route path="/" element={<WelcomePage/>} />
+                <Route path="/login" element={<LoginPage/>}/>
+                <Route path="/comment" element={<ListCommentsPage/>}/>
+                
+                {/*<Protected token={}></Protected>*/}
+                    <Route path="/admin" element={<ClientAreaPage/>}/>
+                    <Route path="/changePassword" element={<ChangePassWord/>} />
+                
             </Routes>
         </BrowserRouter>
     );
