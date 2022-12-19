@@ -51,19 +51,18 @@ export default function ComFavData({recipe}) {
     }
 
     const commentShow = () => {
-        console.log(commentList)
         if (commentList !== undefined) {
-            let stringList = [];
-
-            if (commentList.length < 1) {
+            if (commentList.length < 1 || commentList[0] === "Introuvable") {
                 return `Il n'y a pas de commentaire pour cette recette.`;
-            }
+            } else {
+                let stringList = [];
 
-            for (let i = 0; i < commentList.length; i++) {
-                stringList.push("- " + commentList[i].comment);
-            }
+                for (let i = 0; i < commentList.length; i++) {
+                    stringList.push("- " + commentList[i].comment + "\n");
+                }
 
-            return stringList;
+                return stringList;
+            }
         }
     }
 
@@ -71,7 +70,13 @@ export default function ComFavData({recipe}) {
         setIsFavorite(false);
         fetchCommentRecipe(recipeJSON.id).then((result) => {
             if (result.status === 200) {
-                setCommentList(result.data);
+                let commentPush = [];
+                for (let i = 0; i < result.data.length; i++) {
+                    if (result.data[i].comment !== "") {
+                        commentPush.push(result.data[i]);
+                    }
+                }
+                setCommentList(commentPush);
             }
         }).catch((e) => {
             Alert.alert("Erreur !", e.message);

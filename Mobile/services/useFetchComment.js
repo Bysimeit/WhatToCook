@@ -14,7 +14,7 @@ export default function useFetchComment() {
             const message = errorMessage(
                 e.response.status,
                 e.response.data,
-                "Récupération commentaire"
+                "Récupération commentaires"
             );
 
             throw new Error(message);

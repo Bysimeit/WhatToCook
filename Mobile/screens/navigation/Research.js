@@ -9,6 +9,7 @@ import { getAllergies, getConnected } from "../../redux/selectors";
 
 import useFetchAllergy from '../../services/useFetchAllergy';
 import useFetchRecipe from '../../services/useFetchRecipe';
+import useFetchFridge from '../../services/useFetchFridge';
 
 import Header from '../../components/Header';
 import NavBar from '../../components/NavBar';
@@ -54,6 +55,7 @@ export default function Research({ navigation }) {
     };
 
     const { recipeSearchFetch } = useFetchRecipe();
+    const { foodFetch } = useFetchFridge();
     const startResearch = () => {
         if (numberTime === undefined) {
             Alert.alert("Erreur !", "Veuillez indiquer la durée durant laquelle vous pouvez cuisiner.");
@@ -71,16 +73,43 @@ export default function Research({ navigation }) {
                 }
             }
 
-            recipeSearchFetch(valueType, numberTime, idAllergies).then((result) => {
-                if (result.status === 200) {
-                    navigation.navigate("ResultResearch", {
-                        data: result.data
-                    })
-                }
-            }).catch((e) => {
-                console.error(e);
-                Alert.alert("Erreur !", "Une erreur est survenue lors de la recherce des recettes.");
-            });
+            if (fridgeSelected) {
+                foodFetch(connectedRedux.id).then((result) => {
+                    if (result.status === 200) {
+                        let foodsNameFridge = "";
+                        for (let i = 0; i < result.data.length; i++) {
+                            if (i < result.data.length - 1) {
+                                foodsNameFridge += result.data[i].name + ",";
+                            } else {
+                                foodsNameFridge += result.data[i].name;
+                            }
+                        }
+                        recipeSearchFetch(valueType, numberTime, idAllergies, foodsNameFridge).then((result) => {
+                            if (result.status === 200) {
+                                navigation.navigate("ResultResearch", {
+                                    data: result.data
+                                })
+                            }
+                        }).catch((e) => {
+                            Alert.alert("Erreur !", e.message);
+                        });
+                        setFridgeSelection(false);
+                    }
+                }).catch((e) => {
+                    Alert.alert("Erreur !", e.message);
+                });
+            } else {
+                recipeSearchFetch(valueType, numberTime, idAllergies, "").then((result) => {
+                    if (result.status === 200) {
+                        navigation.navigate("ResultResearch", {
+                            data: result.data
+                        })
+                    }
+                }).catch((e) => {
+                    console.error(e);
+                    Alert.alert("Erreur !", "Une erreur est survenue lors de la recherce des recettes.");
+                });
+            }
         }
     };
 
@@ -149,7 +178,7 @@ export default function Research({ navigation }) {
                                 <Text style={{margin: 4}}>Connexion requise</Text>
                             </View>
                             <View style={connectedRedux.status ? styles.loginAllowed : styles.loginRequire}>
-                                <Text>Uniquement les recettes faisable avec le frigo ?</Text>
+                                <Text>Uniquement les recettes faisable avec votre frigo ?</Text>
                                 <View style={styles.checkBoxContainer}>
                                     <CheckBox value={fridgeSelected} onValueChange={setFridgeSelection} style={styles.checkbox} color='grey' disabled={!connectedRedux.status} />
                                     <Text style={styles.checkBoxLabel}>Oui</Text>

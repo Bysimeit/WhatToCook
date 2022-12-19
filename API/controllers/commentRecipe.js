@@ -38,7 +38,8 @@ module.exports.getCommentRecipe = async (req, res) => {
             if(result.rows[0] !== undefined){
                 res.json(result.rows);
             } else {
-                res.sendStatus(404);
+                let result = ["Introuvable"];
+                res.json(result);
             }
         } catch (e) {
             console.error(e);
