@@ -46,7 +46,8 @@ const styles = StyleSheet.create({
     content: {
         position: 'relative',
         elevation: -1,
-        marginTop: 110
+        marginTop: 110,
+        marginBottom: 95
     },
     title: {
         textAlign: 'center',

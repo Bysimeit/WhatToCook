@@ -2,22 +2,24 @@ import * as React from 'react';
 import { Text, View, StyleSheet, TextInput} from 'react-native';
 
 export default function ProfileInfos({profile}) {
-    return (
-        <View>
-            <View style={styles.inputView}>
-                <Text>Nom :</Text>
-                <TextInput editable={false} style={[styles.input, styles.shadowBox]} value={profile[0].name}/>
+    if (profile[0].name !== undefined) {
+        return (
+            <View>
+                <View style={styles.inputView}>
+                    <Text>Nom :</Text>
+                    <TextInput editable={false} style={[styles.input, styles.shadowBox]} value={profile[0].name}/>
+                </View>
+                <View style={styles.inputView}>
+                    <Text>Prénom :</Text>
+                    <TextInput editable={false} style={[styles.input, styles.shadowBox]} value={profile[0].firstname}/>
+                </View>
+                <View style={styles.inputView}>
+                    <Text>EMail :</Text>
+                    <TextInput editable={false} style={[styles.input, styles.shadowBox]} value={profile[0].email}/>
+                </View>
             </View>
-            <View style={styles.inputView}>
-                <Text>Prénom :</Text>
-                <TextInput editable={false} style={[styles.input, styles.shadowBox]} value={profile[0].firstname}/>
-            </View>
-            <View style={styles.inputView}>
-                <Text>EMail :</Text>
-                <TextInput editable={false} style={[styles.input, styles.shadowBox]} value={profile[0].email}/>
-            </View>
-        </View>
-    );
+        );
+    }
 }
 
 const styles = StyleSheet.create({

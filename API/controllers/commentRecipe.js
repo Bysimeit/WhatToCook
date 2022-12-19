@@ -34,8 +34,7 @@ module.exports.getCommentRecipe = async (req, res) => {
     } else {
         const client = await pool.connect();
         try {
-            const result = await CustomerRecipeModel.getCommentRecipe(client, idRecipe);
-            console.log(result);       
+            const result = await CustomerRecipeModel.getCommentRecipe(client, idRecipe);   
             if(result.rows !== undefined){
                 res.json(result.rows);
             } else {

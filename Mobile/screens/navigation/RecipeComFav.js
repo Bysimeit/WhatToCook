@@ -44,6 +44,6 @@ const styles = StyleSheet.create({
     separeView: {
         marginTop: 20,
         marginLeft: 'auto',
-        marginRight: 'auto',
+        marginRight: 'auto'
     }
 });

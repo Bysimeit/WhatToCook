@@ -6,7 +6,7 @@ const Router = require("express-promise-router");
 const router = new Router;
 
 router.get('/',JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, CommentRecipeController.getAllCommentCustomer);
-router.get('/:id',JWTMiddleWare.identification, CommentRecipeController.getCommentRecipe);
+router.get('/:id', CommentRecipeController.getCommentRecipe);
 router.patch('/', JWTMiddleWare.identification, CommentRecipeController.updateComment);
 
 

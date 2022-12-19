@@ -26,7 +26,7 @@ export default function Discovery({navigation}) {
     }, []);
 
     const getRandom = () => {
-        if (randomRecipe !== undefined) return <RecipeData recipeData={randomRecipe}/>
+        if (randomRecipe !== undefined) return <RecipeData recipeData={randomRecipe} navigation={navigation}/>
     };
 
     return (

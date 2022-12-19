@@ -69,7 +69,8 @@ export default function Profile({ navigation }) {
     const profile = useSelector(getProfile);
 
     useEffect(() => {
-        getImage();
+        //getImage();
+        //source={!image ? require('../../assets/account/iconDefaultUser.png') : {uri: image} }
     }, [navigation]);
 
     const pickImage = async () => {
@@ -90,10 +91,10 @@ export default function Profile({ navigation }) {
         <View style={styles.page}>
             <View style={styles.content}>
                 <Text style={styles.title}>Profil</Text>
-                <Pressable onPress={pickImage}>
-                    <Image style={styles.iconUser} source={!image ? require('../../assets/account/iconDefaultUser.png') : {uri: image} }/>
+                <Pressable onPress={pickImage} disabled={true}>
+                    <Image style={styles.iconUser} source={require('../../assets/account/iconDefaultUser.png')}/>
                 </Pressable>
-                <ProfileInfos profile={profile}/>
+                {profile.length !== 0 ? <ProfileInfos profile={profile}/> : ""}
                 <Pressable style={[styles.buttonPassword, styles.shadowBox]} onPress={handlePressPassword}>
                     <Text style={styles.textButton}>Changer de mot de passe</Text>
                 </Pressable>
