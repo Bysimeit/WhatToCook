@@ -3,11 +3,10 @@ import axios from 'axios';
 import {API_URL} from './axiosBase';
 
 
-const getAllCustomerAllergy = async (id) => {
+const getAllCustomerAllergy = async (id, token) => {
 	
 	try {
 		console.log("debut axios");
-		const token = localStorage.getItem('token');
         const response = await axios({
             method: 'get',
             headers: {'Authorization': 'Bearer ' + token},
@@ -32,11 +31,10 @@ const getAllCustomerAllergy = async (id) => {
 	}
 };
 
-const postNewCustomerAllergy = async (idAllergies, idCustomer) => {
+const postNewCustomerAllergy = async (idAllergies, idCustomer, token) => {
 	
 	try {
 		console.log("debut axios");
-		const token = localStorage.getItem('token');
         const response = await axios({
             method: 'post',
             headers: {'Authorization': 'Bearer ' + token},

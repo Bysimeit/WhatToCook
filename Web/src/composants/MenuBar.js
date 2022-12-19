@@ -3,22 +3,17 @@ import {useSelector, useDispatch} from 'react-redux';
 import {Link} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
 import picture from '../pictures/imgProfileDefault.jpg';
-//import { Menu, SubMenu, Item } from "burger-menu";
-//import 'burger-menu/lib/index.css';
 import {setToken} from '../store/userSlicer';
 
 export default function MenuBar() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const token = useSelector((state) => state.user.token);
-    //let rightMenu;
-    //let [isOpen, setIsOpen] = useState(false);
+    const [isMenuVisible, setMenuVisible] = useState(false);
 
     function handleClick() {
         navigate("/Login");
     } 
-
-    const [isMenuVisible, setMenuVisible] = useState(false);
 
     function changeVisibility() {
         if (isMenuVisible) {
@@ -29,6 +24,7 @@ export default function MenuBar() {
     }
 
     function onClickAccount() {
+        navigate("/admin");
         setMenuVisible(false);
     }
     function onClickFavorites() {
@@ -39,7 +35,7 @@ export default function MenuBar() {
     }
     function onClickLogOut() {
         navigate("/");
-        dispatch(setToken(null));
+        dispatch(setToken(""));
         localStorage.removeItem('token');
         setMenuVisible(false);
     }
@@ -58,7 +54,7 @@ export default function MenuBar() {
     }
 
     function showMenu() {
-        if (token == "" || token == undefined) {
+        if (token === "" || token === undefined) {
             return <div className="buttons">
                         <button onClick={() => handleClick()}>Connexion</button>
                         <button>Inscrption</button>

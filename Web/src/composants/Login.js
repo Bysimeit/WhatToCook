@@ -17,7 +17,7 @@ export default function Login(){
     async function processLogin(){
         const newToken = await loginAxios(email,password);
         if(newToken){       
-            const data = await getCustomer(email);
+            const data = await getCustomer(email, newToken);
             dispatch(setToken(newToken));
             dispatch(login(data));     
             navigate("/Admin");

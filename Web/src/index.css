@@ -12,8 +12,6 @@ body{
 }
 
 img {
-  border-style: solid;
-  border-color: black;
   text-align: center;
   height: auto;
   width: auto;
@@ -169,8 +167,6 @@ button:hover {
   margin-right: 10px;
 }
 
-
-
 .imageMenu {
   width: 100px;
   height: 50px;
@@ -192,4 +188,13 @@ button:hover {
   color: black;
   border: solid black 1px;
   text-align: center;
+}
+
+/* CustomerList */
+
+
+
+.customListBtn{
+  width: 20px;
+  right: 20px;
 }

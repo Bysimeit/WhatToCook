@@ -3,15 +3,14 @@ import axios from 'axios';
 import {API_URL} from './axiosBase';
 
 
-const getAllCustomer = async () => {
+const getAllCustomer = async (token) => {
 	
 	try {
 		console.log("debut axios");
-		const token = localStorage.getItem('token');
         const response = await axios({
             method: 'get',
             headers: {'Authorization': 'Bearer ' + token},
-            url: `${API_URL}/customer/`,
+            url: `${API_URL}/customer`,
         });
 
 		console.log(response);
@@ -30,11 +29,10 @@ const getAllCustomer = async () => {
 	}
 };
 
-const getCustomer = async (email) => {
+const getCustomer = async (email, token) => {
 	
 	try {
 		console.log("debut axios");
-		const token = localStorage.getItem('token');
         const response = await axios({
             method: 'get',
             headers: {'Authorization': 'Bearer ' + token},
@@ -57,11 +55,10 @@ const getCustomer = async (email) => {
 	}
 };
 
-const postNewCustomer = async (lastName, firstName, password, email) => {
+const postNewCustomer = async (lastName, firstName, password, email, token) => {
 	
 	try {
 		console.log("debut axios");
-		const token = localStorage.getItem('token');
         const response = await axios({
             method: 'post',
             headers: {'Authorization': 'Bearer ' + token},
@@ -90,11 +87,10 @@ const postNewCustomer = async (lastName, firstName, password, email) => {
 	}
 };
 
-const updateCustomer = async (oldPassword , newPassword, oldEmail, newEmail) => {
+const updateCustomer = async (oldPassword , newPassword, oldEmail, newEmail, token) => {
 	
 	try {
 		console.log("debut axios");
-		const token = localStorage.getItem('token');
         let response;
 		if(newPassword !== undefined){
 			response = await axios({
@@ -139,11 +135,10 @@ const updateCustomer = async (oldPassword , newPassword, oldEmail, newEmail) => 
 	}
 };
 
-const deleteCustomer = async (id) => {
+const deleteCustomer = async (id, token) => {
 	
 	try {
 		console.log("debut axios");
-		const token = localStorage.getItem('token');
         const response = await axios({
             method: 'delete',
             headers: {'Authorization': 'Bearer ' + token},

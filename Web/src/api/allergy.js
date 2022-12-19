@@ -3,11 +3,10 @@ import axios from 'axios';
 import {API_URL} from './axiosBase';
 
 
-const getAllAllergy = async () => {
+const getAllAllergy = async (token) => {
 	
 	try {
 		console.log("debut axios");
-		const token = localStorage.getItem('token');
         const response = await axios({
             method: 'get',
             headers: {'Authorization': 'Bearer ' + token},
@@ -30,11 +29,10 @@ const getAllAllergy = async () => {
 	}
 };
 
-const postNewAllergy = async (name) => {
+const postNewAllergy = async (name, token) => {
 	
 	try {
 		console.log("debut axios");
-		const token = localStorage.getItem('token');
         const response = await axios({
             method: 'post',
             headers: {'Authorization': 'Bearer ' + token},
@@ -60,11 +58,10 @@ const postNewAllergy = async (name) => {
 	}
 };
 
-const updateAllergy = async (id, name) => {
+const updateAllergy = async (id, name, token) => {
 	
 	try {
 		console.log("debut axios");
-		const token = localStorage.getItem('token');
         const response = await axios({
             method: 'patch',
             headers: {'Authorization': 'Bearer ' + token},
@@ -91,11 +88,10 @@ const updateAllergy = async (id, name) => {
 	}
 };
 
-const deleteAllergy = async (id) => {
+const deleteAllergy = async (id, token) => {
 	
 	try {
 		console.log("debut axios");
-		const token = localStorage.getItem('token');
         const response = await axios({
             method: 'delete',
             headers: {'Authorization': 'Bearer ' + token},

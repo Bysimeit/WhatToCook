@@ -6,6 +6,7 @@ import {useNavigate} from "react-router-dom";
 import {setToken} from '../store/userSlicer';
 
 export default function ClientAreaPage(){
+    
     const user = useSelector((state) => state.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -16,13 +17,18 @@ export default function ClientAreaPage(){
         dispatch(setToken(null));
         localStorage.removeItem('token');
     } 
+
+    function handleClickManageCustomer(){
+        navigate("/customer");
+    } 
     
     if(user.isAdmin){
         adminSide = <div className="adminSide">
             <h3>Vous êtes connecté en tant qu'administrateur</h3>
-            <input type="button" value="Gestion Comptes"/>
+            <input type="button" onClick={() => handleClickManageCustomer()} value="Gestion Comptes"/>
             <input type="button" value="Gestion Recettes"/>
         </div>
+        console.log(adminSide);
     }
 
     return(

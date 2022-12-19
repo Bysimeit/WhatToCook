@@ -9,6 +9,7 @@ import WelcomePage from '../screens/WelcomePage';
 import LoginPage from '../screens/LoginPage';
 import ClientAreaPage from '../screens/ClientAreaPage';
 import ListCommentsPage from '../screens/ListCommentsPage';
+import ListCustomerPage from '../screens/CustomerListPage';
 
 import ChangePassWord from '../screens/ChangePassWordPage';
 import Protected from '../composants/PrivateRoute';
@@ -20,7 +21,8 @@ const Router = () => {
             <Routes>
                 <Route path="/" element={<WelcomePage/>} />
                 <Route path="/login" element={<LoginPage/>}/>
-                <Route path="/comment" element={<ListCommentsPage/>}/>
+                <Route path="/customer" element={<ListCustomerPage/>}/>
+                <Route path="/comment" element={<ListCustomerPage/>}/>
                 
                 {/*<Protected token={}></Protected>*/}
                     <Route path="/admin" element={<ClientAreaPage/>}/>
