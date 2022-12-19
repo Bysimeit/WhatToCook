@@ -11,7 +11,7 @@ module.exports.getAllCommentCustomer = async (req, res) => {
         const client = await pool.connect();
         try {
             const result = await CustomerRecipeModel.getCommentCustomer(client, idCustomer);
-            if(result.rows !== undefined){
+            if(result.rows[0] !== undefined){
                 res.json(result.rows);
             } else {
                 res.sendStatus(404);
@@ -35,7 +35,7 @@ module.exports.getCommentRecipe = async (req, res) => {
         const client = await pool.connect();
         try {
             const result = await CustomerRecipeModel.getCommentRecipe(client, idRecipe);   
-            if(result.rows !== undefined){
+            if(result.rows[0] !== undefined){
                 res.json(result.rows);
             } else {
                 res.sendStatus(404);
@@ -59,7 +59,7 @@ module.exports.updateComment = async (req, res) => {
         try {
             await client.query("BEGIN"); 
             let result = await CustomerRecipeModel.getLine(client, idCustomer, idRecipe);
-            if(result.rows === undefined){
+            if(result.rows[0] === undefined){
                 result = await CustomerRecipeModel.postNewLine(client, idCustomer, idRecipe);
             } 
             
