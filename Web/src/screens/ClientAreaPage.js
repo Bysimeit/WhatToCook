@@ -6,7 +6,6 @@ import {useNavigate} from "react-router-dom";
 import {setToken} from '../store/userSlicer';
 
 export default function ClientAreaPage(){
-
     const user = useSelector((state) => state.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();

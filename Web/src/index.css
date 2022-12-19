@@ -122,8 +122,8 @@ button:hover {
 
 .menuPicture{
   border-radius: 50%;
-  height: 5%;
-  width: 5%;
+  height: 50px;
+  width: 50px;
   margin-right: 30px;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -171,21 +171,25 @@ button:hover {
 
 
 
+.imageMenu {
+  width: 100px;
+  height: 50px;
+  margin-right: 50px;
+  margin-top: -35px;
+}
 
-.hamburger-menu aside {
-  width: 150px;                /* menu width */
-  }
-.hamburger-menu {
-  color: gainsboro;            /* menu font color */
-  background-color: teal;      /* menu background color */
-  }
-.hamburger-menu aside ul li.current {
-  border-color: white;         /* border color for selected menu item */
-  }
-.hamburger-menu aside ul li.current >span,
-.hamburger-menu aside ul li.current >a,
-.hamburger-menu aside ul li >span:hover,
-.hamburger-menu aside ul li >a:hover {
-  color: white;                /* menu font highlight color */
-  background-color: darkcyan;  /* menu background highlight color */
-  }
+.detailMenu {
+  position: absolute;
+  background-color: #3F3838;
+  width: 140px;
+  right: 50px;
+  margin-top: 5px;
+}
+
+.itemMenuDetail {
+  background-color: #D9D9D9;
+  border-radius: 3%;
+  color: black;
+  border: solid black 1px;
+  text-align: center;
+}
