@@ -2,7 +2,7 @@
 //get
 
 module.exports.getAllCustomer = async (client) => {
-    return await client.query("SELECT * FROM Customer");
+    return await client.query("SELECT * FROM Customer ORDER BY id");
 }
 
 module.exports.getCustomer = async (client, mail) => {

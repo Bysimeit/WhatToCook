@@ -192,9 +192,43 @@ button:hover {
 
 /* CustomerList */
 
+table{
+  margin-left: 10%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
 
+.researchListBtn{
+  width: 25px;
+  right: 25px;
+}
 
-.customListBtn{
+.imgBtn{
   width: 20px;
   right: 20px;
+}
+
+/* CommentList */
+
+.comment{
+  background-color: #D9D9D9;
+  text-align: left;
+  width: 70%;
+  display: inline-block;
+  padding: 2%;
+}
+
+.commentArea{
+  margin: 5%;
+}
+
+.commentListBtn{
+  margin-left: 15px;
+  align-items: center; /*fonctionne pas*/
+}
+
+/* FridgePage */
+
+.fridgeBtn{
+  border-radius: 50%;
 }

@@ -31,6 +31,7 @@ export default function MenuBar() {
         setMenuVisible(false);
     }
     function onClickFridge() {
+        navigate("/fridge");
         setMenuVisible(false);
     }
     function onClickLogOut() {
@@ -44,10 +45,10 @@ export default function MenuBar() {
         if (isMenuVisible) {
             return (
                 <div className='detailMenu'>
-                    <div className='itemMenuDetail' onClick={onClickAccount}>Compte</div>
-                    <div className='itemMenuDetail' onClick={onClickFavorites}>Favoris</div>
-                    <div className='itemMenuDetail' onClick={onClickFridge}>Mon frigo</div>
-                    <div className='itemMenuDetail' onClick={onClickLogOut}>Se déconnecter</div>
+                    <div className='itemMenuDetail' onClick={() => onClickAccount()}>Compte</div>
+                    <div className='itemMenuDetail' onClick={() => onClickFavorites()}>Favoris</div>
+                    <div className='itemMenuDetail' onClick={() => onClickFridge()}>Mon frigo</div>
+                    <div className='itemMenuDetail' onClick={() => onClickLogOut()}>Se déconnecter</div>
                 </div>
             );
         }
