@@ -20,22 +20,22 @@ export default function ClientAreaPage(){
         
     } 
 
-    function handleClickEdit(event){
-        console.log(event.target.id);
+    function handleClickEdit(id){
+        console.log(id);
     } 
 
-    function handleClickComment(event){
-        console.log(event.target.id);
-        navigate("/comment");
+    function handleClickComment(id){
+        console.log(id);
+        navigate(`/comment/${id}`);
     } 
 
-    function handleClickFridge(event){
-        console.log(event.target.id);
-        navigate("/fridge");
+    function handleClickFridge(id){
+        console.log(id);
+        navigate(`/comment/${id}`);
     } 
 
-    function handleClickDelete(event){
-        console.log(event.target.id);
+    function handleClickDelete(id){
+        console.log(id);
         
     } 
 
@@ -72,10 +72,10 @@ export default function ClientAreaPage(){
                                 <td>{user.name}</td>
                                 <td>{user.firstname}</td>
                                 <td>
-                                    <button onClick={(e) => handleClickEdit(e)}><img src={penImg} id={user.id} className="imgBtn" alt="pen pictures"/></button>
-                                    <button onClick={(e) => handleClickComment(e)}><img src={tchatImg} className="imgBtn" alt="tchat pictures"/></button>
-                                    <button onClick={(e) => handleClickFridge(e)}><img src={fridgeImg} className="imgBtn" alt="fridge pictures"/></button>
-                                    <button onClick={(e) => handleClickDelete(e)}><img src={trashImg} className="imgBtn" alt="trash pictures"/></button>
+                                    <button onClick={() => handleClickEdit(user.id)}><img src={penImg} id={user.id} className="imgBtn" alt="pen pictures"/></button>
+                                    <button onClick={() => handleClickComment(user.id)}><img src={tchatImg} className="imgBtn" alt="tchat pictures"/></button>
+                                    <button onClick={() => handleClickFridge(user.id)}><img src={fridgeImg} className="imgBtn" alt="fridge pictures"/></button>
+                                    <button onClick={() => handleClickDelete(user.id)}><img src={trashImg} className="imgBtn" alt="trash pictures"/></button>
                                 </td>
                             </tr>);
                         })}

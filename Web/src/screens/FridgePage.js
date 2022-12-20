@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import MenuBar from "../composants/MenuBar";
 import {useSelector, useDispatch} from 'react-redux';
+import {useParams} from "react-router-dom";
 import {getFridge} from "../api/fridge"
 import penImg from '../pictures/crayon.png';
 import trashImg from '../pictures/trash1.png';
@@ -8,6 +9,7 @@ import plusImg from "../pictures/plus.png";
 
 export default function FridgePage(){
 
+    const {id} = useParams();
     const token = useSelector((state) => state.user.token);
     const [foods, setFoods] = useState([]);
     let key = 1;

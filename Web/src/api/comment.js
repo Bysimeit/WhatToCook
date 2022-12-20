@@ -2,16 +2,16 @@ import axios from 'axios';
 
 import {API_URL} from './axiosBase';
 
-const getCommentCustomer = async (id, token) => {
+const getCommentCustomer = async (idCustomer, token) => {
 	
 	try {
-		console.log("debut axios " + id);
+		console.log("debut axios ");
         const response = await axios({
             method: 'get',
             headers: {'Authorization': 'Bearer ' + token},
             url: `${API_URL}/comment`,
             params: {
-                idCustomer: id,
+                idCustomer: idCustomer,
             }
         });
 
@@ -31,14 +31,14 @@ const getCommentCustomer = async (id, token) => {
 	}
 };
 
-const getCommentRecipe = async (email, token) => {
+const getCommentRecipe = async (idRecipe, token) => {
 	
 	try {
 		console.log("debut axios");
         const response = await axios({
             method: 'get',
             headers: {'Authorization': 'Bearer ' + token},
-            url: `${API_URL}/customer/${email}`,
+            url: `${API_URL}/comment/${idRecipe}`,
         });
 
 		const data = response.data
@@ -57,19 +57,17 @@ const getCommentRecipe = async (email, token) => {
 	}
 };
 
-const updateComment = async (lastName, firstName, password, email, token) => {
+const updateComment = async (idCustomer, idRecipe, comment, token) => {
 	
 	try {
 		console.log("debut axios");
         const response = await axios({
-            method: 'post',
+            method: 'patch',
             headers: {'Authorization': 'Bearer ' + token},
-            url: `${API_URL}/customer`,
+            url: `${API_URL}/comment`,
 			data: {
-				lastName: lastName, 
-				firstName: firstName, 
-				password: password, 
-				email: email
+				idCustomer: idCustomer, 
+				idRecipe: idRecipe
 			}
         });
 

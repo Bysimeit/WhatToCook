@@ -53,7 +53,7 @@ module.exports.getCommentRecipe = async (req, res) => {
 module.exports.updateComment = async (req, res) => {
     const {idCustomer, idRecipe, comment} = req.body;
 
-    if(idCustomer === undefined || idRecipe === undefined || comment === undefined){
+    if(idCustomer === undefined || idRecipe === undefined){
         res.status(400).json("Données manquantes");
     } else {
         const client = await pool.connect();
@@ -63,7 +63,6 @@ module.exports.updateComment = async (req, res) => {
             if(result.rows[0] === undefined){
                 result = await CustomerRecipeModel.postNewLine(client, idCustomer, idRecipe);
             } 
-            
             await CustomerRecipeModel.updateComment(client, idCustomer, idRecipe, comment);
             await client.query("COMMIT");
             res.sendStatus(204);

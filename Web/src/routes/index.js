@@ -26,9 +26,9 @@ const Router = () => {
 
                 {/*<Protected token={}></Protected>*/}
                 <Route path="/customer" element={<ListCustomerPage/>}/>
-                <Route path="/comment" element={<ListCommentsPage/>}/>
+                <Route path="/comment/:id" element={<ListCommentsPage/>}/>
                 <Route path="/recipe" element={<ListRecipePage/>}/>
-                <Route path="/fridge" element={<FridgePage/>}/>
+                <Route path="/fridge/:id" element={<FridgePage/>}/>
                 <Route path="/allergy" element={<AllergyPage/>}/>
                 <Route path="/admin" element={<ClientAreaPage/>}/>
                 <Route path="/changePassword" element={<ChangePassWord/>} />     

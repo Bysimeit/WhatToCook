@@ -21,7 +21,8 @@ module.exports.getCommentRecipe = async (client, idRecipe) => {
 module.exports.getCommentCustomer = async (client, idCustomer) => {
     return await client.query(`
     SELECT
-        comment
+        comment,
+        idRecipe
     FROM
         Customer_Recipe 
     WHERE idCustomer = $1 AND comment IS NOT NULL`,[idCustomer]);
