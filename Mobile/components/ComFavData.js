@@ -58,7 +58,7 @@ export default function ComFavData({recipe}) {
                 let stringList = [];
 
                 for (let i = 0; i < commentList.length; i++) {
-                    stringList.push("- " + commentList[i].comment + "\n");
+                    stringList.push("- " + commentList[i].comment + "\n\n");
                 }
 
                 return stringList;
