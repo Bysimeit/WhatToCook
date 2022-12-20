@@ -2,28 +2,36 @@ import React, {useState, useEffect} from "react";
 import MenuBar from "../composants/MenuBar";
 import {useSelector, useDispatch} from 'react-redux';
 import {useParams} from "react-router-dom";
-import {getFridge} from "../api/fridge"
+import {getFridge, deleteFood} from "../api/fridge"
 import penImg from '../pictures/crayon.png';
 import trashImg from '../pictures/trash1.png';
 import plusImg from "../pictures/plus.png";
+import VImg from '../pictures/V.png';
+import cancelImg from '../pictures/cancel.png';
 
 export default function FridgePage(){
 
     const {id} = useParams();
     const token = useSelector((state) => state.user.token);
     const [foods, setFoods] = useState([]);
+    const [newFood, setNewFood] = useState(false);
     let key = 1;
 
     function handleClickAdd(){
-        
+        setNewFood(true);
     } 
 
-    function handleClickEdit(){
-        
+    function handleClickValidFood(isValid){
+        if(isValid){
+
+        }
+        setNewFood(false);
     } 
 
-    function handleClickDelete(){
-        
+    function handleClickDelete(idFood){
+        //deleteFood(id,idFood,token);
+        let newFoods = foods.filter((elem) => elem.id != idFood);
+        setFoods(newFoods);
     } 
 
     useEffect(() => {
@@ -48,6 +56,17 @@ export default function FridgePage(){
                             <td>Date Péremption</td>
                             <td></td>
                         </tr>
+                        {newFood == true &&
+                            <tr key={"new"} className="commentArea">
+                                <td><input></input></td>
+                                <td><input></input></td>
+                                <td><input></input></td>
+                                <td>
+                                    <button className="commentListBtn" onClick={() => handleClickValidFood(true)}><img src={VImg} className="imgBtn" alt="valid pictures"/></button>
+                                    <button className="commentListBtn" onClick={() => handleClickValidFood(false)}><img src={cancelImg} className="imgBtn" alt="cancel pictures"/></button>
+                                </td>
+                            </tr>         
+                        }      
                         {foods.map((food) => {
                             return ( 
                                 <tr key={key++}>
@@ -55,8 +74,7 @@ export default function FridgePage(){
                                     <td>{food.quantity}</td>
                                     <td>{food.date}</td>
                                     <td>
-                                        <button className="fridgeBtn" onClick={() => handleClickEdit()}><img src={penImg} className="imgBtn" alt="edit food"/></button>
-                                        <button className="fridgeBtn" onClick={() => handleClickDelete()}><img src={trashImg} className="imgBtn" alt="delete food"/></button>
+                                        <button className="fridgeBtn" onClick={() => handleClickDelete(food.id, key)}><img src={trashImg} className="imgBtn" alt="delete food"/></button>
                                     </td>
                                 </tr>           
                             );

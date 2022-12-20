@@ -3,18 +3,23 @@ import axios from 'axios';
 import {API_URL} from './axiosBase';
 
 
-const getListRecipe = async (email, password) => { //a finir
+const getListRecipe = async (type, time, allergies, foods) => { //a finir
 	
 	try {
 		console.log("debut axios");
-		localStorage.setItem('token', undefined);
         const response = await axios({
             method: 'get',
             url: `${API_URL}/recipe/`,
+			params: {
+				type: type, 
+				time: time, 
+				allergies: allergies, 
+				foods: foods
+			}
         });
 
         
-		console.log(response);
+		console.log(response.data);
 
 		const data = response.data
 		return data;
@@ -36,7 +41,6 @@ const getDataRecipe = async (id) => {
 	
 	try {
 		console.log("debut axios");
-		localStorage.setItem('token', undefined);
         const response = await axios({
             method: 'get',
             url: `${API_URL}/recipe/${id}`,
@@ -61,11 +65,10 @@ const getDataRecipe = async (id) => {
 	}
 };
 
-const postNewRecipe = async (name, time, type, picture, steps, foods) => {
+const postNewRecipe = async (name, time, type, picture, steps, foods, token) => {
 	
 	try {
 		console.log("debut axios");
-		localStorage.setItem('token', undefined);
         const response = await axios({
             method: 'post',
 			headers: {'Authorization': 'Bearer ' + token},
@@ -98,7 +101,7 @@ const postNewRecipe = async (name, time, type, picture, steps, foods) => {
 	}
 };
 
-const udpateRecipe = async (id, name, time, type, picture, steps, foods) => {
+const udpateRecipe = async (id, name, time, type, picture, steps, foods, token) => {
 	
 	try {
 		console.log("debut axios");
@@ -136,11 +139,10 @@ const udpateRecipe = async (id, name, time, type, picture, steps, foods) => {
 	}
 };
 
-const deleteRecipe = async (id) => {
+const deleteRecipe = async (id, token) => {
 	
 	try {
 		console.log("debut axios");
-		localStorage.setItem('token', undefined);
         const response = await axios({
             method: 'delete',
 			headers: {'Authorization': 'Bearer ' + token},

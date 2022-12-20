@@ -8,7 +8,7 @@ import {
 import WelcomePage from '../screens/WelcomePage';
 import LoginPage from '../screens/LoginPage';
 import ClientAreaPage from '../screens/ClientAreaPage';
-import ListCommentsPage from '../screens/ListCommentsPage';
+import ListCommentsPage from '../screens/CommentsListPage';
 import ListCustomerPage from '../screens/CustomerListPage';
 import FridgePage from '../screens/FridgePage';
 import AllergyPage from '../screens/AllergyPage';

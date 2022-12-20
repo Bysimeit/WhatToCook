@@ -21,12 +21,22 @@ export default function ClientAreaPage(){
     function handleClickManageCustomer(){
         navigate("/customer");
     } 
+
+    function handleClickManageRecipe(){
+        navigate("/recipe");
+    } 
+
+    function handleClickManageAllergies(){
+        navigate("/allergy");
+    } 
     
     if(user.isAdmin){
         adminSide = <div className="adminSide">
             <h3>Vous êtes connecté en tant qu'administrateur</h3>
             <input type="button" onClick={() => handleClickManageCustomer()} value="Gestion Comptes"/>
-            <input type="button" value="Gestion Recettes"/>
+            <input type="button" onClick={() => handleClickManageRecipe()} value="Gestion Recettes"/>
+            <input type="button" onClick={() => handleClickManageAllergies()} value="Gestion Allergies"/>
+
         </div>
         console.log(adminSide);
     }

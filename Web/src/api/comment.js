@@ -61,15 +61,32 @@ const updateComment = async (idCustomer, idRecipe, comment, token) => {
 	
 	try {
 		console.log("debut axios");
-        const response = await axios({
-            method: 'patch',
-            headers: {'Authorization': 'Bearer ' + token},
-            url: `${API_URL}/comment`,
-			data: {
-				idCustomer: idCustomer, 
-				idRecipe: idRecipe
-			}
-        });
+		console.log(idCustomer);
+		console.log(idRecipe);
+		let response;
+		if(comment == ""){
+			response = await axios({
+				method: 'patch',
+				headers: {'Authorization': 'Bearer ' + token},
+				url: `${API_URL}/comment`,
+				data: {
+					idCustomer: idCustomer, 
+					idRecipe: idRecipe
+				}
+			});
+		} else {
+			response = await axios({
+				method: 'patch',
+				headers: {'Authorization': 'Bearer ' + token},
+				url: `${API_URL}/comment`,
+				data: {
+					idCustomer: idCustomer, 
+					idRecipe: idRecipe,
+					comment: comment
+				}
+			});
+		}
+         
 
 		console.log(response);
 

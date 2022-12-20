@@ -9,6 +9,7 @@ export default function MenuBar() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const token = useSelector((state) => state.user.token);
+    const id = useSelector((state) => state.user.id);
     const [isMenuVisible, setMenuVisible] = useState(false);
 
     function handleClick() {
@@ -31,7 +32,7 @@ export default function MenuBar() {
         setMenuVisible(false);
     }
     function onClickFridge() {
-        navigate("/fridge");
+        navigate(`/fridge/${id}`);
         setMenuVisible(false);
     }
     function onClickLogOut() {

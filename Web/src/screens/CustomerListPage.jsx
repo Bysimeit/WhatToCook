@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import MenuBar from "../composants/MenuBar";
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {useNavigate} from "react-router-dom";
-import {getAllCustomer} from '../api/customer';
+import {getAllCustomer, getCustomer, deleteCustomer} from '../api/customer';
 import penImg from '../pictures/crayon.png';
 import trashImg from '../pictures/trash1.png';
 import fridgeImg from '../pictures/fridge.png';
@@ -12,31 +12,36 @@ import researchImg from '../pictures/research.png';
 export default function ClientAreaPage(){
 
     const token = useSelector((state) => state.user.token);
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [users, setUsers] = useState([]);
+    const [research, setResearch] = useState(null);
 
+    function handleResearch(value){
+        setResearch(value);
+    }
+    
     function handleClickResearch(){
-        
-    } 
+        getCustomer(research,token).then((response) =>{
+            setUsers(response);
+        });
+    }
 
     function handleClickEdit(id){
         console.log(id);
     } 
 
     function handleClickComment(id){
-        console.log(id);
         navigate(`/comment/${id}`);
     } 
 
     function handleClickFridge(id){
-        console.log(id);
-        navigate(`/comment/${id}`);
+        navigate(`/fridge/${id}`);
     } 
 
     function handleClickDelete(id){
-        console.log(id);
-        
+        deleteCustomer(id,token);
+        let newUsers = users.filter((elem) => elem.id != id);
+        setUsers(newUsers);
     } 
 
     useEffect(() => {
@@ -53,7 +58,7 @@ export default function ClientAreaPage(){
             <MenuBar/>
             <div className="core">
                 <label htmlFor="research">Recherche : </label>
-                <input type="research" id="research" onChange={(e) => handleClickResearch()}/>
+                <input type="research" id="research" onChange={(e) => handleResearch(e.target.value)}/>
                 <button  onClick={() => handleClickResearch()}><img src={researchImg} className="researchListBtn" alt="research pictures"/></button>
                 <table>
                     <tbody> 
