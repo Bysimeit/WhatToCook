@@ -20,19 +20,22 @@ export default function ClientAreaPage(){
         
     } 
 
-    function handleClickEdit(){
-        
+    function handleClickEdit(event){
+        console.log(event.target.id);
     } 
 
-    function handleClickComment(){
+    function handleClickComment(event){
+        console.log(event.target.id);
         navigate("/comment");
     } 
 
-    function handleClickFridge(){
+    function handleClickFridge(event){
+        console.log(event.target.id);
         navigate("/fridge");
     } 
 
-    function handleClickDelete(){
+    function handleClickDelete(event){
+        console.log(event.target.id);
         
     } 
 
@@ -69,10 +72,10 @@ export default function ClientAreaPage(){
                                 <td>{user.name}</td>
                                 <td>{user.firstname}</td>
                                 <td>
-                                    <button onClick={() => handleClickEdit()}><img src={penImg} className="imgBtn" alt="pen pictures"/></button>
-                                    <button onClick={() => handleClickComment()}><img src={tchatImg} className="imgBtn" alt="tchat pictures"/></button>
-                                    <button onClick={() => handleClickFridge()}><img src={fridgeImg} className="imgBtn" alt="fridge pictures"/></button>
-                                    <button onClick={() => handleClickDelete()}><img src={trashImg} className="imgBtn" alt="trash pictures"/></button>
+                                    <button onClick={(e) => handleClickEdit(e)}><img src={penImg} id={user.id} className="imgBtn" alt="pen pictures"/></button>
+                                    <button onClick={(e) => handleClickComment(e)}><img src={tchatImg} className="imgBtn" alt="tchat pictures"/></button>
+                                    <button onClick={(e) => handleClickFridge(e)}><img src={fridgeImg} className="imgBtn" alt="fridge pictures"/></button>
+                                    <button onClick={(e) => handleClickDelete(e)}><img src={trashImg} className="imgBtn" alt="trash pictures"/></button>
                                 </td>
                             </tr>);
                         })}
