@@ -155,7 +155,7 @@ export default function ComFavData({recipe}) {
                         }
                     }}
                 </Pressable>
-                <Text style={styles.commentTitle}>Commentaires :</Text>
+                <Text style={styles.commentTitle}>Commentaires utilisateurs :</Text>
                 <ScrollView style={styles.commentList}>
                     <Text>
                         {commentShow()}

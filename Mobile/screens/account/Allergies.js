@@ -116,7 +116,8 @@ const styles = StyleSheet.create({
     content: {
         position: 'relative',
         elevation: -1,
-        marginTop: 110
+        marginTop: 110,
+        marginBottom: 60
     },
     title: {
         textAlign: 'center',
@@ -150,7 +151,7 @@ const styles = StyleSheet.create({
     },
     buttonUpdate: {
         marginTop: 20,
-        marginBottom: 15,
+        marginBottom: 110,
         height: 35,
         width: 150,
         backgroundColor: "#D9D9D9",
