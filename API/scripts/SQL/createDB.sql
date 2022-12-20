@@ -114,19 +114,22 @@ VALUES
     ('Oignon', true, 1),
     ('Huile d olive', true, 5),
     ('Herbes de provence', true, 1.5),
-    ('Sel', true, 1);
+    ('Sel', true, 1),
+    ('Eau', true, 0);
 
 INSERT INTO Recipe(addDate, quoting, nameRecipe, time, picture, type)
 VALUES
-    (CAST(now() AS date),'3','Tarte aux pommes','30', 'https://img-3.journaldesfemmes.fr/qLk0r2uOl6DX_eSpeGJHSh48p18=/800x600/smart/570815b9f5db46eda4d665288a544953/recipe-jdf/10020448.jpg', '3'), 
+    (CAST(now() AS date),'3','Tarte aux pommes','30', 'https://img.freepik.com/photos-gratuite/vue-dessus-delicieuse-tarte-aux-pommes_23-2148663978.jpg?w=2000', '3'), 
     (CAST(now() AS date),'4','Lasagne','80', 'https://images.pexels.com/photos/6046493/pexels-photo-6046493.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', '2'), 
     (CAST(now() AS date),'3','Mousse au chocolat','40', 'https://img.cuisineaz.com/660x660/2017/08/09/i131431-mousse-au-chocolat-au-cooking-chef.jpeg', '3'), 
     (CAST(now() AS date),'5','Salade grecque','15', 'https://assets.afcdn.com/recipe/20190704/94668_w1024h1024c1cx2736cy1824.jpg', '1'), 
     (CAST(now() AS date),'3','Cookie','20', 'https://www.papillesetpupilles.fr/wp-content/uploads/2005/07/Cookies-aux-pe%CC%81pites-de-chocolat-%C2%A9beats1.-shutterstock.jpg', '1'), 
-    (CAST(now() AS date),'5','Tiramisu','20', 'https://assets.afcdn.com/recipe/20161123/1509_w1024h1024c1cx1920cy2880.jpg','3');
+    (CAST(now() AS date),'5','Tiramisu','20', 'https://assets.afcdn.com/recipe/20161123/1509_w1024h1024c1cx1920cy2880.jpg','3'),
+    (CAST(now() AS date),'4','Pâte brisée','15', 'https://images.pexels.com/photos/6605303/pexels-photo-6605303.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1','3');
+INSERT INTO Food(name, idAllergy, isValidated, price) VALUES ('Farine', '1', true, 3), ('Pâte brisée', '1', true, 1);
+INSERT INTO Food(name, isValidated, price) VALUES ('Pomme', true, 1.15), ('Compote de pommes', true, 2), ('Sucre roux', true, 1.5);
 INSERT INTO Food_Quantity(quantity, unit, idRecipe, idFood)
 VALUES
-    ('2','','1','2'), 
     ('50','g','2','11'), 
     ('1','','2','9'), 
     ('1','','2','12'), 
@@ -143,22 +146,43 @@ VALUES
     ('100','','3','5'), 
     ('100','','4','5'), 
     ('100','','5','4'), 
-    ('100','','6','2');
+    ('100','','6','2'),
+    ('300', 'g', '7', '20'),
+    ('150', 'g', '7', '5'),
+    ('1', 'c. à soupe', '7', '18'),
+    ('3', 'c. à soupe', '7', '13'),
+    ('8', 'cl', '7', '19'),
+    ('1', '', '1', '21'),
+    ('50', 'g', '1', '23'),
+    ('1', 'c. à soupe', '1', '24'),
+    ('1', '', '1', '22'),
+    ('1', 'g', '1', '5');
 INSERT INTO Step(idRecipe, text)
 VALUES
-    ('1', 'frapper'), 
-    ('1', 'casser'), 
-    ('1', 'manger'),
     ('2', 'Pelez l''oignon et la gousse d''ail, émincez-les finement, puis faites-les revenir à feu doux dans une casserole avec 2 c. à soupe d''huile d''olive, jusqu''à ce que les oignons deviennent un peu translucides.'),
     ('2', 'Ajoutez ensuite la pulpe de tomate, le sucre et les herbes de Provence. Salez, poivrez, puis laissez réduire et mijoter à feu doux pendant 20 min. Pendant la cuisson de la sauce tomate, faites revenir le bœuf dans une poêle avec le reste d''huile d''olive pendant 3 à 5 min à feu moyen. Salez et poivrez, puis mélangez à la sauce tomate et attendez la fin de la cuisson.'),
     ('2', 'Pour préparer la sauce béchamel, faites d''abord fondre le beurre dans une casserole, puis ajoutez la farine hors du feu et mélangez le tout au fouet. Ajoutez le lait, fouettez énergiquement pour éviter la formation de grumeaux. Replacez sur feu doux et laissez épaissir quelques minutes, tout en mélangeant régulièrement. Salez, poivrez et parfumez avec la noix de muscade.'),
     ('2', 'Quand la garniture et la béchamel sont prêtes, préchauffez le four th.6 (180°C) le temps de monter votre lasagne maison. Graissez les parois d''un plat à gratin avec le beurre fondu, puis déposez dans le fond une couche de feuilles de pâte à lasagne et nappez-la de sauce béchamel.'),
     ('2', 'Ajoutez par-dessus une couche de garniture à la sauce tomate et au bœuf haché, puis parsemez de gruyère râpé. Répétez l''opération jusqu''à épuisement des ingrédients, en terminant par une couche de béchamel que vous n''oublierez pas de couvrir d''une belle couche de parmesan râpé.'),
-    ('2', 'Enfournez votre lasagne maison pendant 45 min le temps de la laisser cuire et gratiner, puis laissez-la refroidir 5 à 10 min avant de la servir en belles portions rectangulaires.');
-INSERT INTO Customer_Recipe(idCustomer, idRecipe, comment)
-VALUES('1', '1', 'cool comme recette');
-INSERT INTO Customer_Recipe(idCustomer, idRecipe, isFavorite)
-VALUES('1', '2', true);
+    ('2', 'Enfournez votre lasagne maison pendant 45 min le temps de la laisser cuire et gratiner, puis laissez-la refroidir 5 à 10 min avant de la servir en belles portions rectangulaires.'),
+    ('7', 'Mélanger la farine et le sel dans un plat (et le sucre si sucre il y a).'),
+    ('7', 'Ajouter le beurre puis l''incorporer à la farine en pétrissant rapidement et légèrement du bout des doigts. On doit obtenir une sorte de semoule grossière en 2 ou 3 min.'),
+    ('7', 'Incorporer rapidement le lait ou l''eau. Il en faut très peu pour permettre à la pâte de se lier et de faire boule. Le lait ou l''eau ? C''est selon les goûts.'),
+    ('7', 'Pour étaler sans problème, étaler la pâte sur du papier cuisson et cuire tel quel dans la platine.'),
+    ('1', 'Préchauffez le four à 200°C. Disposez la pâte brisée dans un moule à tarte et piquez le fond avec une fourchette. Placez le moule au réfrigérateur, le temps de préparer les pommes.'),
+    ('1', 'Epluchez les pommes et coupez-les en tranches d''environ 3 mm d''épaisseur.'),
+    ('1', 'Disposez une couche de compote de pommes sur le fond de tarte.'),
+    ('1', 'Disposez les pommes en rosace sur le fond de tarte. Veillez à les disposer joliment.'),
+    ('1', 'Ajoutez quelques noix de beurre sur les pommes.'),
+    ('1', 'Saupoudrez les pommes de 2 cuillères à soupe de sucre roux.'),
+    ('1', 'Enfournez pendant 30 minutes. Dégustez tiède ou froid en l''accompagnant d''une boule de glace vanille pour les plus gourmands.');
+INSERT INTO Customer_Recipe(idCustomer, idRecipe, comment, isFavorite)
+VALUES
+    ('1', '1', 'cool comme recette', true),
+    ('2', '1', 'sympa', true),
+    ('1', '2', 'J''ai faim', true),
+    ('1', '3', 'Hm c''est bon', true),
+    ('1', '5', 'Ouh loulou', true);
 INSERT INTO Customer_Food(idCustomer, idFood, date, quantity, weight)
 VALUES('1', '2', CAST(now() AS date), '100', '250'), ('1', '5', CAST(now() AS date), '100', '500');
 INSERT INTO Customer_Allergy(idCustomer, idAllergy)
