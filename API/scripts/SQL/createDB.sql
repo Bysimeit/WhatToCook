@@ -91,12 +91,19 @@ DROP TABLE IF EXISTS Recipe_Step CASCADE;
 INSERT INTO Allergy(name)
 VALUES('Gluten'),('Crustacés'),('Œufs'),('Arachides'),('Poisson'),('Soja'),('Lactose'),('Fruits à coques'),('Céleri'),('Moutarde'),('Graine de sésame'),('Anhydride sulfureux et sulfites'),('Lupin'),('Mollusques');
 INSERT INTO Customer(email, firstName, name, password, isAdmin)
-VALUES('admin@gmail.com','Admin','Private','$2b$10$Ov.jqcwGxqGghlEAqJWHrO/EM/GXiC93rRlURiigwHYnZd1vZ.SnO',true), ('user1@gmail.com','user1','name1','$2b$10$1Hlc.OahudqUXb414C05wOSpBHU5ReP8DnWjuPowvlC13vnB314vu',false);
+VALUES
+    ('admin@gmail.com','Admin','Private','$2b$10$Ov.jqcwGxqGghlEAqJWHrO/EM/GXiC93rRlURiigwHYnZd1vZ.SnO',true),
+    ('user1@gmail.com','user1','name1','$2b$10$1Hlc.OahudqUXb414C05wOSpBHU5ReP8DnWjuPowvlC13vnB314vu',false),
+    ('user2@gmail.com','user2','name2','$2b$10$1Hlc.OahudqUXb414C05wOSpBHU5ReP8DnWjuPowvlC13vnB314vu',false),
+    ('user3@gmail.com','user3','name3','$2b$10$1Hlc.OahudqUXb414C05wOSpBHU5ReP8DnWjuPowvlC13vnB314vu',false),
+    ('user4@gmail.com','user4','name4','$2b$10$1Hlc.OahudqUXb414C05wOSpBHU5ReP8DnWjuPowvlC13vnB314vu',false),
+    ('user5@gmail.com','user5','name5','$2b$10$1Hlc.OahudqUXb414C05wOSpBHU5ReP8DnWjuPowvlC13vnB314vu',false),
+    ('user6@gmail.com','user6','name6','$2b$10$1Hlc.OahudqUXb414C05wOSpBHU5ReP8DnWjuPowvlC13vnB314vu',false);
 INSERT INTO Food(name, idAllergy, isValidated, price)
-VALUES 
-    ('Pain', '1', true, 0.5), 
-    ('Oeufs', '3', true, 0.2), 
-    ('Saumon', '5', true, 5), 
+VALUES
+    ('Pain', '1', true, 0.5),
+    ('Oeufs', '3', true, 0.2),
+    ('Saumon', '5', true, 5),
     ('Soja', '6', true, 2),
     ('Beurre', '7', true, 3.5),
     ('Parmesan râpé', '7', true, 1.11),
@@ -104,8 +111,8 @@ VALUES
     ('Gruyère râpé', '7', true, 1);
 
 INSERT INTO Food(name, isValidated, price)
-VALUES 
-    ('Tomate', true, 0.95), 
+VALUES
+    ('Tomate', true, 0.95),
     ('Chocolat', true, 1),
     ('Bœuf haché', true, 2),
     ('Gousse d''ail', true, 1.05),
@@ -119,33 +126,38 @@ VALUES
 
 INSERT INTO Recipe(addDate, quoting, nameRecipe, time, picture, type)
 VALUES
-    (CAST(now() AS date),'3','Tarte aux pommes','30', 'https://img.freepik.com/photos-gratuite/vue-dessus-delicieuse-tarte-aux-pommes_23-2148663978.jpg?w=2000', '3'), 
-    (CAST(now() AS date),'4','Lasagne','80', 'https://images.pexels.com/photos/6046493/pexels-photo-6046493.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', '2'), 
-    (CAST(now() AS date),'3','Mousse au chocolat','40', 'https://img.cuisineaz.com/660x660/2017/08/09/i131431-mousse-au-chocolat-au-cooking-chef.jpeg', '3'), 
-    (CAST(now() AS date),'5','Salade grecque','15', 'https://assets.afcdn.com/recipe/20190704/94668_w1024h1024c1cx2736cy1824.jpg', '1'), 
-    (CAST(now() AS date),'3','Cookie','20', 'https://www.papillesetpupilles.fr/wp-content/uploads/2005/07/Cookies-aux-pe%CC%81pites-de-chocolat-%C2%A9beats1.-shutterstock.jpg', '1'), 
+    (CAST(now() AS date),'3','Tarte aux pommes','30', 'https://img.freepik.com/photos-gratuite/vue-dessus-delicieuse-tarte-aux-pommes_23-2148663978.jpg?w=2000', '3'),
+    (CAST(now() AS date),'4','Lasagne','80', 'https://images.pexels.com/photos/6046493/pexels-photo-6046493.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', '2'),
+    (CAST(now() AS date),'3','Mousse au chocolat','40', 'https://img.cuisineaz.com/660x660/2017/08/09/i131431-mousse-au-chocolat-au-cooking-chef.jpeg', '3'),
+    (CAST(now() AS date),'5','Salade grecque','15', 'https://assets.afcdn.com/recipe/20190704/94668_w1024h1024c1cx2736cy1824.jpg', '1'),
+    (CAST(now() AS date),'3','Cookie','20', 'https://www.papillesetpupilles.fr/wp-content/uploads/2005/07/Cookies-aux-pe%CC%81pites-de-chocolat-%C2%A9beats1.-shutterstock.jpg', '1'),
     (CAST(now() AS date),'5','Tiramisu','20', 'https://assets.afcdn.com/recipe/20161123/1509_w1024h1024c1cx1920cy2880.jpg','3'),
-    (CAST(now() AS date),'4','Pâte brisée','15', 'https://images.pexels.com/photos/6605303/pexels-photo-6605303.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1','3');
+    (CAST(now() AS date),'4','Pâte brisée','15', 'https://images.pexels.com/photos/6605303/pexels-photo-6605303.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1','3'),
+    (CAST(now() AS date),'4','Dinde Farcie','55', 'https://media.istockphoto.com/id/482724250/fr/photo/rustique-d%C3%AEner-de-thanksgiving-quatri%C3%A8me-jeudi-de-novembre.jpg?s=612x612&w=0&k=20&c=jnACln9t7jc29x8XzwowJ5JEVcVG2nONjaNIsimqpqc=','2'),
+    (CAST(now() AS date),'2','Tarte au sucre','40', 'https://www.cook-concept.com/wp-content/uploads/2021/11/iStock-909468592-format.jpg','3'),
+    (CAST(now() AS date),'1','Soupe de tomate','15', 'https://media.istockphoto.com/id/532704951/fr/photo/sandwich-grill%C3%A9-au-fromage-maison-avec-soupe-%C3%A0-la-tomate.jpg?s=612x612&w=0&k=20&c=arIFVdotmKssouS1PwBNbje8tENUFGJ-X8DoKYlyuoY=','1'),
+    (CAST(now() AS date),'4','Chips maison','30', 'https://assets.afcdn.com/recipe/20211019/122851_origin.jpg','1');
+
 INSERT INTO Food(name, idAllergy, isValidated, price) VALUES ('Farine', '1', true, 3), ('Pâte brisée', '1', true, 1);
 INSERT INTO Food(name, isValidated, price) VALUES ('Pomme', true, 1.15), ('Compote de pommes', true, 2), ('Sucre roux', true, 1.5);
 INSERT INTO Food_Quantity(quantity, unit, idRecipe, idFood)
 VALUES
-    ('50','g','2','11'), 
-    ('1','','2','9'), 
-    ('1','','2','12'), 
-    ('8','g','2','6'), 
-    ('3','g','2','5'), 
-    ('1','c. à soupe','2','13'), 
-    ('1','pincée','2','14'), 
-    ('1','paquet','2','7'), 
-    ('1','','2','15'), 
-    ('16','g','2','8'), 
-    ('1','c. à soupe','2','16'), 
-    ('1','c. à soupe','2','17'), 
+    ('50','g','2','11'),
+    ('1','','2','9'),
+    ('1','','2','12'),
+    ('8','g','2','6'),
+    ('3','g','2','5'),
+    ('1','c. à soupe','2','13'),
+    ('1','pincée','2','14'),
+    ('1','paquet','2','7'),
+    ('1','','2','15'),
+    ('16','g','2','8'),
+    ('1','c. à soupe','2','16'),
+    ('1','c. à soupe','2','17'),
     ('1','pincée','2','18'),
-    ('100','','3','5'), 
-    ('100','','4','5'), 
-    ('100','','5','4'), 
+    ('100','','3','5'),
+    ('100','','4','5'),
+    ('100','','5','4'),
     ('100','','6','2'),
     ('300', 'g', '7', '20'),
     ('150', 'g', '7', '5'),
