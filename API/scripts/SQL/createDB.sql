@@ -128,9 +128,9 @@ INSERT INTO Recipe(addDate, quoting, nameRecipe, time, picture, type)
 VALUES
     (CAST(now() AS date),'3','Tarte aux pommes','30', 'https://img.freepik.com/photos-gratuite/vue-dessus-delicieuse-tarte-aux-pommes_23-2148663978.jpg?w=2000', '3'),
     (CAST(now() AS date),'4','Lasagne','80', 'https://images.pexels.com/photos/6046493/pexels-photo-6046493.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', '2'),
-    (CAST(now() AS date),'3','Mousse au chocolat','40', 'https://img.cuisineaz.com/660x660/2017/08/09/i131431-mousse-au-chocolat-au-cooking-chef.jpeg', '3'),
+    (CAST(now() AS date),'3','Mousse au chocolat','20', 'https://images.pexels.com/photos/3026810/pexels-photo-3026810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', '3'),
     (CAST(now() AS date),'5','Salade grecque','15', 'https://assets.afcdn.com/recipe/20190704/94668_w1024h1024c1cx2736cy1824.jpg', '1'),
-    (CAST(now() AS date),'3','Cookie','20', 'https://www.papillesetpupilles.fr/wp-content/uploads/2005/07/Cookies-aux-pe%CC%81pites-de-chocolat-%C2%A9beats1.-shutterstock.jpg', '1'),
+    (CAST(now() AS date),'3','Cookie','20', 'https://images.pexels.com/photos/11154963/pexels-photo-11154963.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', '1'),
     (CAST(now() AS date),'5','Tiramisu','20', 'https://assets.afcdn.com/recipe/20161123/1509_w1024h1024c1cx1920cy2880.jpg','3'),
     (CAST(now() AS date),'4','Pâte brisée','15', 'https://images.pexels.com/photos/6605303/pexels-photo-6605303.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1','3'),
     (CAST(now() AS date),'4','Dinde Farcie','55', 'https://media.istockphoto.com/id/482724250/fr/photo/rustique-d%C3%AEner-de-thanksgiving-quatri%C3%A8me-jeudi-de-novembre.jpg?s=612x612&w=0&k=20&c=jnACln9t7jc29x8XzwowJ5JEVcVG2nONjaNIsimqpqc=','2'),
@@ -142,6 +142,11 @@ INSERT INTO Food(name, idAllergy, isValidated, price) VALUES ('Farine', '1', tru
 INSERT INTO Food(name, isValidated, price) VALUES ('Pomme', true, 1.15), ('Compote de pommes', true, 2), ('Sucre roux', true, 1.5);
 INSERT INTO Food_Quantity(quantity, unit, idRecipe, idFood)
 VALUES
+    ('34','g','3','10'),
+    ('5','g','3','13'),
+    ('1','pincée','3','18'),
+    ('5','g','3','5'),
+    ('1','','3','2'),
     ('50','g','2','11'),
     ('1','','2','9'),
     ('1','','2','12'),
@@ -155,7 +160,6 @@ VALUES
     ('1','c. à soupe','2','16'),
     ('1','c. à soupe','2','17'),
     ('1','pincée','2','18'),
-    ('100','','3','5'),
     ('100','','4','5'),
     ('100','','5','4'),
     ('100','','6','2'),
@@ -187,7 +191,12 @@ VALUES
     ('1', 'Disposez les pommes en rosace sur le fond de tarte. Veillez à les disposer joliment.'),
     ('1', 'Ajoutez quelques noix de beurre sur les pommes.'),
     ('1', 'Saupoudrez les pommes de 2 cuillères à soupe de sucre roux.'),
-    ('1', 'Enfournez pendant 30 minutes. Dégustez tiède ou froid en l''accompagnant d''une boule de glace vanille pour les plus gourmands.');
+    ('1', 'Enfournez pendant 30 minutes. Dégustez tiède ou froid en l''accompagnant d''une boule de glace vanille pour les plus gourmands.'),
+    ('3', 'Faire fondre le chocolat et le beurre au bain marie. Laisser tiédir.'),
+    ('3', 'Séparer les jaunes des blancs. Monter les blancs en neige avec un pincée de sel. Puis à la dernière minute ajouter le sucre et fouetter.'),
+    ('3', 'Verser les jaunes dans le chocolat en remuant énergiquement.'),
+    ('3', 'Incorporer délicatement le blanc en neige au chocolat. Mélanger doucement avec une spatule en évitant de casser le blanc en neige.'),
+    ('3', 'Verser votre chocolat mousseux dans des petits pots. Réserver au frais pendant 3 heures minimum.');
 INSERT INTO Customer_Recipe(idCustomer, idRecipe, comment, isFavorite)
 VALUES
     ('1', '1', 'cool comme recette', true),
