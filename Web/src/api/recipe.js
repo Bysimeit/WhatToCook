@@ -47,9 +47,9 @@ const getDataRecipe = async (id) => {
         });
 
         
-		console.log(response);
+		console.log(response.data[0]);
 
-		const data = response.data
+		const data = response.data[0]
 		return data;
 		
 	} catch (e) {

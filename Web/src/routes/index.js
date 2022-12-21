@@ -13,6 +13,7 @@ import ListCustomerPage from '../screens/CustomerListPage';
 import FridgePage from '../screens/FridgePage';
 import AllergyPage from '../screens/AllergyPage';
 import ListRecipePage from '../screens/RecipeListPage';
+import RecipePage from '../screens/RecipePage';
 import ChangePassWord from '../screens/ChangePassWordPage';
 import Protected from '../composants/PrivateRoute';
 
@@ -28,6 +29,7 @@ const Router = () => {
                 <Route path="/customer" element={<ListCustomerPage/>}/>
                 <Route path="/comment/:id" element={<ListCommentsPage/>}/>
                 <Route path="/recipe" element={<ListRecipePage/>}/>
+                <Route path="/recipe/:id" element={<RecipePage/>}/>
                 <Route path="/fridge/:id" element={<FridgePage/>}/>
                 <Route path="/allergy" element={<AllergyPage/>}/>
                 <Route path="/admin" element={<ClientAreaPage/>}/>
