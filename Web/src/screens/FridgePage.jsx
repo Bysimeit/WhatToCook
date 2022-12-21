@@ -29,7 +29,7 @@ export default function FridgePage(){
     } 
 
     function handleClickDelete(idFood){
-        //deleteFood(id,idFood,token);
+        deleteFood(id,idFood,token);
         let newFoods = foods.filter((elem) => elem.id != idFood);
         setFoods(newFoods);
     } 
