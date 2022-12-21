@@ -1,6 +1,6 @@
 const pool = require('../models/database');
 const CustomerAllergyModel = require('../models/customerAllergyDB');
-const { compareSync } = require('bcrypt');
+//const { compareSync } = require('bcrypt');
 
 module.exports.getAllCustomerAllergy = async (req, res) => {
     const idText = req.params.id;
