@@ -16,13 +16,6 @@ export default function Registration({ navigation }) {
 
   const [newsletterSelected, setNewletterSelection] = React.useState(false);
 
-  /*
-  const handlePressSignIn = () => {
-    console.log("S'inscrire");
-    Alert.alert("Inscription bien prise en compte.", "Vous pouvez maintenant vous connecter.");
-  };
-  */
-
   const { newCustomer } = useFetchCustomer();
   const handlePressSignIn = () => {
     if (lastName !== '') {
@@ -87,7 +80,7 @@ export default function Registration({ navigation }) {
         </View>
         <View style={styles.inputView}>
           <Text>EMail :</Text>
-          <TextInput style={[styles.input, styles.shadowBox]} onChangeText={onChangeEMail} value={eMail}/>
+          <TextInput style={[styles.input, styles.shadowBox]} autoCapitalize='none' onChangeText={onChangeEMail} value={eMail}/>
         </View>
         <View style={styles.inputView}>
           <Text>Mot de passe :</Text>

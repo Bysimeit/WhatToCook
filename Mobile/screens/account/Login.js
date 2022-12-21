@@ -34,63 +34,68 @@ export default function Login({ navigation }) {
   const handlePressConnect = () => {
       if (email !== '') {
         if (password !== '') {
-          loginFetch(email, password).then(async (result) => {
-            if (result.status === 200) {
-              Alert.alert("Connexion réussie !");
-              onChangeEMail('');
-              onChangePassword('');
-              await AsyncStorage.setItem("token", result.data);
-              await AsyncStorage.setItem("email", email);
-
-              profileFetch(email).then(async (result) => {
-                if (result.status === 200) {
-                  const jsonData = JSON.stringify(result.data[0]);
-                  await AsyncStorage.setItem("infoUser", jsonData);
-                  dispatch(setProfile(result.data));
-                  let connected = {
-                    id: result.data[0].id,
-                    status: true
-                  };
-                  dispatch(setConnected(connected));
-
-                  foodFetch(result.data[0].id).then((result) => {
-                    if (result.status === 200) {
-                      dispatch(setFood(result.data));
-                    }
-                  }).catch((e) => {
-                    Alert.alert("Erreur !", e.message);
-                  });
-                  
-                  customerAllergyFetch(result.data[0].id).then((result) => {
-                    if (result.status === 200) {
-                        let pushAllergy = [];
-                        for (let i = 0; i < result.data.length; i++) {
-                          pushAllergy.push(result.data[i].idallergy);
-                        }
-                        dispatch(setAllergy(pushAllergy));
-                    }
-                  }).catch((e) => {
+          let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+          if (reg.test(email)) {
+            loginFetch(email, password).then(async (result) => {
+              if (result.status === 200) {
+                Alert.alert("Connexion réussie !");
+                onChangeEMail('');
+                onChangePassword('');
+                await AsyncStorage.setItem("token", result.data);
+                await AsyncStorage.setItem("email", email);
+  
+                profileFetch(email).then(async (result) => {
+                  if (result.status === 200) {
+                    const jsonData = JSON.stringify(result.data[0]);
+                    await AsyncStorage.setItem("infoUser", jsonData);
+                    dispatch(setProfile(result.data));
+                    let connected = {
+                      id: result.data[0].id,
+                      status: true
+                    };
+                    dispatch(setConnected(connected));
+  
+                    foodFetch(result.data[0].id).then((result) => {
+                      if (result.status === 200) {
+                        dispatch(setFood(result.data));
+                      }
+                    }).catch((e) => {
                       Alert.alert("Erreur !", e.message);
-                  });
-
-                  customerFavoriteFetch(result.data[0].id).then((result) => {
-                    if (result.status === 200) {
-                      dispatch(setFavorite(result.data));
-                    }
-                  }).catch((e) => {
-                    Alert.alert("Erreur !", e.message);
-                  });
-
-                  navigation.navigate("Profile");
-                }
-              }).catch((e) => {
-                Alert.alert("Erreur !", e.message);
-              });
-            }
-          }).catch((e) => {
-            onChangePassword('');
-            Alert.alert("Erreur !", e.message);
-          });
+                    });
+                    
+                    customerAllergyFetch(result.data[0].id).then((result) => {
+                      if (result.status === 200) {
+                          let pushAllergy = [];
+                          for (let i = 0; i < result.data.length; i++) {
+                            pushAllergy.push(result.data[i].idallergy);
+                          }
+                          dispatch(setAllergy(pushAllergy));
+                      }
+                    }).catch((e) => {
+                        Alert.alert("Erreur !", e.message);
+                    });
+  
+                    customerFavoriteFetch(result.data[0].id).then((result) => {
+                      if (result.status === 200) {
+                        dispatch(setFavorite(result.data));
+                      }
+                    }).catch((e) => {
+                      Alert.alert("Erreur !", e.message);
+                    });
+  
+                    navigation.navigate("Profile");
+                  }
+                }).catch((e) => {
+                  Alert.alert("Erreur !", e.message);
+                });
+              }
+            }).catch((e) => {
+              onChangePassword('');
+              Alert.alert("Erreur !", e.message);
+            });
+          } else {
+            Alert.alert("Erreur !", "Veuillez insérer une adresse mail valide !");
+          }
         } else {
           Alert.alert("Erreur !", "Veuillez insérer votre mot de passe !");
         }
@@ -107,7 +112,7 @@ export default function Login({ navigation }) {
         <Text style={styles.title}>Connexion</Text>
         <View style={styles.inputView}>
           <Text>EMail :</Text>
-          <TextInput style={[styles.input, styles.shadowBox]} onChangeText={onChangeEMail} value={email}/>
+          <TextInput style={[styles.input, styles.shadowBox]} autoCapitalize='none' onChangeText={onChangeEMail} value={email}/>
         </View>
         <View style={styles.inputView}>
           <Text>Mot de passe :</Text>

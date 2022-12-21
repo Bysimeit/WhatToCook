@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, View, StyleSheet, Alert, TextInput, Pressable } from 'react-native';
 import CheckBox from 'expo-checkbox';
 
@@ -17,6 +17,10 @@ export default function PasswordForget({ navigation }) {
     }
 
     const active = "none";
+
+    useState(() => {
+        onChangeEMail('En cours de développement...');
+    }, [])
 
     return (
         <View style={styles.page}>

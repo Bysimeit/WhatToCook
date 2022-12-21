@@ -106,8 +106,7 @@ export default function Research({ navigation }) {
                         })
                     }
                 }).catch((e) => {
-                    console.error(e);
-                    Alert.alert("Erreur !", "Une erreur est survenue lors de la recherce des recettes.");
+                    Alert.alert("Erreur !", e.message);
                 });
             }
         }
@@ -137,8 +136,7 @@ export default function Research({ navigation }) {
                 setSelectedAllergy(allergyNamePush);
             }
         }).catch((e) => {
-            console.error(e);
-            Alert.alert("Erreur !", "Une erreur est survenue lors de la récupération des allergies.");
+            Alert.alert("Erreur !", e.message);
         });
     }, [allergyRedux]);
 

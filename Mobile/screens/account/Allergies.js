@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import { Text, View, StyleSheet, Alert, ScrollView, Pressable } from 'react-native';
 import CheckBox from 'expo-checkbox';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getAllergies } from '../../redux/selectors';
+import { setAllergy } from '../../redux/actions/allergyList';
 
 import useFetchAllergy from '../../services/useFetchAllergy';
 
@@ -67,6 +68,8 @@ export default function Allergies({ navigation }) {
         });
     }, [allergyRedux]);
 
+    const dispatch = useDispatch();
+
     const handlePressUpdate = async () => {
         let idAllergies = [];
         if (selectedAllergy.length !== 0) {
@@ -78,6 +81,8 @@ export default function Allergies({ navigation }) {
                 }
             }
         }
+
+        dispatch(setAllergy(idAllergies));
 
         customerChangeAllergy(JSON.parse(await AsyncStorage.getItem("infoUser")).id, idAllergies).then((result) => {
             if (result.status === 201) {

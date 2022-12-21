@@ -55,15 +55,15 @@ export default function ChangePassword({ navigation }) {
                 <Text style={styles.title}>Changement de mot de passe</Text>
                 <View style={styles.inputView}>
                     <Text>Ancien mot de passe :</Text>
-                    <TextInput style={[styles.input, styles.shadowBox]} onChangeText={onChangeOldPassword} value={oldPassword}/>
+                    <TextInput style={[styles.input, styles.shadowBox]} secureTextEntry={true} onChangeText={onChangeOldPassword} value={oldPassword}/>
                 </View>
                 <View style={styles.inputView}>
                     <Text>Nouveau mot de passe :</Text>
-                    <TextInput style={[styles.input, styles.shadowBox]} onChangeText={onChangeNewPassword} value={newPassword}/>
+                    <TextInput style={[styles.input, styles.shadowBox]} secureTextEntry={true} onChangeText={onChangeNewPassword} value={newPassword}/>
                 </View>
                 <View style={styles.inputView}>
                     <Text>Confirmer mot de passe :</Text>
-                    <TextInput style={[styles.input, styles.shadowBox]} onChangeText={onChangeNewPasswordConfirm} value={newPasswordConfirm}/>
+                    <TextInput style={[styles.input, styles.shadowBox]} secureTextEntry={true} onChangeText={onChangeNewPasswordConfirm} value={newPasswordConfirm}/>
                 </View>
                 <Pressable style={[styles.buttonPassword, styles.shadowBox]} onPress={handlePressChangePassword}>
                     <Text style={styles.textButton}>Changer de mot de passe</Text>

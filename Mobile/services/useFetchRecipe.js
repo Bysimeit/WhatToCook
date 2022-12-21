@@ -61,7 +61,7 @@ export default function useFetchRecipe() {
             const message = errorMessage(
                 e.response.status,
                 e.response.data,
-                "Recherche recette"
+                "Recette"
             );
 
             throw new Error(message); 
