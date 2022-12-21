@@ -7,6 +7,7 @@ const router = new Router;
 
 router.get('/',JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, CommentRecipeController.getAllCommentCustomer);
 router.get('/:id', CommentRecipeController.getCommentRecipe);
+router.post('/',JWTMiddleWare.identification, CommentRecipeController.postComment);
 router.patch('/', JWTMiddleWare.identification, CommentRecipeController.updateComment);
 
 

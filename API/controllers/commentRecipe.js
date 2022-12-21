@@ -50,6 +50,35 @@ module.exports.getCommentRecipe = async (req, res) => {
     }
 }
 
+module.exports.postComment = async (req, res) => {
+    const {idCustomer, idRecipe, comment} = req.body;
+
+    if(idCustomer === undefined || idRecipe === undefined || comment === undefined){
+        res.status(400).json("Données manquantes");
+    } else {
+        const client = await pool.connect();
+        try {
+            await client.query("BEGIN"); 
+            let result = await CustomerRecipeModel.getLine(client, idCustomer, idRecipe);
+            if(result.rows[0].comment === undefined){
+                result = await CustomerRecipeModel.postNewLine(client, idCustomer, idRecipe);
+                await CustomerRecipeModel.updateComment(client, idCustomer, idRecipe, comment);
+                await client.query("COMMIT");
+            res.sendStatus(204);
+            } else {
+                res.status(400).json("Ligne déjà existante");
+            }
+      
+        } catch (e) {
+            console.error(e);
+            await client.query("ROLLBACK");
+            res.sendStatus(500);
+        } finally {
+            client.release();
+        }
+    }
+}
+
 module.exports.updateComment = async (req, res) => {
     const {idCustomer, idRecipe, comment} = req.body;
 
@@ -60,13 +89,13 @@ module.exports.updateComment = async (req, res) => {
         try {
             await client.query("BEGIN"); 
             let result = await CustomerRecipeModel.getLine(client, idCustomer, idRecipe);
-            if(result.rows[0] === undefined){
-                result = await CustomerRecipeModel.postNewLine(client, idCustomer, idRecipe);
-            } 
-            await CustomerRecipeModel.updateComment(client, idCustomer, idRecipe, comment);
-            await client.query("COMMIT");
+            if(result.rows[0] !== undefined){
+                await CustomerRecipeModel.updateComment(client, idCustomer, idRecipe, comment);
+                await client.query("COMMIT");
             res.sendStatus(204);
-      
+            } else {
+                res.status(400).json("Ligne");
+            }    
         } catch (e) {
             console.error(e);
             await client.query("ROLLBACK");
