@@ -4,6 +4,9 @@ const StepModel = require('../models/stepDB');
 const FoodModel = require('../models/foodDB');
 const FoodQuantityModel = require('../models//foodQuantityDB');
 const CustomerRecipeModel = require('../models//customerRecipeDB');
+const {saveImage} = require('../models/imageManger');
+
+const destFolderPictures = '../upload';
 
 module.exports.getListeRecipe = async (req, res) => {
     const {type, time, allergies, foods} = req.query;
@@ -94,7 +97,8 @@ module.exports.getDataRecipe = async (req, res) => {
 }
 
 module.exports.postNewRecipe = async (req, res) => {
-    const {name, time, type, picture, steps, foods} = req.body;
+    const {name, time, type, steps, foods} = req.body;
+    const {picture} = req.body.files;
 
     if(name === undefined || time === undefined || type === undefined || steps === undefined || foods === undefined){ 
         res.status(400).json("Données manquantes");
@@ -125,6 +129,10 @@ module.exports.postNewRecipe = async (req, res) => {
                         res.sendStatus(404);
                     }
                 }
+
+                if(picture !== undefined){
+                    saveImage(picture.buffer, idRecipe, destFolderPictures);
+                }
                 await client.query("COMMIT");
                 res.sendStatus(201);
 
@@ -144,13 +152,19 @@ module.exports.postNewRecipe = async (req, res) => {
 }
 
 module.exports.udpateRecipe = async (req, res) => {
-    const {id, name, time, type, picture, steps, foods} = req.body;
+    const {id, name, time, type, steps, foods} = req.body;
+    const {picture} = req.body.files;
 
+    console.log(foods);
+    console.log(foods[1]);
+    console.log(foods[1].name);
+    console.log(picture);
     if(id === undefined || name === undefined || time === undefined || type === undefined || steps === undefined || foods === undefined){ 
         res.status(400).json("Données manquantes");
     } else {
         const client = await pool.connect();
         try {
+            console.log("étape 1");
             await client.query("BEGIN"); 
             await RecipeModel.updateRecipe(client, id,  name, type, time, picture);       
             await StepModel.deleteStepRecipe(client, id);
@@ -159,6 +173,7 @@ module.exports.udpateRecipe = async (req, res) => {
                 await StepModel.postNewStepRecipe(client, step, id);
             }
                  
+            console.log("étape 2");
             await FoodQuantityModel.deleteFoodQteRecipe(client, id);
             for(let food of foods){
                 let result = await FoodModel.getFood(client, food.name);
@@ -167,14 +182,18 @@ module.exports.udpateRecipe = async (req, res) => {
                     result = await FoodModel.postNewFood(client, food.name, false, undefined);
                 }
                         
-                if(food.quantity !== undefined && result.rows[0].id !== undefined){
+                if(food.value !== undefined && result.rows[0].id !== undefined){
                     let idFood = result.rows[0].id
-                    await FoodQuantityModel.NewFoodQte(client, id, idFood, food.quantity);
+                    await FoodQuantityModel.NewFoodQte(client, id, idFood, food.value, food.unity);
                 } else {
                     res.sendStatus(404);
                 }
             }
-            
+
+            console.log("étape 3");
+            if(picture !== ""){
+                saveImage(picture.buffer, id, destFolderPictures);
+            }
             await client.query("COMMIT");
             res.sendStatus(204);
                          

@@ -53,7 +53,7 @@ export default function RecipeListAdminPage() {
                     {
                         recipes.map((recipe) => {
                             return (
-                                <div className="tileRecipe" onClick={() => handleClickRecipeInfo(recipe.id)}>
+                                <div key={recipes.indexOf(recipe)} className="tileRecipe" onClick={() => handleClickRecipeInfo(recipe.id)}>
                                     <img src={recipe.picture} className='tileRecipeImg'/>
                                     <div className='tileRecipeContent'>
                                         <div className='tileRecipeTitle'>

@@ -14,8 +14,8 @@ export default function ClientAreaPage(){
 
     function handleClickLogOut(){
         navigate("/");
-        dispatch(setToken(null));
         localStorage.removeItem('token');
+        dispatch(setToken(null));
     } 
 
     function handleClickManageCustomer(){
@@ -38,7 +38,6 @@ export default function ClientAreaPage(){
             <input type="button" onClick={() => handleClickManageAllergies()} value="Gestion Allergies"/>
 
         </div>
-        console.log(adminSide);
     }
 
     return(

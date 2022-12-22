@@ -115,7 +115,7 @@ module.exports.postNewRecipe = async (client, name, type, time, picture) => {
 
 //update
 
-module.exports.updateRecipe = async (client, idRecipe,  name, type, time, picture) => {
+module.exports.updateRecipe = async (client, idRecipe, name, type, time, picture) => {
     if(picture === undefined){
         return await client.query(`UPDATE Recipe SET nameRecipe = $1, type = $2, time = $3 WHERE id = $4`, [name, type, time, idRecipe]);
     }else{

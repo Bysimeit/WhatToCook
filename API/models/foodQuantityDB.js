@@ -1,8 +1,12 @@
 
 //post
 
-module.exports.NewFoodQte = async (client, idRecipe, idFood, quantity) => {
-    return await client.query("INSERT INTO Food_Quantity(idRecipe, idFood, quantity) VALUES ($1,$2,$3)", [idRecipe, idFood, quantity]);
+module.exports.NewFoodQte = async (client, idRecipe, idFood, quantity, unity) => {
+    if(unity){
+        return await client.query("INSERT INTO Food_Quantity(idRecipe, idFood, quantity, unit) VALUES ($1,$2,$3,$4)", [idRecipe, idFood, quantity, unity]);
+    } else {
+        return await client.query("INSERT INTO Food_Quantity(idRecipe, idFood, quantity) VALUES ($1,$2,$3)", [idRecipe, idFood, quantity]);
+    }
 }
 
 //update

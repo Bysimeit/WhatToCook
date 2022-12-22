@@ -24,26 +24,41 @@ export default function RecipeListAdminPage(){
     const [foods, setFoods] = useState([]);
     const [addStep, setAddStep] = useState(false);
     const [addFood, setAddFood] = useState(false);
+    const [newStep, setNewStep] = useState("");
+    const [newFood, setNewFood] = useState({
+        name: "",
+        value: "",
+        unity: ""
+    });
 
-    function handleClickSend(){
-        const formData = new FormData();
-        formData.append('id', recipe.id);
-        formData.append('name', recipe.namerecipe);
-        formData.append('time', recipe.time);
-        formData.append('type', recipe.type);
-        formData.append('steps', recipe.steps);
-        formData.append('foods', foods);
-        formData.append('picture', recipe.picture);   
+    function handleClickSend(event){
+        event.preventDefault();
+        let foodsTxt = JSON.stringify(foods)
+        console.log(foods);
+        console.log(foodsTxt);
 
-        udpateRecipe(formData, token);
+        console.log(recipe.picture);
+        const picture = new FormData();
+        console.log(recipe.picture);
+        picture.append('picture', recipe.picture);  
+
+        udpateRecipe(recipe.id, recipe.namerecipe, recipe.time, recipe.type, picture, recipe.steps, foods, token);
     }
 
-    function handleClickAddFood(newFood){
-        setAddFood();
+    function handleClickAddFood(isAdding){
+        if(addFood){
+            setFoods([...foods, newFood]);
+        }
+        setAddFood(isAdding);
     }
 
-    function handleClickAddStep(newStep){
-        setAddStep();
+    function handleClickAddStep(isAdding){
+        if(addStep){
+            const newRecipe = recipe;
+            newRecipe.steps.push(newStep);
+            setRecipe(newRecipe);
+        }
+        setAddStep(isAdding);
     }
 
     function handleClickDeleteStep(index){
@@ -56,8 +71,9 @@ export default function RecipeListAdminPage(){
         setFoods(newFoods);
     }
 
-    function handleClickEditPicture(){
-
+    function test(picture){
+        console.log(picture.target.input.files.length);
+        setRecipe({...recipe, picture: picture.target.input.files[0]})
     }
 
     useEffect(() => {
@@ -83,9 +99,8 @@ export default function RecipeListAdminPage(){
 
                 let stringOutput = [];
                 for (let i = 0; i < data.length; i++) {
-                    stringOutput.push({value: `${data[i].value} ${data[i].characters}`, name: `${data[i].name}`});
+                    stringOutput.push({value: `${data[i].value}`,unity: `${data[i].characters}`, name: `${data[i].name}`});
                 }
-                console.log(stringOutput);
 
                 setFoods(stringOutput);
             });
@@ -97,7 +112,6 @@ export default function RecipeListAdminPage(){
         <div>
             <MenuBar/>
             <div className="core">
-                <p>Nous vous proposons de découvrir la recette suivante :</p>
 
                 <div className="globalDataArea">
                     <div className="globalData">
@@ -121,19 +135,17 @@ export default function RecipeListAdminPage(){
                 <div className="pictureArea">
                     <p>Image :</p>
                     <input
-                        type={"file"}
+                        name="jambon"
+                        type="file"
                         accept={"image/*"}
-                        value={recipe.picture}
-                        onChange={(e) => setRecipe({...recipe, picture: e.target.value})}
+                        onChange={test}
                     />
                     <img src={recipe.picture} className="imgRecipe" alt="recipe pictures"/>
-                    <button onClick={() => handleClickEditPicture()}>Modifier image</button>
                 </div>
 
                 <div className="stepsArea">
                     <h2>Etapes à suivre :</h2>
                     {recipe.steps.map((step) => {
-                        console.log(step);
                         return(
                             <div className="step" key={recipe.steps.indexOf(step)}>
                                 <textarea value={step} onChange={(e) => setRecipe({...recipe, type: e.target.value})}/> 
@@ -141,23 +153,62 @@ export default function RecipeListAdminPage(){
                             </div>
                         );
                     })}
-                    <button className="addBtn" onClick={() => handleClickAddStep()}><img src={plusImg} className="imgBtn" alt="add food"/></button>
+                    {addStep 
+                    ?
+                        <>
+                            <textarea onChange={(e) => setNewStep(e.target.value)}/> 
+                            <button className="addBtn" onClick={() => handleClickAddStep(false)}><img src={VImg} className="imgBtn" alt="add food"/></button>                      
+                        </>
+                    :   
+                        <button className="addBtn" onClick={() => handleClickAddStep(true)}><img src={plusImg} className="imgBtn" alt="add food"/></button>
+                    }
                 </div>
 
                 <div className="foodsArea">
                     <h2>Aliments requis :</h2>
-                    {foods.map((food) => {
-                        return (
-                            <div key={food}>
-                                <input value={food} onChange={(e) => setRecipe({...recipe, type: e.target.value})}/> 
-                                <button className="commentListBtn" onClick={() => handleClickDeleteFood(foods.indexOf(food))}><img src={trashImg} className="imgBtn" alt="cancel pictures"/></button>                         
-                            </div>
-                        );
-                    })}
-                    <button className="addBtn" onClick={() => handleClickAddFood()}><img src={plusImg} className="imgBtn" alt="add food"/></button>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Aliment</td>
+                                <td>Quantité</td>
+                                <td>Unité</td>
+                                <td></td>
+                            </tr>                                                   
+                            {foods.map((food) => {
+                                return (
+                                    <tr key={food.name}>
+                                        <td><input value={food.name} onChange={(e) => setRecipe({...foods, type: e.target.value})}/></td>
+                                        <td><input value={food.value} onChange={(e) => setRecipe({...foods, type: e.target.value})}/></td>
+                                        <td><input value={food.unity} onChange={(e) => setNewFood({...newFood, unity: e.target.unity})}/></td>
+                                        <td>
+                                            <button className="commentListBtn" onClick={() => handleClickDeleteFood(foods.indexOf(food))}><img src={trashImg} className="imgBtn" alt="cancel pictures"/></button>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                            {addFood 
+                            ? 
+                            <tr>
+                                <td><input onChange={(e) => setNewFood({...newFood, name: e.target.value})}/></td>
+                                <td><input onChange={(e) => setNewFood({...newFood, value: e.target.value})}/></td>
+                                <td><input onChange={(e) => setNewFood({...newFood, unity: e.target.value})}/></td>
+                                <td>                                            
+                                    <button className="valideBtn" onClick={() => handleClickAddFood(false)}><img src={VImg} className="imgBtn" alt="valid pictures"/></button>
+                                </td>
+                            </tr>
+                            : 
+                            <tr>
+                                <td></td>
+                                <td><button className="addBtn" onClick={() => handleClickAddFood(true)}><img src={plusImg} className="imgBtn" alt="add food"/></button></td>
+                                <td></td>
+                            </tr>
+                            }
+                            
+                        </tbody>
+                    </table>
                 </div>
                 
-                <button onClick={() => handleClickSend()}>Valider Modification</button>
+                <button onClick={(e) => handleClickSend(e)}>Valider Modification</button>
             </div>      
         </div>
     );
