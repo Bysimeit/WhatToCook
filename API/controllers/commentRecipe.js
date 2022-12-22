@@ -2,9 +2,8 @@ const pool = require('../models/database');
 const CustomerRecipeModel = require('../models/customerRecipeDB');
 
 module.exports.getAllCommentCustomer = async (req, res) => {
-    const idTexte = req.query.idCustomer;
-    const idCustomer = parseInt(idTexte);
-
+    const idText = req.query.idCustomer;
+    const idCustomer = parseInt(idText);
     if(idCustomer === undefined){
         res.status(400).json("Données manquantes");
     } else {
@@ -25,9 +24,34 @@ module.exports.getAllCommentCustomer = async (req, res) => {
     }
 }
 
+module.exports.getCommentCustomer = async (req, res) => {
+    const {idCustomerText, idRecipeText} = req.query;
+    const idRecipe = parseInt(idRecipeText);
+    const idCustomer = parseInt(idCustomerText);
+
+    if(idCustomer === undefined || idRecipe === undefined){
+        res.status(400).json("Données manquantes");
+    } else {
+        const client = await pool.connect();
+        try {
+            const result = await CustomerRecipeModel.getLine(client, idCustomer, idRecipe);
+            if(result.rows[0] !== undefined){
+                res.json(result.rows);
+            } else {
+                res.sendStatus(404);
+            }
+        } catch (e) {
+            console.error(e);
+            res.sendStatus(500);
+        } finally {
+            client.release();
+        }
+    }
+}
+
 module.exports.getCommentRecipe = async (req, res) => {
-    const idTexte = req.params.id;
-    const idRecipe = parseInt(idTexte);
+    const idText = req.params.id;
+    const idRecipe = parseInt(idText);
 
     if(idRecipe === undefined){
         res.status(400).json("Id recette manquant");
@@ -60,15 +84,17 @@ module.exports.postComment = async (req, res) => {
         try {
             await client.query("BEGIN"); 
             let result = await CustomerRecipeModel.getLine(client, idCustomer, idRecipe);
-            if(result.rows[0].comment === undefined){
-                result = await CustomerRecipeModel.postNewLine(client, idCustomer, idRecipe);
+            if(result.rows[0] === undefined){
+                await CustomerRecipeModel.postNewLine(client, idCustomer, idRecipe);
                 await CustomerRecipeModel.updateComment(client, idCustomer, idRecipe, comment);
-                await client.query("COMMIT");
-            res.sendStatus(204);
+            } else if(result.rows[0].comment === '') {
+                await CustomerRecipeModel.updateComment(client, idCustomer, idRecipe, comment);
             } else {
-                res.status(400).json("Ligne déjà existante");
+                res.status(400).json("Commentaire existant");
             }
-      
+
+            await client.query("COMMIT");
+            res.sendStatus(204);
         } catch (e) {
             console.error(e);
             await client.query("ROLLBACK");
@@ -92,9 +118,9 @@ module.exports.updateComment = async (req, res) => {
             if(result.rows[0] !== undefined){
                 await CustomerRecipeModel.updateComment(client, idCustomer, idRecipe, comment);
                 await client.query("COMMIT");
-            res.sendStatus(204);
+                res.sendStatus(201);
             } else {
-                res.status(400).json("Ligne");
+                res.status(400).json("Ligne inexistante");
             }    
         } catch (e) {
             console.error(e);

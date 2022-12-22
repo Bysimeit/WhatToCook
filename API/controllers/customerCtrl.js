@@ -25,7 +25,8 @@ module.exports.getAllCustomer = async (req, res) => {
 }
 
 module.exports.getCustomer = async (req, res) => {
-    const email = req.params.email;
+    const {email} = req.params;
+    console.log(email);
 
     if(email === undefined){
         res.status(400).json("Email manquant");
@@ -67,11 +68,31 @@ module.exports.postNewCustomer = async (req, res) => {
     }
 }
 
+module.exports.updateCustomer = async (req, res) => {
+    const {id , name, firstName, email} = req.body;
+
+    console.log(id);
+    if(id === undefined || name === undefined || firstName === undefined || email === undefined){
+        res.status(400).json("Données manquantes");
+    } else {
+        const client = await pool.connect();
+        try{
+            await CustomerModel.updateCustomer(client, id , name, firstName, email);
+            res.sendStatus(204); 
+        } catch (error){
+            console.error(error);
+            res.sendStatus(500);
+        } finally {
+            client.release();
+        }
+    }    
+}
+
 module.exports.updatePasswordEmailCustomer = async (req, res) => {
     const {oldPassword , newPassword, oldEmail, newEmail} = req.body;
 
 
-    if(oldPassword === undefined && oldEmail === undefined){
+    if(oldPassword === undefined || oldEmail === undefined){
         res.status(400).json("Données manquantes");
     } else {
         const client = await pool.connect();

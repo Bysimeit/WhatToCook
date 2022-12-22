@@ -2,8 +2,8 @@ const pool = require('../models/database');
 const CustomerRecipeModel = require('../models/customerRecipeDB');
 
 module.exports.getFavoriteRecipe = async (req, res) => {
-    const idTexte = req.params.id;
-    const idCustomer = parseInt(idTexte);
+    const idText = req.params.id;
+    const idCustomer = parseInt(idText);
 
     if(idCustomer === undefined){
         res.status(400).json("Id client manquant");

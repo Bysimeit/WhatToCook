@@ -3,8 +3,8 @@ const CustomerFoodModel = require('../models/customerFoodDB');
 const FoodModel = require('../models/foodDB');
 
 module.exports.getAllFood = async (req, res) => {
-    const idTexte = req.params.id;
-    const idCustomer = parseInt(idTexte);
+    const idText = req.params.id;
+    const idCustomer = parseInt(idText);
 
     if(idCustomer === undefined){ 
         res.status(400).json("Id client manquant");

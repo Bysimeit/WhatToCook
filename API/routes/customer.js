@@ -8,7 +8,8 @@ const router = new Router;
 router.get('/',JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin ,CustomerController.getAllCustomer);
 router.get('/:email',JWTMiddleWare.identification ,CustomerController.getCustomer);
 router.post('/', CustomerController.postNewCustomer);
-router.patch('/',JWTMiddleWare.identification, CustomerController.updatePasswordEmailCustomer); 
+router.patch('/email',JWTMiddleWare.identification, CustomerController.updatePasswordEmailCustomer);
+router.patch('/',JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, CustomerController.updateCustomer);
 router.delete('/',JWTMiddleWare.identification, CustomerController.deleteCustomer); //demander si ok pour la sécu
 
 
