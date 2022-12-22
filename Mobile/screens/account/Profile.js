@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { Text, View, StyleSheet, Alert, TextInput, Pressable, Image } from 'react-native';
+import { Text, View, StyleSheet, Alert, TextInput, Pressable, Image, Linking, Button } from 'react-native';
 import CheckBox from 'expo-checkbox';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useSelector } from 'react-redux';
 import { getProfile } from '../../redux/selectors';
 
@@ -86,7 +87,18 @@ export default function Profile({ navigation }) {
             await AsyncStorage.setItem("profilImg", JSON.stringify(result.uri));
         }
     }
-    
+
+    const handlePressInfo = () => {
+        const url = "https://pages.flycricket.io/whattocook/privacy.html";
+        Linking.canOpenURL(url).then(supported => {
+            if (supported) {
+                Linking.openURL(url);
+            } else {
+                Alert.alert("Erreur !", "Impossible d'accéder au lien.");
+            }
+        });
+    }
+
     return (
         <View style={styles.page}>
             <View style={styles.content}>
@@ -107,6 +119,9 @@ export default function Profile({ navigation }) {
                 </View>
                 <Pressable style={[styles.buttonDelete, styles.shadowBox]} onPress={handlePressDelete}>
                     <Text style={styles.textButton}>Supprimer mon compte</Text>
+                </Pressable>
+                <Pressable style={[styles.buttonInfo, styles.shadowBox]} onPress={handlePressInfo}>
+                    <Ionicons name='information-circle-outline' size={25} style={styles.infoIcon} />
                 </Pressable>
             </View>
             <Header navigation={navigation}/>
@@ -169,11 +184,22 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     buttonDelete: {
-        top: 80,
+        top: 60,
         height: 35,
         width: 170,
         backgroundColor: "#D9D9D9",
         marginRight: 'auto',
+        marginLeft: 'auto'
+    },
+    buttonInfo: {
+        backgroundColor: "#D9D9D9", 
+        height: 40, 
+        width: 40, 
+        borderRadius: 20,
+        borderColor: "black",
+        borderWidth: 1,
+        marginTop: 60,
+        marginRight: 10,
         marginLeft: 'auto'
     },
     iconUser: {
@@ -183,9 +209,8 @@ const styles = StyleSheet.create({
         height: 50,
         width: 50
     },
-    test: {
-        width: 100,
-        height: 100,
-        marginTop: 10
+    infoIcon: {
+        left: 7,
+        top: 5
     }
 });
