@@ -101,16 +101,19 @@ const postNewRecipe = async (name, time, type, picture, steps, foods, token) => 
 	}
 };
 
-const udpateRecipe = async (id, name, time, type, picture, steps, foods, token) => {
+const udpateRecipe = async (fromData, token) => {
 	
 	try {
 		console.log("debut axios");
 		localStorage.setItem('token', undefined);
         const response = await axios({
             method: 'patch',
-			headers: {'Authorization': 'Bearer ' + token},
+			headers: {
+				'Authorization': 'Bearer ' + token,
+				'Content-Type': 'multipart/form-data'
+			},
             url: `${API_URL}/recipe`,
-            data: {
+            /*data: {
                 id: id,
                 name: name, 
                 time: time, 
@@ -118,7 +121,7 @@ const udpateRecipe = async (id, name, time, type, picture, steps, foods, token) 
                 picture: picture, 
                 steps: steps, 
                 foods: foods
-            }
+            }*/
         });
 
         console.log(response);

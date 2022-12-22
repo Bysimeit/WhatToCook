@@ -21,6 +21,7 @@ import Protected from '../composants/PrivateRoute';
 
 
 const Router = () => {
+
     return(
         <BrowserRouter>
             <Routes>

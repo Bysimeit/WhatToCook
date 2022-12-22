@@ -170,12 +170,13 @@ module.exports.udpateRecipe = async (req, res) => {
                 if(food.quantity !== undefined && result.rows[0].id !== undefined){
                     let idFood = result.rows[0].id
                     await FoodQuantityModel.NewFoodQte(client, id, idFood, food.quantity);
-                    await client.query("COMMIT");
-                    res.sendStatus(204);
                 } else {
                     res.sendStatus(404);
                 }
             }
+            
+            await client.query("COMMIT");
+            res.sendStatus(204);
                          
         } catch (error) {
             await client.query("ROLLBACK");

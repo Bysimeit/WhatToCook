@@ -3,6 +3,38 @@ const AllergyModel = require('../models/allergyDB');
 const CustomerAllergyModel = require('../models/customerAllergyDB');
 const FoodModel = require('../models/foodDB');
 
+
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      Allergy:
+ *          type: object
+ *          properties:
+ *              id:
+ *                  type: integer
+ *              name:
+ *                  type: string
+ *                  description: nom de l'allergie
+ *
+ */
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      AllergiesNotFound:
+ *          description: Aucune allergies ne se trouve dans la table Allergy
+ *      AllergiesFound:
+ *          description: Renvoie le tableau des allergies
+ *          content:
+ *               application/json:
+ *                   schema:
+ *                       $ref: '#/components/schemas/Allergy'
+ *
+ */
+
+
 module.exports.getAllAllergy = async (req, res) => {
 
     const client = await pool.connect();
@@ -21,6 +53,23 @@ module.exports.getAllAllergy = async (req, res) => {
         client.release();
     }
 }
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      NewAllergyCreated:
+ *          description: Aucune allergies ne se trouve dans la table Allergy
+ *  requestBodies:
+ *      AllergyAAjoute:
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      properties:
+ *                          name:
+ *                              type: string
+ *
+ */
 
 module.exports.postNewAllergy = async (req, res) => {
     const {name} = req.body;
@@ -41,6 +90,26 @@ module.exports.postNewAllergy = async (req, res) => {
     }
 }
 
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      AllergyUpdated:
+ *          description: l'allergie cible a bien été mise à jour
+ *  requestBodies:
+ *      AllergyAUpdate:
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          name:
+ *                              type: string
+ *                          id:
+ *                              type: integer
+ *
+ */
+
 module.exports.updateAllergy = async (req, res) => {
     const {id, name} = req.body;
 
@@ -59,6 +128,14 @@ module.exports.updateAllergy = async (req, res) => {
         }
     }
 }
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      AllergyDeleted:
+ *          description: Suppression bien effectuée
+ */
 
 module.exports.deleteAllergy = async (req, res) => {
     const {id} = req.body;
