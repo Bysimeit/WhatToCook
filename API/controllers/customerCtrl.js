@@ -26,7 +26,6 @@ module.exports.getAllCustomer = async (req, res) => {
 
 module.exports.getCustomer = async (req, res) => {
     const {email} = req.params;
-    console.log(email);
 
     if(email === undefined){
         res.status(400).json("Email manquant");
@@ -71,7 +70,6 @@ module.exports.postNewCustomer = async (req, res) => {
 module.exports.updateCustomer = async (req, res) => {
     const {id , name, firstName, email} = req.body;
 
-    console.log(id);
     if(id === undefined || name === undefined || firstName === undefined || email === undefined){
         res.status(400).json("Données manquantes");
     } else {

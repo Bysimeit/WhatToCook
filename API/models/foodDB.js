@@ -22,10 +22,8 @@ module.exports.postNewFood = async (client, name, isValidated, idAllergy) => {
 
 module.exports.updateFood = async (client, id, name, idAllergy) => {
     if(idAllergy === undefined){
-        console.log(id);
         return await client.query("UPDATE Food SET name = $1, idAllergy = null, isValidated = true WHERE id = $2", [name, id]);
     } else {
-        console.log(name);
         return await client.query("UPDATE Food SET name = $1, idAllergy = $2, isValidated = true WHERE id = $3", [name, idAllergy, id]);
     }
     
