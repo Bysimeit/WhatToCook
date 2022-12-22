@@ -9,7 +9,9 @@ import WelcomePage from '../screens/WelcomePage';
 import LoginPage from '../screens/LoginPage';
 import ClientAreaPage from '../screens/ClientAreaPage';
 import ListCommentsPage from '../screens/CommentsListPage';
+import EditCommentsPage from '../screens/EditCommentPage';
 import ListCustomerPage from '../screens/CustomerListPage';
+import EditCustomerPage from '../screens/EditCustomerPage';
 import FridgePage from '../screens/FridgePage';
 import AllergyPage from '../screens/AllergyPage';
 import ListRecipePage from '../screens/RecipeListPage';
@@ -27,7 +29,9 @@ const Router = () => {
 
                 {/*<Protected token={}></Protected>*/}
                 <Route path="/customer" element={<ListCustomerPage/>}/>
+                <Route path="/customer/:email" element={<EditCustomerPage/>}/>
                 <Route path="/comment/:id" element={<ListCommentsPage/>}/>
+                <Route path="/comment/:id/:idRecipe" element={<EditCommentsPage/>}/>
                 <Route path="/recipe" element={<ListRecipePage/>}/>
                 <Route path="/recipe/:id" element={<RecipePage/>}/>
                 <Route path="/fridge/:id" element={<FridgePage/>}/>

@@ -39,7 +39,7 @@ const getCustomer = async (email, token) => {
             url: `${API_URL}/customer/${email}`,
         });
 
-		const data = response.data
+		const data = response.data[0];
 		return data;
 		
 	} catch (e) {
@@ -87,7 +87,40 @@ const postNewCustomer = async (lastName, firstName, password, email, token) => {
 	}
 };
 
-const updateCustomer = async (oldPassword , newPassword, oldEmail, newEmail, token) => {
+const updateCustomer = async (id , name, firstName, email, token) => {
+	
+	try{
+		console.log("debut axios");
+		const response = await axios({
+			method: 'patch',
+			headers: {'Authorization': 'Bearer ' + token},
+			url: `${API_URL}/customer`,
+			data: {
+				id: id, 
+				name: name, 
+				firstName: firstName, 
+				email: email
+			}
+		});
+
+		console.log(response);
+
+		const data = response.data
+		return data;
+	} catch(e) {
+		console.log(e);
+		switch (e.response.status) {
+		case 400:
+			throw new Error('Aucun mot de passe correspond à cette email');
+		default: 
+			throw new Error('Une erreur s\'est produite, veuillez réessayer plus tard');
+		}
+	}
+	
+}
+
+
+const updateEmailPasswordCustomer = async (oldPassword , newPassword, oldEmail, newEmail, token) => {
 	
 	try {
 		console.log("debut axios");
@@ -164,4 +197,4 @@ const deleteCustomer = async (id, token) => {
 	}
 };
 
-export {getAllCustomer, getCustomer, postNewCustomer, updateCustomer, deleteCustomer}
+export {getAllCustomer, getCustomer, postNewCustomer, updateCustomer, updateEmailPasswordCustomer, deleteCustomer}

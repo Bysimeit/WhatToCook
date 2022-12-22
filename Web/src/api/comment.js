@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import {API_URL} from './axiosBase';
 
-const getCommentCustomer = async (idCustomer, token) => {
+const getAllCommentCustomer = async (idCustomer, token) => {
 	
 	try {
 		console.log("debut axios ");
@@ -18,6 +18,36 @@ const getCommentCustomer = async (idCustomer, token) => {
 		console.log(response.data);
 
 		const data = response.data
+		return data;
+		
+	} catch (e) {
+		console.log(e);
+		switch (e.response.status) {
+		case 404:
+			throw new Error('Aucun utilisatgeur avec cette email');
+		default: 
+			throw new Error('Une erreur s\'est produite, veuillez réessayer plus tard');
+		}
+	}
+};
+
+const getCommentCustomer = async (idCustomer, idRecipe, token) => {
+	
+	try {
+		console.log("debut axios ");
+        const response = await axios({
+            method: 'get',
+            headers: {'Authorization': 'Bearer ' + token},
+            url: `${API_URL}/comment/target`,
+            params: {
+                idCustomerText: idCustomer,
+				idRecipeText: idRecipe
+            }
+        });
+
+		console.log(response.data[0].comment);
+
+		const data = response.data[0].comment;
 		return data;
 		
 	} catch (e) {
@@ -57,12 +87,43 @@ const getCommentRecipe = async (idRecipe, token) => {
 	}
 };
 
+const postComment = async (idCustomer, idRecipe, comment, token) => {
+	
+	try {
+		const response = await axios({
+			method: 'post',
+			headers: {'Authorization': 'Bearer ' + token},
+			url: `${API_URL}/comment`,
+			data: {
+				idCustomer: idCustomer, 
+				idRecipe: idRecipe,
+				comment: comment
+			}
+		});
+         
+		console.log(response);
+
+		const data = response.data
+		return data;
+		
+	} catch (e) {
+		console.log(e);
+		switch (e.response.status) {
+		case 400:
+			throw new Error('Données manquante pour l\'ajout');
+		default: 
+			throw new Error('Une erreur s\'est produite, veuillez réessayer plus tard');
+		}
+	}
+};
+
 const updateComment = async (idCustomer, idRecipe, comment, token) => {
 	
 	try {
 		console.log("debut axios");
 		console.log(idCustomer);
 		console.log(idRecipe);
+		console.log(comment);
 		let response;
 		if(comment == ""){
 			response = await axios({
@@ -104,4 +165,4 @@ const updateComment = async (idCustomer, idRecipe, comment, token) => {
 	}
 };
 
-export {getCommentCustomer, getCommentRecipe, updateComment}
+export {getAllCommentCustomer, getCommentCustomer, getCommentRecipe, postComment, updateComment}

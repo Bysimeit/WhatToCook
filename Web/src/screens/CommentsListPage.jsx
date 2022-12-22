@@ -2,8 +2,9 @@ import React, {useState, useEffect} from "react";
 import MenuBar from "../composants/MenuBar";
 import {useParams} from "react-router-dom";
 import {useSelector} from 'react-redux';
-import {getCommentCustomer, updateComment, } from '../api/comment';
+import {getAllCommentCustomer, updateComment, postComment} from '../api/comment';
 import {getListRecipe} from '../api/recipe';
+import {useNavigate} from "react-router-dom";
 import penImg from '../pictures/crayon.png';
 import trashImg from '../pictures/trash1.png';
 import VImg from '../pictures/V.png';
@@ -14,6 +15,7 @@ export default function ListCommentsPage(){
 
     const {id} = useParams();
     const token = useSelector((state) => state.user.token);
+    const navigate = useNavigate();
     const [listComments, setListComments] = useState([]);
     const [userNameTarget, setUserNameTarger] = useState();
     const [newCommentInterface, setNewCommentInterface] = useState(false);
@@ -26,8 +28,7 @@ export default function ListCommentsPage(){
     }
 
     function handleSelectRecipe(id){
-        setRecipeTarget(id);
-        
+        setRecipeTarget(id);      
     }
 
     function handleClickAddComment(){
@@ -36,8 +37,8 @@ export default function ListCommentsPage(){
 
     function handleClickValidComment(isValid){
         if(isValid){
-            updateComment(id, recipeTarget, newComment, token).then(() => {
-                getCommentCustomer(id, token).then((reponse) => {
+            postComment(id, recipeTarget, newComment, token).then(() => {
+                getAllCommentCustomer(id, token).then((reponse) => {
                     setListComments(reponse);         
                 })
             });
@@ -46,7 +47,7 @@ export default function ListCommentsPage(){
     } 
 
     function handleClickEditComment(idRecipe, comment){
-        
+        navigate(`/comment/${id}/${idRecipe}`);
     } 
 
     function handleClickDeleteComment(idRecipe){
@@ -58,7 +59,7 @@ export default function ListCommentsPage(){
 
     useEffect(() => {
         if(token !== undefined && token !== ""){
-            getCommentCustomer(id, token).then((reponse) => {
+            getAllCommentCustomer(id, token).then((reponse) => {
                 setListComments(reponse);
             });
             getListRecipe(undefined, undefined, undefined, undefined).then((response) => {
@@ -78,12 +79,12 @@ export default function ListCommentsPage(){
                             <div key={0} className="commentArea">
                                 <input onChange={(e) => handleNewComment(e.target.value)} className="comment" ></input>
                                 <select onChange={(e) => handleSelectRecipe(e.target.value)}>
-                                <option key={0} value={0}></option>
-                                    {listRecipe.map((item) => {
-                                        return(
-                                            <option key={item.id} value={item.id}>{item.namerecipe}</option>
-                                        );
-                                    })}
+                                    <option key={0} value={0}></option>
+                                        {listRecipe.map((item) => {
+                                            return(
+                                                <option key={item.id} value={item.id}>{item.namerecipe}</option>
+                                            );
+                                        })}
                                 </select>
                                 <button className="commentListBtn" onClick={() => handleClickValidComment(true)}><img src={VImg} className="imgBtn" alt="valid pictures"/></button>
                                 <button className="commentListBtn" onClick={() => handleClickValidComment(false)}><img src={cancelImg} className="imgBtn" alt="cancel pictures"/></button>

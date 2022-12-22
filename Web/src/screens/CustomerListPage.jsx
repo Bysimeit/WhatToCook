@@ -26,8 +26,8 @@ export default function ClientAreaPage(){
         });
     }
 
-    function handleClickEdit(id){
-        console.log(id);
+    function handleClickEdit(email){
+        navigate(`/customer/${email}`);
     } 
 
     function handleClickComment(id){
@@ -47,6 +47,7 @@ export default function ClientAreaPage(){
     useEffect(() => {
         if(token !== undefined && token !== ""){
             getAllCustomer(token).then((reponse) => {
+                console.log(reponse);
                 setUsers(reponse);
             });
         }    
@@ -77,7 +78,7 @@ export default function ClientAreaPage(){
                                 <td>{user.name}</td>
                                 <td>{user.firstname}</td>
                                 <td>
-                                    <button onClick={() => handleClickEdit(user.id)}><img src={penImg} id={user.id} className="imgBtn" alt="pen pictures"/></button>
+                                    <button onClick={() => handleClickEdit(user.email)}><img src={penImg} id={user.id} className="imgBtn" alt="pen pictures"/></button>
                                     <button onClick={() => handleClickComment(user.id)}><img src={tchatImg} className="imgBtn" alt="tchat pictures"/></button>
                                     <button onClick={() => handleClickFridge(user.id)}><img src={fridgeImg} className="imgBtn" alt="fridge pictures"/></button>
                                     <button onClick={() => handleClickDelete(user.id)}><img src={trashImg} className="imgBtn" alt="trash pictures"/></button>
