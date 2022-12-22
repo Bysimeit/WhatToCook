@@ -15,6 +15,7 @@ export default function RecipeListAdminPage(){
     const {id} = useParams();
     const token = useSelector((state) => state.user.token);
     const [recipe, setRecipe] = useState({steps: []});
+    const [foods, setFoods] = useState([]);
 
     function handleClickEdit(id){
 
@@ -33,8 +34,32 @@ export default function RecipeListAdminPage(){
             getDataRecipe(id).then((reponse) => {
                 setRecipe(reponse);
                 console.log(reponse);
+
+                let data = [];
+
+                const newString = reponse.foods;
+
+                const regex = /\((\d+),(.*?),(.*?)\)/g;
+                const regex2 = /\\"/g;
+                let match;
+
+                while ((match = regex.exec(newString)) !== null) {
+                    const value = match[1];
+                    const characters = match[2].replace(regex2, '');
+                    const name = match[3].replace(regex2, '');
+                    
+                    data.push({ value, characters, name });
+                }
+
+                let stringOutput = [];
+                for (let i = 0; i < data.length; i++) {
+                    stringOutput.push(`${data[i].value} ${data[i].characters} ${data[i].name}`);
+                }
+
+                setFoods(stringOutput);
             });
-        }    
+        }
+        
     }, [token]);
 
     return(
@@ -87,7 +112,17 @@ export default function RecipeListAdminPage(){
 
                 <div className="foodsArea">
                     <h2>Aliments requis :</h2>
-                    {}
+                    {
+                        foods.map((food) => {
+                            return (
+                                <div>
+                                    <p>{food}</p>
+                                    <button><img src={penImg} className="imgBtn" alt="pen pictures"/></button>
+                                    <button><img src={trashImg} className="imgBtn" alt="trash pictures"/></button>
+                                </div>
+                            );
+                        })
+                    }
                 </div>
                 
             </div>      
