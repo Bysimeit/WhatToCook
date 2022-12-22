@@ -83,7 +83,7 @@ export default function RecipeListAdminPage(){
 
                 let stringOutput = [];
                 for (let i = 0; i < data.length; i++) {
-                    stringOutput.push(`${data[i].value} ${data[i].characters} ${data[i].name}`);
+                    stringOutput.push({value: `${data[i].value} ${data[i].characters}`, name: `${data[i].name}`});
                 }
                 console.log(stringOutput);
 
