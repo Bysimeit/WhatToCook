@@ -16,7 +16,6 @@ const router = new Router;
  *              $ref: '#/components/responses/AllergiesFound'
  *          404:
  *              $ref: '#/components/responses/AllergiesNotFound'
- *              description: Allergies non trouvé
  *          500:
  *              description: Erreur serveur
  *
@@ -38,6 +37,10 @@ router.get('/', AllergyController.getAllAllergy);
  *              $ref: '#/components/responses/NewAllergyCreated'
  *          400:
  *              description: Nom de l'allergie manquant
+ *          401:
+ *              $ref: '#/components/responses/MissingJWT'
+ *          403:
+ *              $ref: '#/components/responses/MustBeAdmin'
  *          500:
  *              description: Erreur serveur
  *
@@ -59,6 +62,10 @@ router.post('/', JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, Alle
  *              $ref: '#/components/responses/AllergyUpdated'
  *          400:
  *              description: Données minimales manquantes
+ *          401:
+ *              $ref: '#/components/responses/MissingJWT'
+ *          403:
+ *              $ref: '#/components/responses/MustBeAdmin'
  *          500:
  *              description: Erreur serveur
  *
@@ -78,6 +85,10 @@ router.patch('/', JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, All
  *              $ref: '#/components/responses/AllergyDeleted'
  *          400:
  *              description: Données minimales manquantes
+ *          401:
+ *              $ref: '#/components/responses/MissingJWT'
+ *          403:
+ *              $ref: '#/components/responses/MustBeAdmin'
  *          500:
  *              description: Erreur serveur
  *

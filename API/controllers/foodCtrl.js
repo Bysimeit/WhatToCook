@@ -4,6 +4,43 @@ const CustomerFoodModel = require('../models/customerFoodDB');
 const FoodQuantityModel = require('../models/foodQuantityDB');
 const AllergyModel = require('../models/allergyDB');
 
+
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      Foods:
+ *          type: object
+ *          properties:
+ *              id:
+ *                  type: integer
+ *              name:
+ *                  type: string
+ *              isValidated:
+ *                  type: boolean
+ *                  description: Si l'aliment a été validé par l'admin
+ *              price:
+ *                  type: number
+ *              idAllergy:
+ *                  type: integer
+ *                  description: l'id de l'allergie liée à cet aliment
+ *
+ */
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      FoodsNotFound:
+ *          description: Aucune aliment ne se trouve dans la table Food
+ *      FoodsFound:
+ *          description: Renvoie le tableau de tous les aliments
+ *          content:
+ *               application/json:
+ *                   schema:
+ *                       $ref: '#/components/schemas/Foods'
+ *
+ */
 module.exports.getAllFood = async (req, res) => {
     
     const client = await pool.connect();
@@ -22,6 +59,26 @@ module.exports.getAllFood = async (req, res) => {
     }
 }
 
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      NewFoodCreated:
+ *          description: Aliment crée
+ *  requestBodies:
+ *      FoodAAjoute:
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      properties:
+ *                          name:
+ *                              type: string
+ *                          allergy:
+ *                              type: string
+ *                              description: l'id de l'allergie liée à cet aliment
+ *
+ */
 module.exports.postNewFood = async (req, res) => {
     const {name, allergy} = req.body;
 
@@ -50,6 +107,27 @@ module.exports.postNewFood = async (req, res) => {
     }
 }
 
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      FoodUpdated:
+ *          description: l'allergie cible a bien été mise à jour
+ *  requestBodies:
+ *      FoodAUpdate:
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          id:
+ *                              type: integer
+ *                          name:
+ *                              type: string
+ *                          allergy:
+ *                              type: integer
+ *                              description: l'id de l'allergie liée à cet aliment
+ */
 module.exports.updateFood = async (req, res) => {
     const {id, name, allergy} = req.body;
 
@@ -81,6 +159,13 @@ module.exports.updateFood = async (req, res) => {
     }
 }
 
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      FoodDeleted:
+ *          description: Suppression bien effectuée
+ */
 module.exports.deleteFood = async (req, res) => {
     const {id} = req.body;
 

@@ -2,7 +2,7 @@
  *@swagger
  * components:
  *  responses:
- *      mustBeAdmin:
+ *      MustBeAdmin:
  *          description: L'action demandée ne peut être réalisée que par un admin
  */
 
