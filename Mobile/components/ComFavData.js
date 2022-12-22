@@ -9,6 +9,7 @@ import useFetchComment from '../services/useFetchComment';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFavorite } from '../redux/selectors';
 import { getProfile } from '../redux/selectors';
+import { getConnected } from "../redux/selectors";
 import { deleteFavorite } from '../redux/actions/favoriteList';
 import { addFavorite } from '../redux/actions/favoriteList';
 
@@ -24,7 +25,7 @@ export default function ComFavData({recipe}) {
     const dispatch = useDispatch();
 
     const { changeCustomerFavorite } = useFetchFavorite();
-    const { fetchCommentRecipe, updateCommentRecipe } = useFetchComment();
+    const { fetchCommentRecipe, updateCommentRecipe, postCommentRecipe } = useFetchComment();
 
     const checkBoxInteract = () => {
         if (isFavorite) {
@@ -98,22 +99,67 @@ export default function ComFavData({recipe}) {
     const [newCommentVisible, setNewCommentVisible] = React.useState(false);
     const [newComment, setNewComment] = React.useState('');
 
+    const connectedRedux = useSelector(getConnected);
+
     const addCommentPress = () => {
-        if (newCommentVisible) {
-            setNewCommentVisible(false);
+        if (connectedRedux.status) {
+            if (newCommentVisible) {
+                setNewCommentVisible(false);
+            } else {
+                setNewCommentVisible(true);
+            }
         } else {
-            setNewCommentVisible(true);
+            Alert.alert("Erreur !", "Vous devez vous connecter pour ajouter un commentaire.");
         }
     }
 
     const sendNewComment = () => {
         updateCommentRecipe(profileRedux[0].id, recipeJSON.id, newComment).then((result) => {
-            if (result.status === 204) {
+            if (result.status === 201) {
                 setNewComment('');
-                Alert.alert("Ajouté", "Votre commentaire a bien été ajouté.");
+                Alert.alert("Ajouté", "Votre commentaire a bien été mis à jour.");
                 fetchCommentRecipe(recipeJSON.id).then((result) => {
                     if (result.status === 200) {
                         setCommentList(result.data);
+                        setNewCommentVisible(false);
+                    }
+                }).catch((e) => {
+                    Alert.alert("Erreur !", e.message);
+                });
+            }
+        }).catch((e) => {
+            postCommentRecipe(profileRedux[0].id, recipeJSON.id, newComment).then((result) => {
+                if (result.status === 204) {
+                    setNewComment('');
+                    fetchCommentRecipe(recipeJSON.id).then((result) => {
+                        if (result.status === 200) {
+                            Alert.alert("Ajouté", "Votre commentaire a bien été ajouté.");
+                            setCommentList(result.data);
+                            setNewCommentVisible(false);
+                        }
+                    });
+                }
+            }).catch((e) => {
+                Alert.alert("Erreur !", e.message);
+            });
+        });
+    }
+
+    const deleteComment = () => {
+        updateCommentRecipe(profileRedux[0].id, recipeJSON.id, "").then((result) => {
+            if (result.status === 201) {
+                setNewComment('');
+                fetchCommentRecipe(recipeJSON.id).then((result) => {
+                    if (result.status === 200) {
+                        Alert.alert("Supprimé", "Votre commentaire a bien été supprimé.");
+                        let commentPush = [];
+                        for (let i = 0; i < result.data.length; i++) {
+                            if (result.data[i].comment !== "") {
+                                commentPush.push(result.data[i]);
+                            }
+                        }
+                        setCommentList(commentPush);
+                        setNewCommentVisible(false);
                     }
                 }).catch((e) => {
                     Alert.alert("Erreur !", e.message);
@@ -130,9 +176,14 @@ export default function ComFavData({recipe}) {
                 <View style={styles.windowNewComment}>
                     <Text style={styles.newCommentTitle}>Ajouter un nouveau commentaire :</Text>
                     <TextInput style={styles.input} multiline={true} onChangeText={setNewComment} value={newComment}/>
-                    <Pressable style={styles.submitButton} onPress={sendNewComment}>
-                        <Text style={styles.textButton}>Ajouter</Text>
-                    </Pressable>
+                    <View>
+                        <Pressable style={styles.submitButton} onPress={sendNewComment}>
+                            <Text style={styles.textButton}>Ajouter</Text>
+                        </Pressable>
+                        <Pressable style={styles.deleteButton} onPress={deleteComment}>
+                            <Ionicons name='trash-outline' size={25} style={styles.iconComment} />
+                        </Pressable>
+                    </View>
                 </View>
             );
         }
@@ -198,6 +249,17 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 0,
         top: -20,
+        backgroundColor: "#D9D9D9", 
+        height: 40, 
+        width: 40, 
+        borderRadius: 20,
+        borderColor: "black",
+        borderWidth: 1
+    },
+    deleteButton: {
+        position: 'absolute',
+        left: 100,
+        top: 0,
         backgroundColor: "#D9D9D9", 
         height: 40, 
         width: 40, 
