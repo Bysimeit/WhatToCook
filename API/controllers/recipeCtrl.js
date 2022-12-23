@@ -188,7 +188,7 @@ module.exports.udpateRecipe = async (req, res) => {
                 }
             }
 
-            if(picture !== ""){
+            if(picture !== undefined){
                 saveImage(picture[0].buffer, id, destFolderPictures);
             }
             await client.query("COMMIT");
