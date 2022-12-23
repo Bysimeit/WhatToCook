@@ -32,7 +32,6 @@ CREATE TABLE Recipe (
     quoting real,
     nameRecipe varchar(30) not null,
     time real not null,
-    picture varchar(200),
     type integer not null
 );
 
@@ -124,19 +123,19 @@ VALUES
     ('Sel', true, 1),
     ('Eau', true, 0);
 
-INSERT INTO Recipe(addDate, quoting, nameRecipe, time, picture, type)
+INSERT INTO Recipe(addDate, quoting, nameRecipe, time, type)
 VALUES
-    (CAST(now() AS date),'3','Tarte aux pommes','30', 'https://img.freepik.com/photos-gratuite/vue-dessus-delicieuse-tarte-aux-pommes_23-2148663978.jpg?w=2000', '3'),
-    (CAST(now() AS date),'4','Lasagne','80', 'https://images.pexels.com/photos/6046493/pexels-photo-6046493.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', '2'),
-    (CAST(now() AS date),'3','Mousse au chocolat','20', 'https://images.pexels.com/photos/3026810/pexels-photo-3026810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', '3'),
-    (CAST(now() AS date),'5','Salade grecque','15', 'https://assets.afcdn.com/recipe/20190704/94668_w1024h1024c1cx2736cy1824.jpg', '1'),
-    (CAST(now() AS date),'3','Cookie','20', 'https://images.pexels.com/photos/11154963/pexels-photo-11154963.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', '1'),
-    (CAST(now() AS date),'5','Tiramisu','20', 'https://assets.afcdn.com/recipe/20161123/1509_w1024h1024c1cx1920cy2880.jpg','3'),
-    (CAST(now() AS date),'4','Pâte brisée','15', 'https://images.pexels.com/photos/6605303/pexels-photo-6605303.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1','3'),
-    (CAST(now() AS date),'4','Dinde Farcie','55', 'https://media.istockphoto.com/id/482724250/fr/photo/rustique-d%C3%AEner-de-thanksgiving-quatri%C3%A8me-jeudi-de-novembre.jpg?s=612x612&w=0&k=20&c=jnACln9t7jc29x8XzwowJ5JEVcVG2nONjaNIsimqpqc=','2'),
-    (CAST(now() AS date),'2','Tarte au sucre','40', 'https://www.cook-concept.com/wp-content/uploads/2021/11/iStock-909468592-format.jpg','3'),
-    (CAST(now() AS date),'1','Soupe de tomate','15', 'https://media.istockphoto.com/id/532704951/fr/photo/sandwich-grill%C3%A9-au-fromage-maison-avec-soupe-%C3%A0-la-tomate.jpg?s=612x612&w=0&k=20&c=arIFVdotmKssouS1PwBNbje8tENUFGJ-X8DoKYlyuoY=','1'),
-    (CAST(now() AS date),'4','Chips maison','30', 'https://assets.afcdn.com/recipe/20211019/122851_origin.jpg','1');
+    (CAST(now() AS date),'3','Tarte aux pommes','30', '3'),
+    (CAST(now() AS date),'4','Lasagne','80', '2'),
+    (CAST(now() AS date),'3','Mousse au chocolat','20', '3'),
+    (CAST(now() AS date),'5','Salade grecque','15', '1'),
+    (CAST(now() AS date),'3','Cookie','20', '1'),
+    (CAST(now() AS date),'5','Tiramisu','20','3'),
+    (CAST(now() AS date),'4','Pâte brisée','15','3'),
+    (CAST(now() AS date),'4','Dinde Farcie','55','2'),
+    (CAST(now() AS date),'2','Tarte au sucre','40','3'),
+    (CAST(now() AS date),'1','Soupe de tomate','15', '1'),
+    (CAST(now() AS date),'4','Chips maison','30','1');
 
 INSERT INTO Food(name, idAllergy, isValidated, price) VALUES ('Farine', '1', true, 3), ('Pâte brisée', '1', true, 1);
 INSERT INTO Food(name, isValidated, price) VALUES ('Pomme', true, 1.15), ('Compote de pommes', true, 2), ('Sucre roux', true, 1.5);
