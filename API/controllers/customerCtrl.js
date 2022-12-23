@@ -130,10 +130,10 @@ module.exports.deleteCustomer = async (req, res) => {
 
     try{
         await client.query("BEGIN"); 
-        await CustomerModel.deleteCustomer(client, id);
         await CustomerAllergyModel.deleteCustomerAllergy(client, id);
         await CustomerRecipeModel.deleteCustomerRecipe(client, id);
         await CustomerFoodModel.deleteAllFoodCustomer(client, id);
+        await CustomerModel.deleteCustomer(client, id);
         await client.query("COMMIT");
         res.sendStatus(204);
     } catch (error){
