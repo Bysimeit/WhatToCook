@@ -19,9 +19,11 @@ import ListRecipePage from '../screens/RecipeListPage';
 import RecipePage from '../screens/RecipePage';
 import ChangePassWord from '../screens/ChangePassWordPage';
 import Protected from '../composants/PrivateRoute';
-
+import {useSelector} from 'react-redux';
 
 const Router = () => {
+
+    const token = useSelector((state) => state.user.token);
 
     return(
         <BrowserRouter>
@@ -29,18 +31,21 @@ const Router = () => {
                 <Route path="/" element={<WelcomePage/>} />
                 <Route path="/login" element={<LoginPage/>}/>
 
-                {/*<Protected token={}></Protected>*/}
-                <Route path="/customer" element={<ListCustomerPage/>}/>
-                <Route path="/customer/:email" element={<EditCustomerPage/>}/>
-                <Route path="/comment/:id" element={<ListCommentsPage/>}/>
-                <Route path="/comment/:id/:idRecipe" element={<EditCommentsPage/>}/>
-                <Route path="/recipe" element={<ListRecipePage/>}/>
-                <Route path="/recipe/:id" element={<RecipePage/>}/>
-                <Route path="/fridge/:id" element={<FridgePage/>}/>
-                <Route path="/allergy" element={<AllergyPage/>}/>
-                <Route path="/allergy/:id" element={<EditAllergyPage/>}/>
-                <Route path="/admin" element={<ClientAreaPage/>}/>
-                <Route path="/changePassword" element={<ChangePassWord/>} />     
+                {token !== "" && token !== undefined &&
+                <>
+                    <Route path="/customer" element={<ListCustomerPage/>}/>
+                    <Route path="/customer/:email" element={<EditCustomerPage/>}/>
+                    <Route path="/comment/:id" element={<ListCommentsPage/>}/>
+                    <Route path="/comment/:id/:idRecipe" element={<EditCommentsPage/>}/>
+                    <Route path="/recipe" element={<ListRecipePage/>}/>
+                    <Route path="/recipe/:id" element={<RecipePage/>}/>
+                    <Route path="/fridge/:id" element={<FridgePage/>}/>
+                    <Route path="/allergy" element={<AllergyPage/>}/>
+                    <Route path="/allergy/:id" element={<EditAllergyPage/>}/>
+                    <Route path="/admin" element={<ClientAreaPage/>}/>
+                    <Route path="/changePassword" element={<ChangePassWord/>} />  
+                </>
+                }
                 
             </Routes>
         </BrowserRouter>

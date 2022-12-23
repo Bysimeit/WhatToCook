@@ -82,11 +82,6 @@ export default function RecipeListAdminPage(){
     }
 
     function test(picture){
-        /*const fromData = new FormData();
-        fromData.append('picture', picture); 
-        fromData.append('id', recipe.id);
-        udpatePicture(fromData, token);*/
-        console.log(picture);
         setRecipe({...recipe, picture: picture});
     }
 

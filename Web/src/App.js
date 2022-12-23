@@ -13,7 +13,7 @@ function App() {
   useEffect(() => {
     let token = localStorage.getItem('token');
     
-    if(token != null && token != undefined){
+    if(token !== null && token !== undefined){
       refreshPage(token); 
     }  
   }, []);
