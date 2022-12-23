@@ -124,12 +124,11 @@ export default function RecipeListAdminPage(){
 
                 <div className="globalDataArea">
                     <div className="globalData">
-                        <p>Nom : </p>
-                        <input value={recipe.namerecipe} onChange={(e) => setRecipe({...recipe, name: e.target.value})}/>                    
+                        <p>Nom : <input value={recipe.namerecipe} onChange={(e) => setRecipe({...recipe, name: e.target.value})}/></p>
                     </div>
 
                     <div className="globalData">
-                        <p>Temps : <input  value={recipe.time} onChange={(e) => setRecipe({...recipe, time: e.target.value})}/> minutes</p>     
+                        <p>Temps : <input  value={recipe.time} onChange={(e) => setRecipe({...recipe, time: e.target.value})}/> minutes</p>
                     </div>
 
                     <div className="globalData">
@@ -142,35 +141,16 @@ export default function RecipeListAdminPage(){
                 </div>
 
                 <div className="pictureArea">
-                    <p>Image :</p>
-                    <input
-                        name="jambon"
-                        type="file"
-                        accept={"image/*"}
-                        onChange={(e) => test(e.target.files[0])}
-                    />
-                    {recipe.id !== 0 && <img src={`${API_URL}/upload/${recipe.id}.jpeg`} className="imgRecipe" alt="recipe pictures"/>}         
-                </div>
-
-                <div className="stepsArea">
-                    <h2>Etapes à suivre :</h2>
-                    {recipe.steps !== null && (recipe.steps.map((step) => {
-                        return(
-                            <div className="step" key={recipe.steps.indexOf(step)}>
-                                <textarea value={step} onChange={(e) => setRecipe({...recipe, type: e.target.value})}/> 
-                                <button className="commentListBtn" onClick={() => handleClickDeleteStep(recipe.steps.indexOf(step))}><img src={trashImg} className="imgBtn" alt="cancel pictures"/></button>                           
-                            </div>
-                        );
-                    }))}
-                    {addStep 
-                    ?
-                        <>
-                            <textarea onChange={(e) => setNewStep(e.target.value)}/> 
-                            <button className="addBtn" onClick={() => handleClickAddStep(false)}><img src={VImg} className="imgBtn" alt="add food"/></button>                      
-                        </>
-                    :   
-                        <button className="addBtn" onClick={() => handleClickAddStep(true)}><img src={plusImg} className="imgBtn" alt="add food"/></button>
-                    }
+                    <p>
+                        <p className="titleImagePara">Image de la recette : </p><br/>
+                        <img src={`${API_URL}/upload/${recipe.id}.jpeg`} className="imgRecipe" alt="recipe pictures"/><br/>
+                        <input
+                            className="customButtonUpload"
+                            type="file"
+                            accept={"image/*"}
+                            onChange={(e) => test(e.target.files[0])}
+                        />
+                    </p>
                 </div>
 
                 <div className="foodsArea">
@@ -187,7 +167,7 @@ export default function RecipeListAdminPage(){
                                 return (
                                     <tr key={food.name}>
                                         <td><input value={food.name} onChange={(e) => setRecipe({...foods, type: e.target.value})}/></td>
-                                        <td><input value={food.value} onChange={(e) => setRecipe({...foods, type: e.target.value})}/></td>
+                                        <td><input className="inputQuantity" value={food.value} onChange={(e) => setRecipe({...foods, type: e.target.value})}/></td>
                                         <td><input value={food.unity} onChange={(e) => setNewFood({...newFood, unity: e.target.unity})}/></td>
                                         <td>
                                             <button className="commentListBtn" onClick={() => handleClickDeleteFood(foods.indexOf(food))}><img src={trashImg} className="imgBtn" alt="cancel pictures"/></button>
@@ -199,7 +179,7 @@ export default function RecipeListAdminPage(){
                             ? 
                             <tr>
                                 <td><input onChange={(e) => setNewFood({...newFood, name: e.target.value})}/></td>
-                                <td><input onChange={(e) => setNewFood({...newFood, value: e.target.value})}/></td>
+                                <td><input className="inputQuantity" onChange={(e) => setNewFood({...newFood, value: e.target.value})}/></td>
                                 <td><input onChange={(e) => setNewFood({...newFood, unity: e.target.value})}/></td>
                                 <td>                                            
                                     <button className="valideBtn" onClick={() => handleClickAddFood(false)}><img src={VImg} className="imgBtn" alt="valid pictures"/></button>
@@ -216,8 +196,29 @@ export default function RecipeListAdminPage(){
                         </tbody>
                     </table>
                 </div>
+
+                <div className="stepsArea">
+                    <h2 className="titleSteps">Etapes à suivre :</h2>
+                    {recipe.steps.map((step) => {
+                        return(
+                            <div className="step" key={recipe.steps.indexOf(step)}>
+                                <textarea className="stepData" value={step} onChange={(e) => setRecipe({...recipe, type: e.target.value})}/> 
+                                <button className="commentListBtn" onClick={() => handleClickDeleteStep(recipe.steps.indexOf(step))}><img src={trashImg} className="imgBtn" alt="cancel pictures"/></button>                           
+                            </div>
+                        );
+                    })}
+                    {addStep 
+                    ?
+                        <>
+                            <textarea className="stepData" onChange={(e) => setNewStep(e.target.value)}/> 
+                            <button className="addBtn" onClick={() => handleClickAddStep(false)}><img src={VImg} className="imgBtn" alt="add food"/></button>                      
+                        </>
+                    :   
+                        <button className="addBtn" onClick={() => handleClickAddStep(true)}><img src={plusImg} className="imgBtn" alt="add food"/></button>
+                    }
+                </div>
                 
-                <button onClick={(e) => handleClickSend(e)}>Valider Modification</button>
+                <button className="buttonValidModif" onClick={(e) => handleClickSend(e)}>Valider Modification</button>
             </div>      
         </div>
     );
