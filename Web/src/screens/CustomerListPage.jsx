@@ -22,9 +22,10 @@ export default function ClientAreaPage(){
     
     function handleClickResearch(){
         getCustomer(research,token).then((response) =>{
-            console.log(response);
             setUsers(response);
-        });
+        }).catch(
+            error => alert(error.message)
+        );
     }
 
     function handleClickEdit(email){
@@ -40,17 +41,22 @@ export default function ClientAreaPage(){
     } 
 
     function handleClickDelete(id){
-        deleteCustomer(id,token);
-        let newUsers = users.filter((elem) => elem.id != id);
-        setUsers(newUsers);
+        deleteCustomer(id,token).then(() => {
+            let newUsers = users.filter((elem) => elem.id != id);
+            setUsers(newUsers)
+            alert("suppression effectuée");
+        }).catch(
+            error => alert(error.message)
+        );
     } 
 
     useEffect(() => {
         if(token !== undefined && token !== ""){
             getAllCustomer(token).then((reponse) => {
-                console.log(reponse);
                 setUsers(reponse);
-            });
+            }).catch(
+                error => alert(error.message)
+            );
         }    
     }, [token]);
 
@@ -88,7 +94,7 @@ export default function ClientAreaPage(){
                         })}
                     </tbody>
                 </table>              
-                <button>Retour</button>
+                <button onClick={() => navigate(`/admin`)}>Retour</button>
             </div>      
         </div>
     );

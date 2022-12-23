@@ -14,8 +14,8 @@ export default function ClientAreaPage(){
 
     function handleClickLogOut(){
         navigate("/");
+        dispatch(setToken(""));
         localStorage.removeItem('token');
-        dispatch(setToken(null));
     } 
 
     function handleClickManageCustomer(){
@@ -55,14 +55,14 @@ export default function ClientAreaPage(){
                         <p>Nom : {useSelector((state) => state.user.name)}</p>
                         <p>Prénom : {useSelector((state) => state.user.firstName)}</p>
                         <p>Email : {useSelector((state) => state.user.email)}</p>
-                        <input type="button" disabled="disabled" value="Changer Mot de passe"/>
+                        <input type="button" onClick={() => navigate(`/changePassword`)} value="Changer Mot de passe"/>
                     </div>
 
                     {adminSide}
                 </div>
                 <div className="buttom">
                     <input type="button" onClick={() => handleClickLogOut()} value="Se déconnecter"/>
-                    <input type="button" value="Supprimer Compte"/>
+                    <input type="button" disabled value="Supprimer Compte"/>
                 </div>
             </div>      
         </div>

@@ -1,25 +1,30 @@
 import axios from 'axios';
-
+import axiosRetry from "axios-retry";
 import {API_URL} from './axiosBase';
 
+axiosRetry(axios, {
+	retries: 3,
+	retryDelay: (retryCount) => {
+	  return retryCount * 2000;
+	},
+	retryCondition: (error) => {
+	  return error.response.status === 500;
+	},
+  });
 
 const getFridge = async (id, token) => {
 	
 	try {
-		console.log("debut axios");
         const response = await axios({
             method: 'get',
             headers: {'Authorization': 'Bearer ' + token},
             url: `${API_URL}/fridge/${id}`,
         });
 
-		console.log(response);
-
 		const data = response.data
 		return data;
 		
 	} catch (e) {
-		console.log(e);
 		switch (e.response.status) {
 		case 400:
 			throw new Error('Id utilateur manquant');
@@ -35,13 +40,12 @@ const getFridge = async (id, token) => {
 const postNewFood = async (id, nameFood, quantity, weight, date, token) => {
 	
 	try {
-		console.log("debut axios");
         const response = await axios({
             method: 'post',
             headers: {'Authorization': 'Bearer ' + token},
             url: `${API_URL}/fridge`,
 			data: {
-                id: id,
+                idCustomer: id,
                 nameFood: nameFood, 
 				quantity: quantity, 
 				weight: weight, 
@@ -49,13 +53,10 @@ const postNewFood = async (id, nameFood, quantity, weight, date, token) => {
             }
         });
 
-		console.log(response);
-
 		const data = response.data
 		return data;
 		
 	} catch (e) {
-		console.log(e);
 		switch (e.response.status) {
 		case 400:
 			throw new Error('Données manquantes');
@@ -70,7 +71,6 @@ const postNewFood = async (id, nameFood, quantity, weight, date, token) => {
 const deleteFood = async (idCustomer, idFood, token) => {
 	
 	try {
-		console.log("debut axios");
         const response = await axios({
             method: 'delete',
             headers: {'Authorization': 'Bearer ' + token},
@@ -81,13 +81,10 @@ const deleteFood = async (idCustomer, idFood, token) => {
             }
         });
 
-		console.log(response);
-
 		const data = response.data
 		return data;
 		
 	} catch (e) {
-		console.log(e);
 		throw new Error('Une erreur s\'est produite, veuillez réessayer plus tard');
 	}
 };

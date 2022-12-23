@@ -1,25 +1,30 @@
 import axios from 'axios';
-
+import axiosRetry from "axios-retry";
 import {API_URL} from './axiosBase';
 
+axiosRetry(axios, {
+	retries: 3,
+	retryDelay: (retryCount) => {
+	  return retryCount * 2000;
+	},
+	retryCondition: (error) => {
+	  return error.response.status === 500;
+	},
+  });
 
 const getAllCustomer = async (token) => {
 	
 	try {
-		console.log("debut axios");
         const response = await axios({
             method: 'get',
             headers: {'Authorization': 'Bearer ' + token},
             url: `${API_URL}/customer`,
         });
 
-		console.log(response);
-
 		const data = response.data
 		return data;
 		
 	} catch (e) {
-		console.log(e);
 		switch (e.response.status) {
 		case 404:
 			throw new Error('Aucun utilisatgeur avec cette email');
@@ -32,7 +37,6 @@ const getAllCustomer = async (token) => {
 const getCustomer = async (email, token) => {
 	
 	try {
-		console.log("debut axios");
         const response = await axios({
             method: 'get',
             headers: {'Authorization': 'Bearer ' + token},
@@ -43,7 +47,6 @@ const getCustomer = async (email, token) => {
 		return data;
 		
 	} catch (e) {
-		console.log(e);
 		switch (e.response.status) {
 		case 400:
 			throw new Error('Email non identifié');
@@ -58,7 +61,6 @@ const getCustomer = async (email, token) => {
 const postNewCustomer = async (lastName, firstName, password, email, token) => {
 	
 	try {
-		console.log("debut axios");
         const response = await axios({
             method: 'post',
             headers: {'Authorization': 'Bearer ' + token},
@@ -71,13 +73,10 @@ const postNewCustomer = async (lastName, firstName, password, email, token) => {
 			}
         });
 
-		console.log(response);
-
 		const data = response.data
 		return data;
 		
 	} catch (e) {
-		console.log(e);
 		switch (e.response.status) {
 		case 400:
 			throw new Error('Données manquante pour l\'ajout');
@@ -90,7 +89,6 @@ const postNewCustomer = async (lastName, firstName, password, email, token) => {
 const updateCustomer = async (id , name, firstName, email, token) => {
 	
 	try{
-		console.log("debut axios");
 		const response = await axios({
 			method: 'patch',
 			headers: {'Authorization': 'Bearer ' + token},
@@ -103,12 +101,9 @@ const updateCustomer = async (id , name, firstName, email, token) => {
 			}
 		});
 
-		console.log(response);
-
 		const data = response.data
 		return data;
 	} catch(e) {
-		console.log(e);
 		switch (e.response.status) {
 		case 400:
 			throw new Error('Aucun mot de passe correspond à cette email');
@@ -123,7 +118,6 @@ const updateCustomer = async (id , name, firstName, email, token) => {
 const updateEmailPasswordCustomer = async (oldPassword , newPassword, oldEmail, newEmail, token) => {
 	
 	try {
-		console.log("debut axios");
         let response;
 		if(newPassword !== undefined){
 			response = await axios({
@@ -148,15 +142,11 @@ const updateEmailPasswordCustomer = async (oldPassword , newPassword, oldEmail, 
 				}
 			});
 		}
-		
-
-		console.log(response);
 
 		const data = response.data
 		return data;
 		
 	} catch (e) {
-		console.log(e);
 		switch (e.response.status) {
 		case 400:
 			throw new Error('Aucun mot de passe correspond à cette email');
@@ -171,7 +161,6 @@ const updateEmailPasswordCustomer = async (oldPassword , newPassword, oldEmail, 
 const deleteCustomer = async (id, token) => {
 	
 	try {
-		console.log("debut axios");
         const response = await axios({
             method: 'delete',
             headers: {'Authorization': 'Bearer ' + token},
@@ -181,13 +170,10 @@ const deleteCustomer = async (id, token) => {
 			}
         });
 
-		console.log(response);
-
 		const data = response.data
 		return data;
 		
 	} catch (e) {
-		console.log(e);
 		switch (e.response.status) {
 		case 400:
 			throw new Error('Données manquante pour l\'ajout');

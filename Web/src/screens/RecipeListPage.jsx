@@ -1,19 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import MenuBar from "../composants/MenuBar";
 import researchImg from '../pictures/research.png';
-import { useSelector } from 'react-redux';
-import { useNavigate } from "react-router-dom";
-import { getListRecipe } from '../api/recipe';
+import {useNavigate} from "react-router-dom";
+import {getListRecipe} from '../api/recipe';
 import {API_URL} from "../api/axiosBase";
 
 import WhiteStar from '../pictures/white-star.png';
 import Timer from '../pictures/timer.png';
 
-//import RecipeTile from "../composants/RecipeTile";
-
 export default function RecipeListAdminPage() {
 
-    const token = useSelector((state) => state.user.token);
     const navigate = useNavigate();
     const [typeResearch, setTypeResearch] = useState(0);
     const [recipes, setRecipes] = useState([]);
@@ -23,13 +19,24 @@ export default function RecipeListAdminPage() {
     }
 
     function handleClickResearch() {
-        getListRecipe(typeResearch).then((response) => {   
-            setRecipes(response);
-        });
+        if(typeResearch <= 0 || typeResearch > 3){
+            getListRecipe().then((response) => {   
+                setRecipes(response);
+                setTypeResearch(0);
+            }).catch(
+                error => alert(error.message)
+            );;
+        } else {
+            getListRecipe(typeResearch).then((response) => {   
+                setRecipes(response);
+            }).catch(
+                error => alert(error.message)
+            );;
+        }    
     }
 
     function handleClickNewRecipe() {
-
+        navigate(`/recipe/0`);
     }
 
     function handleClickRecipeInfo(recipe) {
@@ -39,7 +46,9 @@ export default function RecipeListAdminPage() {
     useEffect(() => {
         getListRecipe().then((response) => {
             setRecipes(response);
-        });
+        }).catch(
+            error => alert(error.message)
+        );
     }, []);
 
     return (
@@ -47,7 +56,7 @@ export default function RecipeListAdminPage() {
             <MenuBar/>
             <div className="core">
                 <label htmlFor="research">Recherche par type : </label>
-                <input type="research" id="research" onChange={(e) => handleResearch(e.target.value)}/>
+                <input type="number" id="research" value={typeResearch} onChange={(e) => handleResearch(e.target.value)}/>
                 <button onClick={() => handleClickResearch()}><img src={researchImg} className="researchListBtn" alt="research pictures"/></button>
                 <button onClick={() => handleClickNewRecipe()}>Ajouter nouvelle recette</button>
 

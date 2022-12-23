@@ -14,14 +14,20 @@ export default function EdiAllergyPage(){
     const [allergy, setAllergies] = useState("");
 
     function handleClickAdd(){
-        console.log(allergy);
-        updateAllergy(id, allergy, token);
-        navigate(`/allergy`);
-        window.location.reload(false);
+        if(allergy === ""){
+            alert("champ vide");
+        } else {
+            updateAllergy(id, allergy, token).then(() => {
+                navigate(`/allergy`);
+                alert("mise a jour effectuée");
+                window.location.reload(false);
+            }).catch(
+                error => alert(error.message)
+            );
+        }       
     } 
 
     function handleEdit(value){
-        console.log(allergy);
         setAllergies(value);
     }
 
@@ -29,7 +35,9 @@ export default function EdiAllergyPage(){
         if(token !== undefined && token !== ""){
             getAllergy(id, token).then((response) => {             
                 setAllergies(response);
-            });
+            }).catch(
+                error => alert(error.message)
+            );
         }    
     }, [token]);
 

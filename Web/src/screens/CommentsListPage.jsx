@@ -40,7 +40,9 @@ export default function ListCommentsPage(){
             postComment(id, recipeTarget, newComment, token).then(() => {
                 getAllCommentCustomer(id, token).then((reponse) => {
                     setListComments(reponse);         
-                })
+                }).catch(
+                    error => alert(error.message)
+                )
             });
         }
         setNewCommentInterface(false);
@@ -51,10 +53,13 @@ export default function ListCommentsPage(){
     } 
 
     function handleClickDeleteComment(idRecipe){
-        console.log(idRecipe);
-        updateComment(id, idRecipe, "", token);
-        let newCommentsList = listComments.filter((elem) => elem.idrecipe != idRecipe);
-        setListComments(newCommentsList);
+        updateComment(id, idRecipe, "", token).then(() => {
+            let newCommentsList = listComments.filter((elem) => elem.idrecipe != idRecipe);
+            setListComments(newCommentsList);
+            alert("suppresion effecutée");
+        }).catch(
+            error => alert(error.message)
+        );       
     } 
 
     useEffect(() => {

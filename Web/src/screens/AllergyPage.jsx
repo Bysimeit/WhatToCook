@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import MenuBar from "../composants/MenuBar";
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {useNavigate} from "react-router-dom";
-import {getAllAllergy, deleteAllergy, postNewAllergy, updateAllergy} from '../api/allergy';
+import {getAllAllergy, deleteAllergy, postNewAllergy} from '../api/allergy';
 import penImg from '../pictures/crayon.png';
 import trashImg from '../pictures/trash1.png';
 import plusImg from "../pictures/plus.png";
@@ -15,7 +15,7 @@ export default function ClientAreaPage(){
     const navigate = useNavigate();
     const [allergies, setAllergies] = useState([]);
     const [newAllergyInterface, setNewAllergyInterface] = useState(false);
-    const [newAllergy, setNewAllergy] = useState('');
+    const [newAllergy, setNewAllergy] = useState("");
 
 
     function handleClickAdd(){
@@ -23,16 +23,25 @@ export default function ClientAreaPage(){
     } 
 
     function handleNewAllergy(name){
-        setNewAllergy(name);
+        setNewAllergy(name); 
     }
 
     function handleClickValidAllergy(isValid){
         if(isValid){
-            postNewAllergy(newAllergy, token).then(() => {
-                getAllAllergy(token).then((reponse) => {
-                    setAllergies(reponse);
-                });
-            });
+            if(newAllergy === ""){
+                alert("champ vide, ajout impossible");
+            } else {
+                postNewAllergy(newAllergy, token).then(() => {
+                    alert("allergie ajoutée");
+                    getAllAllergy(token).then((reponse) => {
+                        setAllergies(reponse);
+                    }).catch(
+                        error => alert(error.message)
+                    );
+                }).catch(
+                    error => alert(error.message)
+                );
+            }
         }
         setNewAllergyInterface(false);
     }
@@ -42,16 +51,22 @@ export default function ClientAreaPage(){
     } 
 
     function handleClickDelete(id){
-        deleteAllergy(id,token);
-        let newAllergies = allergies.filter((elem) => elem.id != id);
-        setAllergies(newAllergies);
+        deleteAllergy(id,token).then(() => {
+            let newAllergies = allergies.filter((elem) => elem.id != id);
+            alert("suppression effecutée");
+            setAllergies(newAllergies);
+        }).catch(
+            error => alert(error.message)
+        );      
     } 
 
     useEffect(() => {
         if(token !== undefined && token !== ""){
             getAllAllergy().then((reponse) => {
                 setAllergies(reponse);
-            });
+            }).catch(
+                error => alert(error.message)
+            );
         }    
     }, [token]);
 
@@ -65,13 +80,11 @@ export default function ClientAreaPage(){
                     <tbody> 
                         <tr>
                             <td>Nom</td>
-                            <td>Validé</td>
                             <td>Actions</td>
                         </tr>
                         {newAllergyInterface == true &&
                             <tr key={0}>
                                 <td><textarea rows={1} onChange={(e) => handleNewAllergy(e.target.value)} className="comment" ></textarea></td>
-                                <td>oui</td>
                                 <td>
                                     <button className="commentListBtn" onClick={() => handleClickValidAllergy(true)}><img src={VImg} className="imgBtn" alt="valid pictures"/></button>
                                     <button className="commentListBtn" onClick={() => handleClickValidAllergy(false)}><img src={cancelImg} className="imgBtn" alt="cancel pictures"/></button>
@@ -82,7 +95,6 @@ export default function ClientAreaPage(){
                             return ( 
                             <tr key={allergy.id}>
                                 <td>{allergy.name}</td>
-                                <td>{(allergy.isvalidated) ? "oui" : "non"}</td>
                                 <td>
                                     <button onClick={() => handleClickEdit(allergy.id)}><img src={penImg} className="imgBtn" alt="pen pictures"/></button>
                                     <button onClick={() => handleClickDelete(allergy.id)}><img src={trashImg} className="imgBtn" alt="trash pictures"/></button>

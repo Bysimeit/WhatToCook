@@ -1,12 +1,20 @@
 import axios from 'axios';
-
+import axiosRetry from "axios-retry";
 import {API_URL} from './axiosBase';
 
+axiosRetry(axios, {
+	retries: 3,
+	retryDelay: (retryCount) => {
+	  return retryCount * 2000;
+	},
+	retryCondition: (error) => {
+	  return error.response.status === 500;
+	},
+  });
 
 const getListRecipe = async (type, time, allergies, foods) => { //a finir
 	
 	try {
-		console.log("debut axios");
         const response = await axios({
             method: 'get',
             url: `${API_URL}/recipe/`,
@@ -18,14 +26,10 @@ const getListRecipe = async (type, time, allergies, foods) => { //a finir
 			}
         });
 
-        
-		console.log(response.data);
-
 		const data = response.data
 		return data;
 		
 	} catch (e) {
-		console.log(e);
 		switch (e.response.status) {
 		case 400:
 			throw new Error('L\'email et le mot de passe sont obligatoires');
@@ -40,20 +44,15 @@ const getListRecipe = async (type, time, allergies, foods) => { //a finir
 const getDataRecipe = async (id) => {
 	
 	try {
-		console.log("debut axios");
         const response = await axios({
             method: 'get',
             url: `${API_URL}/recipe/${id}`,
         });
 
-        
-		console.log(response.data[0]);
-
 		const data = response.data[0]
 		return data;
 		
 	} catch (e) {
-		console.log(e);
 		switch (e.response.status) {
 		case 400:
 			throw new Error('L\'id est obligatoires');
@@ -65,34 +64,20 @@ const getDataRecipe = async (id) => {
 	}
 };
 
-const postNewRecipe = async (name, time, type, picture, steps, foods, token) => {
+const postNewRecipe = async (formData, token) => {
 	
 	try {
-		console.log("debut axios");
-        const response = await axios({
-            method: 'post',
+		const response = await axios.post(`${API_URL}/recipe`, formData, {
 			headers: {
-				'Authorization': 'Bearer ' + token
-				
-			},
-            url: `${API_URL}/recipe`,
-            data: {
-                name: name, 
-                time: time, 
-                type: type, 
-                picture: picture, 
-                steps: steps, 
-                foods: foods
-            }
+				'Authorization': 'Bearer ' + token,
+				'Content-Type': 'multipart/form-data'
+			}
         });
-
-        console.log(response);
 
 		const data = response.data
 		return data;
 		
 	} catch (e) {
-		console.log(e);
 		switch (e.response.status) {
 		case 400:
 			throw new Error('Données manquantes');
@@ -114,13 +99,10 @@ const udpateRecipe = async (formData, token) => {
 			}
         });
 
-        console.log(response);
-
 		const data = response.data
 		return data;
 		
 	} catch (e) {
-		console.log(e);
 		switch (e.response.status) {
 		case 400:
 			throw new Error('Données manquantes');
@@ -135,8 +117,6 @@ const udpateRecipe = async (formData, token) => {
 const udpatePicture = async (picture, token) => {
 	
 	try {
-		console.log(picture);
-		console.log("debut axios");
         const response = await axios.patch(`${API_URL}/recipe/picture`, picture, {
 			headers: {
 				'Authorization': 'Bearer ' + token,
@@ -144,13 +124,10 @@ const udpatePicture = async (picture, token) => {
 			}
         });
 
-        console.log(response);
-
 		const data = response.data
 		return data;
 		
 	} catch (e) {
-		console.log(e);
 		switch (e.response.status) {
 		case 400:
 			throw new Error('Données manquantes');
@@ -165,7 +142,6 @@ const udpatePicture = async (picture, token) => {
 const deleteRecipe = async (id, token) => {
 	
 	try {
-		console.log("debut axios");
         const response = await axios({
             method: 'delete',
 			headers: {'Authorization': 'Bearer ' + token},
@@ -175,14 +151,10 @@ const deleteRecipe = async (id, token) => {
             }
         });
 
-        
-		console.log(response);
-
 		const data = response.data
 		return data;
 		
 	} catch (e) {
-		console.log(e);
 		throw new Error('Une erreur s\'est produite, veuillez réessayer plus tard');
 	}
 };

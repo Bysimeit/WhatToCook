@@ -1,25 +1,30 @@
 import axios from 'axios';
-
+import axiosRetry from "axios-retry";
 import {API_URL} from './axiosBase';
 
+axiosRetry(axios, {
+	retries: 3,
+	retryDelay: (retryCount) => {
+	  return retryCount * 2000;
+	},
+	retryCondition: (error) => {
+	  return error.response.status === 500;
+	},
+  });
 
 const getAllFood = async (token) => {
 	
 	try {
-		console.log("debut axios");
         const response = await axios({
             method: 'get',
             headers: {'Authorization': 'Bearer ' + token},
             url: `${API_URL}/food`,
         });
 
-		console.log(response);
-
 		const data = response.data
 		return data;
 		
 	} catch (e) {
-		console.log(e);
 		switch (e.response.status) {
 		case 404:
 			throw new Error('Aucune nourriture trouvée');
@@ -32,7 +37,6 @@ const getAllFood = async (token) => {
 const postNewFood = async (name, allergy, token) => {
 	
 	try {
-		console.log("debut axios");
         const response = await axios({
             method: 'post',
             headers: {'Authorization': 'Bearer ' + token},
@@ -43,13 +47,10 @@ const postNewFood = async (name, allergy, token) => {
             }
         });
 
-		console.log(response);
-
 		const data = response.data
 		return data;
 		
 	} catch (e) {
-		console.log(e);
 		switch (e.response.status) {
         case 400:
 			throw new Error('Données manquante pour l\'ajout');
@@ -64,7 +65,6 @@ const postNewFood = async (name, allergy, token) => {
 const updateFood = async (id, name, allergy, token) => {
 	
 	try {
-		console.log("debut axios");
         const response = await axios({
             method: 'update',
             headers: {'Authorization': 'Bearer ' + token},
@@ -76,13 +76,10 @@ const updateFood = async (id, name, allergy, token) => {
             }
         });
 
-		console.log(response);
-
 		const data = response.data
 		return data;
 		
 	} catch (e) {
-		console.log(e);
 		switch (e.response.status) {
         case 400:
 			throw new Error('Données manquante pour l\'ajout');
@@ -97,7 +94,6 @@ const updateFood = async (id, name, allergy, token) => {
 const deleteFood = async (id, token) => {
 	
 	try {
-		console.log("debut axios");
         const response = await axios({
             method: 'delete',
             headers: {'Authorization': 'Bearer ' + token},
@@ -107,13 +103,10 @@ const deleteFood = async (id, token) => {
             }
         });
 
-		console.log(response);
-
 		const data = response.data
 		return data;
 		
 	} catch (e) {
-		console.log(e); 
 		throw new Error('Une erreur s\'est produite, veuillez réessayer plus tard');
 	}
 };

@@ -1,25 +1,30 @@
 import axios from 'axios';
-
+import axiosRetry from "axios-retry";
 import {API_URL} from './axiosBase';
 
+axiosRetry(axios, {
+	retries: 3,
+	retryDelay: (retryCount) => {
+	  return retryCount * 2000;
+	},
+	retryCondition: (error) => {
+	  return error.response.status === 500;
+	},
+  });
 
 const getAllCustomerAllergy = async (id, token) => {
 	
 	try {
-		console.log("debut axios");
         const response = await axios({
             method: 'get',
             headers: {'Authorization': 'Bearer ' + token},
             url: `${API_URL}/food/${id}`,
         });
 
-		console.log(response);
-
 		const data = response.data
 		return data;
 		
 	} catch (e) {
-		console.log(e);
 		switch (e.response.status) {
         case 400:
 			throw new Error('Données manquantes pour la requête');
@@ -34,7 +39,6 @@ const getAllCustomerAllergy = async (id, token) => {
 const postNewCustomerAllergy = async (idAllergies, idCustomer, token) => {
 	
 	try {
-		console.log("debut axios");
         const response = await axios({
             method: 'post',
             headers: {'Authorization': 'Bearer ' + token},
@@ -45,13 +49,10 @@ const postNewCustomerAllergy = async (idAllergies, idCustomer, token) => {
             }
         });
 
-		console.log(response);
-
 		const data = response.data
 		return data;
 		
 	} catch (e) {
-		console.log(e);
 		switch (e.response.status) {
         case 400:
 			throw new Error('Données manquantes pour la requête');

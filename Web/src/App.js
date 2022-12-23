@@ -17,11 +17,6 @@ function App() {
       refreshPage(token); 
     }  
   }, []);
-
-  //a supprimer a la fin
-  useEffect(() => {
-    console.log(selector);
-  }, [selector]);
   
   async function refreshPage(token){  
       let response = await verifTokenAxios(token);

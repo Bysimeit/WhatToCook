@@ -1,11 +1,20 @@
 import axios from 'axios';
-
+import axiosRetry from "axios-retry";
 import {API_URL} from './axiosBase';
+
+axiosRetry(axios, {
+	retries: 3,
+	retryDelay: (retryCount) => {
+	  return retryCount * 2000;
+	},
+	retryCondition: (error) => {
+	  return error.response.status === 500;
+	},
+  });
 
 const getAllCommentCustomer = async (idCustomer, token) => {
 	
 	try {
-		console.log("debut axios ");
         const response = await axios({
             method: 'get',
             headers: {'Authorization': 'Bearer ' + token},
@@ -15,13 +24,10 @@ const getAllCommentCustomer = async (idCustomer, token) => {
             }
         });
 
-		console.log(response.data);
-
 		const data = response.data
 		return data;
 		
 	} catch (e) {
-		console.log(e);
 		switch (e.response.status) {
 		case 404:
 			throw new Error('Aucun utilisatgeur avec cette email');
@@ -34,7 +40,6 @@ const getAllCommentCustomer = async (idCustomer, token) => {
 const getCommentCustomer = async (idCustomer, idRecipe, token) => {
 	
 	try {
-		console.log("debut axios ");
         const response = await axios({
             method: 'get',
             headers: {'Authorization': 'Bearer ' + token},
@@ -45,13 +50,10 @@ const getCommentCustomer = async (idCustomer, idRecipe, token) => {
             }
         });
 
-		console.log(response.data[0].comment);
-
 		const data = response.data[0].comment;
 		return data;
 		
 	} catch (e) {
-		console.log(e);
 		switch (e.response.status) {
 		case 404:
 			throw new Error('Aucun utilisatgeur avec cette email');
@@ -64,7 +66,6 @@ const getCommentCustomer = async (idCustomer, idRecipe, token) => {
 const getCommentRecipe = async (idRecipe, token) => {
 	
 	try {
-		console.log("debut axios");
         const response = await axios({
             method: 'get',
             headers: {'Authorization': 'Bearer ' + token},
@@ -75,7 +76,6 @@ const getCommentRecipe = async (idRecipe, token) => {
 		return data;
 		
 	} catch (e) {
-		console.log(e);
 		switch (e.response.status) {
 		case 400:
 			throw new Error('Email non identifié');
@@ -100,14 +100,11 @@ const postComment = async (idCustomer, idRecipe, comment, token) => {
 				comment: comment
 			}
 		});
-         
-		console.log(response);
 
 		const data = response.data
 		return data;
 		
 	} catch (e) {
-		console.log(e);
 		switch (e.response.status) {
 		case 400:
 			throw new Error('Données manquante pour l\'ajout');
@@ -120,10 +117,6 @@ const postComment = async (idCustomer, idRecipe, comment, token) => {
 const updateComment = async (idCustomer, idRecipe, comment, token) => {
 	
 	try {
-		console.log("debut axios");
-		console.log(idCustomer);
-		console.log(idRecipe);
-		console.log(comment);
 		let response;
 		if(comment == ""){
 			response = await axios({
@@ -147,15 +140,11 @@ const updateComment = async (idCustomer, idRecipe, comment, token) => {
 				}
 			});
 		}
-         
-
-		console.log(response);
 
 		const data = response.data
 		return data;
 		
 	} catch (e) {
-		console.log(e);
 		switch (e.response.status) {
 		case 400:
 			throw new Error('Données manquante pour l\'ajout');

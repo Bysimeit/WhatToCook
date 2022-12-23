@@ -1,12 +1,20 @@
 import axios from 'axios';
-
+import axiosRetry from "axios-retry";
 import {API_URL} from './axiosBase';
 
+axiosRetry(axios, {
+	retries: 3,
+	retryDelay: (retryCount) => {
+	  return retryCount * 2000;
+	},
+	retryCondition: (error) => {
+	  return error.response.status === 500;
+	},
+  });
 
 const loginAxios = async (email, password) => {
 	
 	try {
-		console.log("debut axios");
 		localStorage.removeItem('token');
         const response = await axios({
             method: 'post',
@@ -16,14 +24,12 @@ const loginAxios = async (email, password) => {
                 password: password
             }
         });
-
-        
+  
 		const token = response.data;
 		localStorage.setItem('token', token);
 
 		return token;
 	} catch (e) {
-		console.log(e);
 		switch (e.response.status) {
 		case 400:
 			throw new Error('L\'email et le mot de passe sont obligatoires');
@@ -38,7 +44,6 @@ const loginAxios = async (email, password) => {
 const verifTokenAxios = async (token) => {
 	
 	try {
-		console.log("debut axios");
         const response = await axios({
             method: 'get',
 			headers: {'Authorization': 'Bearer ' + token},
@@ -47,7 +52,6 @@ const verifTokenAxios = async (token) => {
 
 		return response;
 	} catch (e) {
-		console.log(e);
 		switch (e.response.status) {
 		case 400:
 			throw new Error('L\'email et le mot de passe sont obligatoires');

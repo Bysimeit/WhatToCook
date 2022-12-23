@@ -12,27 +12,21 @@ export default function LoginPage(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
-    const selector = useSelector((state) => state);  
     const token = useSelector((state) => state.user.token);
     const navigate = useNavigate();
 
     async function processLogin(){
-        const newToken = await loginAxios(email,password);
-        if(newToken){       
-            const data = await getCustomer(email, newToken);
-            dispatch(setToken(newToken));
-            dispatch(login(data[0]));     
-            navigate("/Admin");
-        } else {
-            console.log("erreur");
-        };
-        console.log(token);
+        const newToken = await loginAxios(email,password);  
+        const data = await getCustomer(email, newToken);
+        alert("connexion réussie");
+        dispatch(setToken(newToken));
+        dispatch(login(data[0]));     
+        navigate("/Admin");
     }
 
     function handleSubmit(event) {
         event.preventDefault();
-        alert('Le nom a été soumis : ' + email + password);
-        processLogin(); 
+        processLogin().catch(error => alert(error.message)); 
     }
 
     return(

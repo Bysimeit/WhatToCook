@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import MenuBar from "../composants/MenuBar";
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {useNavigate} from "react-router-dom";
 import {useParams} from "react-router-dom";
 import {getCommentCustomer, updateComment} from "../api/comment"
@@ -14,9 +14,14 @@ export default function EditCommentPage(){
     const [comment, setComment] = useState(" ");
 
     function handleClickAdd(){
-        updateComment(id, idRecipe, comment, token);
-        navigate(`/comment/${id}`);
-        window.location.reload(false);
+        updateComment(id, idRecipe, comment, token).then(() => {
+            navigate(`/comment/${id}`);
+            alert("Modification effectuée");
+            window.location.reload(false);
+        }).catch(
+            error => alert(error.message)
+        );
+        
     } 
 
     function handleEdit(value){
@@ -27,7 +32,9 @@ export default function EditCommentPage(){
         if(token !== undefined && token !== ""){
             getCommentCustomer(id, idRecipe, token).then((response) => {             
                 setComment(response);
-            });
+            }).catch(
+                error => alert(error.message)
+            );
         }    
     }, [token]);
 

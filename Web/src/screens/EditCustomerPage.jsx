@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import MenuBar from "../composants/MenuBar";
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {useParams} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
 import {getCustomer, updateCustomer} from "../api/customer"
@@ -26,16 +26,22 @@ export default function EditCommentPage(){
     }
 
     function handleClickValide(){
-        updateCustomer(user.id, user.name, user.firstname, user.email, token);
-        navigate(`/customer`);
-        window.location.reload(false);
+        updateCustomer(user.id, user.name, user.firstname, user.email, token).then(() => {
+            navigate(`/customer`);
+            alert("Modification effectuée");
+            window.location.reload(false);
+        }).catch(
+            error => alert(error.message)
+        );        
     }
 
     useEffect(() => {
         if(token !== undefined && token !== ""){
             getCustomer(email, token).then((response) => {
-                setUser(response);
-            });
+                setUser(response[0]);
+            }).catch(
+                error => alert(error.message)
+            );
         }    
     }, [token]);
 
