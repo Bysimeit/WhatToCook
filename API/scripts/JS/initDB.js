@@ -2,7 +2,6 @@ const pool = require("../../models/database");
 const fs = require("fs");
 const path = require("path");
 
-//traduire client ?
 async function initDB() {
     const client = await pool.connect();
     try {
