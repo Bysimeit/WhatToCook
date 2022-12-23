@@ -21,6 +21,31 @@ const router = new Router;
  *
  */
 router.get('/', AllergyController.getAllAllergy);
+/**
+ * @swagger
+ * /allergy/{id}:
+ *  get:
+ *      tags:
+ *         - Allergies
+ *      parameters:
+ *          - name: id
+ *            description: ID d'un produit
+ *            in: path
+ *            required: true
+ *            schema:
+ *              type: integer
+ *      responses:
+ *          200:
+ *              $ref: '#/components/responses/AllergiesIdFound'
+ *          400:
+ *              description: ID de l'allergie manquant
+ *          404:
+ *              $ref: '#/components/responses/AllergiesIdNotFound'
+ *          500:
+ *              description: Erreur serveur
+ *
+  */
+router.get('/:id', AllergyController.getAllergy);
 
 /**
  * @swagger

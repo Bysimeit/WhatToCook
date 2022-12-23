@@ -4,6 +4,10 @@ module.exports.getAllAllergy = async (client) => {
     return await client.query("SELECT * FROM Allergy");;
 }
 
+module.exports.getAllergyId = async (client, id) => {
+    return await client.query("SELECT * FROM Allergy WHERE id = $1", [id]);
+}
+
 module.exports.getAllergy = async (client, name) => {
     return await client.query("SELECT * FROM Allergy WHERE name = $1", [name]);
 }

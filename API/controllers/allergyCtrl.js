@@ -58,6 +58,46 @@ module.exports.getAllAllergy = async (req, res) => {
  * @swagger
  * components:
  *  responses:
+ *      AllergiesIdNotFound:
+ *          description: Aucune allergies avec cette ID ne se trouve dans la table Allergy
+ *      AllergiesIdFound:
+ *          description: Renvoie l'allergie correspondante
+ *          content:
+ *               application/json:
+ *                   schema:
+ *                       $ref: '#/components/schemas/Allergy'
+ *
+ */
+module.exports.getAllergy = async (req, res) => {
+    const idText = req.params.id;
+    const idAllergy = parseInt(idText);
+
+    if(idAllergy === undefined){
+        res.status(400).json("Id allergy manquant");
+    } else {
+        const client = await pool.connect();
+        try {
+            const result = await AllergyModel.getAllergyId(client, idAllergy);
+            if(result.rows[0] !== undefined){
+                res.json(result.rows);
+            } else {
+                res.sendStatus(404);
+            }
+                
+        } catch (e) {
+            console.error(e);
+            res.sendStatus(500);
+        } finally {
+            client.release();
+        }
+    }
+    
+}
+
+/**
+ * @swagger
+ * components:
+ *  responses:
  *      NewAllergyCreated:
  *          description: Aucune allergies ne se trouve dans la table Allergy
  *  requestBodies:
