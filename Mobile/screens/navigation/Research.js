@@ -23,7 +23,7 @@ export default function Research({ navigation }) {
 
     const connectedRedux = useSelector(getConnected);
 
-    const { allAllergyFetch, customerAllergyFetch } = useFetchAllergy();
+    const { allAllergyFetch } = useFetchAllergy();
 
     const [allAllergyName, setAllAllergyName] = React.useState();
     const [allAllergy, setAllAllergy] = React.useState();
