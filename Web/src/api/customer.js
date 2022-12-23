@@ -94,7 +94,7 @@ const updateCustomer = async (id , name, firstName, email, token) => {
 		const response = await axios({
 			method: 'patch',
 			headers: {'Authorization': 'Bearer ' + token},
-			url: `${API_URL}/customer`,
+			url: `${API_URL}/customer/edit`,
 			data: {
 				id: id, 
 				name: name, 

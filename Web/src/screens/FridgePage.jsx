@@ -36,7 +36,7 @@ export default function FridgePage(){
 
     useEffect(() => {
         if(token !== undefined && token !== ""){
-            getFridge(1, token).then((food) => {
+            getFridge(id, token).then((food) => {
                 setFoods(food);
             });
         }    

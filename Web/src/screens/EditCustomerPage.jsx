@@ -62,7 +62,7 @@ export default function EditCommentPage(){
                     <textarea rows={1} type="text" name="email" value={user.email} onChange={(e) => handleChangeEmail(e.target.value)}/>
                 </label>
 
-                <button className="fridgeBtn" onClick={() => handleClickValide()}><img src={VImg} className="imgBtn" alt="add user"/></button>
+                <button onClick={() => handleClickValide()}><img src={VImg} className="imgBtn" alt="add user"/></button>
             </div>      
         </div>
     );

@@ -28,7 +28,7 @@ function App() {
       
       if(response.status == 200){
         dispatch(setToken(token));
-        dispatch(login(response.data));     
+        dispatch(login(response.data[0]));     
       } else {
         localStorage.removeItem('token');
       }
