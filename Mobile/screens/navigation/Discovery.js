@@ -1,6 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import { Text, View, StyleSheet, Image, ScrollView, Pressable, Alert } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import React, { useEffect } from 'react';
+import { Text, View, StyleSheet, Alert } from 'react-native';
 import RecipeData from '../../components/RecipeData';
 
 import useFetchRecipe from '../../services/useFetchRecipe';

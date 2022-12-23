@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Image, Pressable, Alert } from 'react-native';
+import { Text, StyleSheet, Pressable, Alert } from 'react-native';
 import { useDispatch } from "react-redux";
 import { deleteFood } from "../redux/actions/foodList";
 import AsyncStorage from '@react-native-async-storage/async-storage';

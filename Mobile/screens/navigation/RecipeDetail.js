@@ -1,7 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import { Text, View, StyleSheet, Image, ScrollView, Pressable } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React from 'react';
+import { Text, View, StyleSheet } from 'react-native';
 import RecipeData from '../../components/RecipeData';
 
 import Header from '../../components/Header';

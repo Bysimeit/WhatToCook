@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
-import { Text, View, StyleSheet, Image, Pressable, TextInput, Alert, ScrollView } from 'react-native';
+import { Text, View, StyleSheet, Pressable, TextInput, Alert, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CheckBox from 'expo-checkbox';
+import { IP_API } from '../services/config';
 
 import useFetchFavorite from '../services/useFetchFavorite';
 import useFetchComment from '../services/useFetchComment';
@@ -39,7 +40,7 @@ export default function ComFavData({recipe}) {
             });
             setIsFavorite(false);
         } else {
-            dispatch(addFavorite(recipeJSON.id, recipeJSON.namerecipe, recipeJSON.time, recipeJSON.total, recipeJSON.quoting, recipeJSON.picture));
+            dispatch(addFavorite(recipeJSON.id, recipeJSON.namerecipe, recipeJSON.time, recipeJSON.total, recipeJSON.quoting, `${IP_API}/upload/${recipeJSON.id}.jpeg`));
             changeCustomerFavorite(profileRedux[0].id, recipeJSON.id, true).then((result) => {
                 if (result.status === 204) {
                     Alert.alert("Ajouté !", "La recette a bien été ajoutée dans vos favoris.");
@@ -59,7 +60,13 @@ export default function ComFavData({recipe}) {
                 let stringList = [];
 
                 for (let i = 0; i < commentList.length; i++) {
-                    stringList.push("- " + commentList[i].comment + "\n\n");
+                    if (commentList[i].comment !== null) {
+                        stringList.push("- " + commentList[i].comment + "\n\n");
+                    }
+                }
+
+                if (stringList.length === 0) {
+                    stringList.push(`Il n'y a pas de commentaire pour cette recette.`);
                 }
 
                 return stringList;

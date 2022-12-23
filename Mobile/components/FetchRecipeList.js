@@ -15,7 +15,6 @@ export default function FetchrecipeList() {
             Alert.alert("Erreur !", e.message);
         });
     };
-    fillRecipeList();
     
-    //return stateRecipe;
+    fillRecipeList();
 }

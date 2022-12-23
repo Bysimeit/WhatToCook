@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
-import { Text, View, StyleSheet, Alert, ScrollView, Pressable, FlatList } from 'react-native';
+import { Text, View, StyleSheet, FlatList } from 'react-native';
 import RecipeTile from '../../components/RecipeTile';
 import { useSelector } from 'react-redux';
 import { getFavorite } from '../../redux/selectors';
-
-import useFetchFavorite from '../../services/useFetchFavorite';
 
 import Header from '../../components/Header';
 import NavBar from '../../components/NavBar';

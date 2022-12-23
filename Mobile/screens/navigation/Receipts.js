@@ -1,7 +1,6 @@
-import React, {useState, useEffect} from 'react';
-import { Text, View, StyleSheet, Image, ScrollView, Pressable, Alert } from 'react-native';
+import React, { useEffect } from 'react';
+import { Text, View, StyleSheet, Alert } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import RecipeTile from '../../components/RecipeTile';
 import { useDispatch, useSelector } from 'react-redux';
 import { getRecipe } from "../../redux/selectors";

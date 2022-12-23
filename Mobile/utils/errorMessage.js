@@ -14,7 +14,7 @@ export function errorMessage(status, errorMessage, cause) {
             message += `${cause} introuvable.`;
             break;
         case 500:
-            message += "Une erreur est survnue, veuillez réessayer.";
+            message += "Une erreur est survenue, veuillez réessayer.";
             break;
     }
 

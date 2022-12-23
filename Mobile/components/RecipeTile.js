@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Text, View, StyleSheet, Image, Pressable, Alert } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { IP_API } from '../services/config';
 
 import useFetchRecipe from '../services/useFetchRecipe';
 
@@ -23,7 +24,7 @@ export default function RecipeTile({recipe, navigation}) {
 
     return (
         <Pressable style={styles.container} onPress={consultData}>
-            <Image source={{uri: recipe.picture}} style={styles.recipeImage}/>
+            <Image source={{uri: `${IP_API}/upload/${recipe.id}.jpeg`}} style={styles.recipeImage}/>
             <View style={styles.recipeDetails}>
                 <Text style={styles.recipeTitle}>{recipe.namerecipe}</Text>
                 <View style={styles.viewFav}>

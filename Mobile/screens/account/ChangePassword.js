@@ -1,7 +1,7 @@
 import React from 'react';
-import { Text, View, StyleSheet, ScrollView, TextInput, Pressable, Alert } from 'react-native';
-import CheckBox from 'expo-checkbox';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Text, View, StyleSheet, TextInput, Pressable, Alert } from 'react-native';
+import { useSelector } from 'react-redux';
+import { getProfile } from '../../redux/selectors';
 
 import useFetchCustomer from '../../services/useFetchCustomer';
 
@@ -13,13 +13,15 @@ export default function ChangePassword({ navigation }) {
     const [newPassword, onChangeNewPassword] = React.useState('');
     const [newPasswordConfirm, onChangeNewPasswordConfirm] = React.useState('');
 
+    const profile = useSelector(getProfile);
+
     const { changePassword } = useFetchCustomer();
-    const handlePressChangePassword = async () => {
+    const handlePressChangePassword = () => {
         if (oldPassword !== '') {
             if (newPassword !== '') {
                 if (newPasswordConfirm !== '') {
                     if (newPassword === newPasswordConfirm) {
-                        changePassword(oldPassword, newPassword, await AsyncStorage.getItem("eMail")).then(async (result) => {
+                        changePassword(oldPassword, newPassword, profile[0].email).then(async (result) => {
                             if (result.status === 204) {
                                 Alert.alert("Mot de passe changé !", "Votre mot de passe a bien été mis à jour.");
                                 onChangeOldPassword('');

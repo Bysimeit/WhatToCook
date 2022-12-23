@@ -1,9 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import { Alert, StyleSheet, Text, View } from 'react-native';
-import Constants from 'expo-constants';
+import { Alert } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 
-import Home from './screens/Home';
 import Research from './screens/navigation/Research';
 import Receipts from './screens/navigation/Receipts';
 import Discovery from './screens/navigation/Discovery';

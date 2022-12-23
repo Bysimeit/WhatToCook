@@ -1,9 +1,8 @@
 import React, {useEffect} from 'react';
-import { Text, View, StyleSheet, ScrollView, TextInput, Button, Alert, Pressable } from 'react-native';
+import { Text, View, StyleSheet, ScrollView, TextInput, Button, Alert } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 import CheckBox from 'expo-checkbox';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSelector } from 'react-redux';
 import { getAllergies, getConnected } from "../../redux/selectors";
 

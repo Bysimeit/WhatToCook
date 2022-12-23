@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, TextInput, ScrollView, Pressable, Alert } from 'react-native';
+import { Text, View, StyleSheet, TextInput, Pressable, Alert } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useDispatch } from 'react-redux';

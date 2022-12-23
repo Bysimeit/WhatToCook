@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Pressable, Platform } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import Constants from "expo-constants";
 import { useState } from "react";
 import Ionicons from 'react-native-vector-icons/Ionicons';

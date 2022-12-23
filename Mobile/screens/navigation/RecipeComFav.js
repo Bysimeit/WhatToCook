@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
-import { Text, View, StyleSheet, Alert, ScrollView, Pressable, FlatList } from 'react-native';
-import { useSelector } from 'react-redux';
-import { getFavorite } from '../../redux/selectors';
+import React from 'react';
+import { Text, View, StyleSheet } from 'react-native';
 import ComFavData from '../../components/ComFavData';
 
 import Header from '../../components/Header';

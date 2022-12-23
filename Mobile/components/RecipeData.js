@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Text, View, StyleSheet, Image, Pressable, TextInput, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { IP_API } from '../services/config';
 
 export default function RecipeData({recipeData, navigation}) {
     const [numberPerson, onChangeNumber] = React.useState('1');
@@ -102,7 +103,7 @@ export default function RecipeData({recipeData, navigation}) {
                 {starFour()}
                 {starFive()}
             </View>
-            <Image style={styles.image} source={{uri: recipeData.picture}}/>
+            <Image style={styles.image} source={{uri: `${IP_API}/upload/${recipeData.id}.jpeg`}}/>
             <View style={styles.numberPerson}>
                 <Text>Nombre de personne :</Text>
                 <TextInput keyboardType='numeric' style={styles.input} maxLength={2} onChangeText={onChangeNumber} value={numberPerson}/>

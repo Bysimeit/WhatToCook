@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Text, View, StyleSheet, Alert, TextInput, Pressable } from 'react-native';
-import CheckBox from 'expo-checkbox';
 
 import Header from '../../components/Header';
 import NavBar from '../../components/NavBar';
