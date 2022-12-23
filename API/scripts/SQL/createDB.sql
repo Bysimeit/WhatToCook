@@ -92,12 +92,12 @@ VALUES('Gluten'),('Crustacés'),('Œufs'),('Arachides'),('Poisson'),('Soja'),('L
 INSERT INTO Customer(email, firstName, name, password, isAdmin)
 VALUES
     ('admin@gmail.com','Admin','Private','$2b$10$Ov.jqcwGxqGghlEAqJWHrO/EM/GXiC93rRlURiigwHYnZd1vZ.SnO',true),
-    ('user1@gmail.com','user1','name1','$2b$10$1Hlc.OahudqUXb414C05wOSpBHU5ReP8DnWjuPowvlC13vnB314vu',false),
-    ('user2@gmail.com','user2','name2','$2b$10$1Hlc.OahudqUXb414C05wOSpBHU5ReP8DnWjuPowvlC13vnB314vu',false),
-    ('user3@gmail.com','user3','name3','$2b$10$1Hlc.OahudqUXb414C05wOSpBHU5ReP8DnWjuPowvlC13vnB314vu',false),
-    ('user4@gmail.com','user4','name4','$2b$10$1Hlc.OahudqUXb414C05wOSpBHU5ReP8DnWjuPowvlC13vnB314vu',false),
-    ('user5@gmail.com','user5','name5','$2b$10$1Hlc.OahudqUXb414C05wOSpBHU5ReP8DnWjuPowvlC13vnB314vu',false),
-    ('user6@gmail.com','user6','name6','$2b$10$1Hlc.OahudqUXb414C05wOSpBHU5ReP8DnWjuPowvlC13vnB314vu',false);
+    ('user1@gmail.com','user1','name1','$2b$10$5LaQYoTNQI5.mCqmDVlL5uKRAP8zEsgPAMuiPdy/4/0ugn3E51TVq',false),
+    ('user2@gmail.com','user2','name2','$2b$10$5LaQYoTNQI5.mCqmDVlL5uKRAP8zEsgPAMuiPdy/4/0ugn3E51TVq',false),
+    ('user3@gmail.com','user3','name3','$2b$10$5LaQYoTNQI5.mCqmDVlL5uKRAP8zEsgPAMuiPdy/4/0ugn3E51TVq',false),
+    ('user4@gmail.com','user4','name4','$2b$10$5LaQYoTNQI5.mCqmDVlL5uKRAP8zEsgPAMuiPdy/4/0ugn3E51TVq',false),
+    ('user5@gmail.com','user5','name5','$2b$10$5LaQYoTNQI5.mCqmDVlL5uKRAP8zEsgPAMuiPdy/4/0ugn3E51TVq',false),
+    ('user6@gmail.com','user6','name6','$2b$10$5LaQYoTNQI5.mCqmDVlL5uKRAP8zEsgPAMuiPdy/4/0ugn3E51TVq',false);
 INSERT INTO Food(name, idAllergy, isValidated, price)
 VALUES
     ('Pain', '1', true, 0.5),
