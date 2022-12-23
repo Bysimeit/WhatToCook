@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from "react";
 import MenuBar from "../composants/MenuBar";
-import {getDataRecipe, udpateRecipe} from "../api/recipe";
+import {getDataRecipe, udpateRecipe, udpatePicture} from "../api/recipe";
 import {useSelector} from 'react-redux';
 import {useParams} from "react-router-dom";
 import trashImg from '../pictures/trash1.png';
 import plusImg from "../pictures/plus.png";
 import VImg from '../pictures/V.png';
+import {API_URL} from "../api/axiosBase";
 
 export default function RecipeListAdminPage(){
 
@@ -33,16 +34,25 @@ export default function RecipeListAdminPage(){
 
     function handleClickSend(event){
         event.preventDefault();
-        let foodsTxt = JSON.stringify(foods)
+        let foodsText = JSON.stringify(foods);
         console.log(foods);
-        console.log(foodsTxt);
+        console.log(foodsText);
+        let stepsText = JSON.stringify(recipe.steps);
+        console.log(recipe.steps);
+        console.log(stepsText);
 
         console.log(recipe.picture);
-        const picture = new FormData();
-        console.log(recipe.picture);
-        picture.append('picture', recipe.picture);  
 
-        udpateRecipe(recipe.id, recipe.namerecipe, recipe.time, recipe.type, picture, recipe.steps, foods, token);
+        const fromData = new FormData();
+        fromData.append('id', recipe.id);
+        fromData.append('name', recipe.namerecipe);
+        fromData.append('time', recipe.time);
+        fromData.append('type', recipe.type);
+        fromData.append('stepsText', stepsText);
+        fromData.append('foodsText', foodsText);
+        fromData.append('picture', recipe.picture); 
+
+        udpateRecipe(fromData, token);
     }
 
     function handleClickAddFood(isAdding){
@@ -72,8 +82,12 @@ export default function RecipeListAdminPage(){
     }
 
     function test(picture){
-        console.log(picture.target.input.files.length);
-        setRecipe({...recipe, picture: picture.target.input.files[0]})
+        /*const fromData = new FormData();
+        fromData.append('picture', picture); 
+        fromData.append('id', recipe.id);
+        udpatePicture(fromData, token);*/
+        console.log(picture);
+        setRecipe({...recipe, picture: picture});
     }
 
     useEffect(() => {
@@ -138,9 +152,9 @@ export default function RecipeListAdminPage(){
                         name="jambon"
                         type="file"
                         accept={"image/*"}
-                        onChange={test}
+                        onChange={(e) => test(e.target.files[0])}
                     />
-                    <img src={recipe.picture} className="imgRecipe" alt="recipe pictures"/>
+                    <img src={`${API_URL}/upload/${recipe.id}.jpeg`} className="imgRecipe" alt="recipe pictures"/>
                 </div>
 
                 <div className="stepsArea">

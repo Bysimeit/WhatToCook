@@ -104,35 +104,45 @@ const postNewRecipe = async (name, time, type, picture, steps, foods, token) => 
 	}
 };
 
-const udpateRecipe = async (id, name, time, type, picture, steps, foods, token) => {
+const udpateRecipe = async (formData, token) => {
+	
+	try {
+		const response = await axios.patch(`${API_URL}/recipe`, formData, {
+			headers: {
+				'Authorization': 'Bearer ' + token,
+				'Content-Type': 'multipart/form-data'
+			}
+        });
+
+        console.log(response);
+
+		const data = response.data
+		return data;
+		
+	} catch (e) {
+		console.log(e);
+		switch (e.response.status) {
+		case 400:
+			throw new Error('Données manquantes');
+		case 404:
+			throw new Error('Echec de la création de recette');
+		default: 
+			throw new Error('Une erreur s\'est produite, veuillez réessayer plus tard');
+		}
+	}
+};
+
+const udpatePicture = async (picture, token) => {
 	
 	try {
 		console.log(picture);
 		console.log("debut axios");
-        const response = await axios({
-            method: 'patch',
+        const response = await axios.patch(`${API_URL}/recipe/picture`, picture, {
 			headers: {
 				'Authorization': 'Bearer ' + token,
 				'Content-Type': 'multipart/form-data'
-			},
-            url: `${API_URL}/recipe`,
-            data: {
-				id: id,
-				name: name, 
-                time: time, 
-                type: type, 
-                picture: picture, 
-                steps: steps, 
-                foods: foods
-            }
+			}
         });
-
-		/*const response = await axios.patch(`${API_URL}/recipe`, fromData, {
-			headers: {
-				'Authorization': 'Bearer ' + token,
-				'Content-Type': 'multipart/form-data'
-			},
-		})*/
 
         console.log(response);
 
@@ -177,4 +187,4 @@ const deleteRecipe = async (id, token) => {
 	}
 };
 
-export {getListRecipe, getDataRecipe, postNewRecipe, udpateRecipe, deleteRecipe}
+export {getListRecipe, getDataRecipe, postNewRecipe, udpatePicture, udpateRecipe, deleteRecipe}

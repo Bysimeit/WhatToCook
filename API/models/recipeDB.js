@@ -99,28 +99,17 @@ module.exports.getDataRecipe = async (client, id) => {
 
 //post
 
-module.exports.postNewRecipe = async (client, name, type, time, picture) => {
-    if(picture === undefined){
-        return await client.query(`
-            INSERT INTO 
-                Recipe(addDate, name, type, time) 
-            VALUES (CAST(NOW() AS DATE),$1,$2,$3) RETURNING id`, [name, type, time]);
-    }else{
-        return await client.query(`
-            INSERT INTO 
-                Recipe(addDate, name, type, time, picture) 
-            VALUES (CAST(NOW() AS DATE),$1,$2,$3,$4) RETURNING id`, [name, type, time, picture]);
-    }
+module.exports.postNewRecipe = async (client, name, type, time) => {
+    return await client.query(`
+        INSERT INTO 
+            Recipe(addDate, name, type, time) 
+        VALUES (CAST(NOW() AS DATE),$1,$2,$3) RETURNING id`, [name, type, time]);
 }
 
 //update
 
-module.exports.updateRecipe = async (client, idRecipe, name, type, time, picture) => {
-    if(picture === undefined){
-        return await client.query(`UPDATE Recipe SET nameRecipe = $1, type = $2, time = $3 WHERE id = $4`, [name, type, time, idRecipe]);
-    }else{
-        return await client.query(`UPDATE Recipe SET nameRecipe = $1, type = $2, time = $3, picture = $4 WHERE id = $5`, [name, type, time, picture, idRecipe]);
-    }
+module.exports.updateRecipe = async (client, idRecipe, name, type, time) => {
+    return await client.query(`UPDATE Recipe SET nameRecipe = $1, type = $2, time = $3 WHERE id = $4`, [name, type, time, idRecipe]);
 }
 
 //delete

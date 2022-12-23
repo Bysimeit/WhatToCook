@@ -4,6 +4,7 @@ import researchImg from '../pictures/research.png';
 import { useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { getListRecipe } from '../api/recipe';
+import {API_URL} from "../api/axiosBase";
 
 import WhiteStar from '../pictures/white-star.png';
 import Timer from '../pictures/timer.png';
@@ -54,7 +55,7 @@ export default function RecipeListAdminPage() {
                         recipes.map((recipe) => {
                             return (
                                 <div key={recipes.indexOf(recipe)} className="tileRecipe" onClick={() => handleClickRecipeInfo(recipe.id)}>
-                                    <img src={recipe.picture} className='tileRecipeImg'/>
+                                    <img src={`${API_URL}/upload/${recipe.id}.jpeg`} className='tileRecipeImg'/>
                                     <div className='tileRecipeContent'>
                                         <div className='tileRecipeTitle'>
                                             <p className="tilePara">

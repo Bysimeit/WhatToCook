@@ -29,10 +29,10 @@ router.patch('/', JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, upl
     {name: 'name', maxCount: 1},
     {name: 'time', maxCount: 1},
     {name: 'type', maxCount: 1},
-    {name: 'steps', maxCount: 1},
-    {name: 'foods', maxCount: 1},
+    {name: 'stepsText', maxCount: 1},
+    {name: 'foodsText', maxCount: 1},
     {name: 'picture', maxCount: 1}
-]), RecipeController.udpateRecipe);
+]),RecipeController.udpateRecipe);
 router.delete('/', JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, RecipeController.deleteRecipe);
 
 

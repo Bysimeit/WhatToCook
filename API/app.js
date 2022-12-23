@@ -13,6 +13,7 @@ app.use(express.json());
 app.use(bp.json());
 app.use(bp.urlencoded({ extended: true}));
 
+app.use('/upload', express.static('upload'))
 app.use(Router);
 
 /*app.listen(port,() => {

@@ -6,7 +6,7 @@ const FoodQuantityModel = require('../models//foodQuantityDB');
 const CustomerRecipeModel = require('../models//customerRecipeDB');
 const {saveImage} = require('../models/imageManger');
 
-const destFolderPictures = '../upload';
+const destFolderPictures = './upload';
 
 module.exports.getListeRecipe = async (req, res) => {
     const {type, time, allergies, foods} = req.query;
@@ -97,8 +97,11 @@ module.exports.getDataRecipe = async (req, res) => {
 }
 
 module.exports.postNewRecipe = async (req, res) => {
-    const {name, time, type, steps, foods} = req.body;
-    const {picture} = req.body.files;
+    const {name, time, type, stepsText, foodsText} = req.body;
+    const {picture} = req.files;
+
+    const foods = JSON.parse(foodsText);
+    const steps = JSON.parse(stepsText);
 
     if(name === undefined || time === undefined || type === undefined || steps === undefined || foods === undefined){ 
         res.status(400).json("Données manquantes");
@@ -106,7 +109,7 @@ module.exports.postNewRecipe = async (req, res) => {
         const client = await pool.connect();
         try {
             await client.query("BEGIN"); 
-            let result = await RecipeModel.postNewRecipe(client, name, type, time, picture);
+            let result = await RecipeModel.postNewRecipe(client, name, type, time);
 
             if(result.rows[0] !== undefined){
                 const idRecipe = result.rows[0].id;
@@ -131,7 +134,7 @@ module.exports.postNewRecipe = async (req, res) => {
                 }
 
                 if(picture !== undefined){
-                    saveImage(picture.buffer, idRecipe, destFolderPictures);
+                    saveImage(picture[0].buffer, id, destFolderPictures);
                 }
                 await client.query("COMMIT");
                 res.sendStatus(201);
@@ -152,28 +155,25 @@ module.exports.postNewRecipe = async (req, res) => {
 }
 
 module.exports.udpateRecipe = async (req, res) => {
-    const {id, name, time, type, steps, foods} = req.body;
-    const {picture} = req.body.files;
+    const {id, name, time, type, stepsText, foodsText} = req.body;
+    const {picture} = req.files;
 
-    console.log(foods);
-    console.log(foods[1]);
-    console.log(foods[1].name);
-    console.log(picture);
+    const foods = JSON.parse(foodsText);
+    const steps = JSON.parse(stepsText);
+
     if(id === undefined || name === undefined || time === undefined || type === undefined || steps === undefined || foods === undefined){ 
         res.status(400).json("Données manquantes");
     } else {
         const client = await pool.connect();
         try {
-            console.log("étape 1");
             await client.query("BEGIN"); 
-            await RecipeModel.updateRecipe(client, id,  name, type, time, picture);       
+            await RecipeModel.updateRecipe(client, id,  name, type, time);       
             await StepModel.deleteStepRecipe(client, id);
 
             for(let step of steps){
                 await StepModel.postNewStepRecipe(client, step, id);
             }
                  
-            console.log("étape 2");
             await FoodQuantityModel.deleteFoodQteRecipe(client, id);
             for(let food of foods){
                 let result = await FoodModel.getFood(client, food.name);
@@ -190,9 +190,8 @@ module.exports.udpateRecipe = async (req, res) => {
                 }
             }
 
-            console.log("étape 3");
             if(picture !== ""){
-                saveImage(picture.buffer, id, destFolderPictures);
+                saveImage(picture[0].buffer, id, destFolderPictures);
             }
             await client.query("COMMIT");
             res.sendStatus(204);
@@ -208,6 +207,25 @@ module.exports.udpateRecipe = async (req, res) => {
 
 }
 
+
+module.exports.udpatePicture = async (req, res) => {
+    const {id} = req.body;
+    const {picture} = req.files;
+
+    if(picture === undefined){ 
+        res.status(400).json("Données manquantes");
+    } else {
+        try{
+            console.group(picture[0]);
+            console.log(picture.buffer);
+            saveImage(picture[0].buffer, id, destFolderPictures);
+            res.sendStatus(204);
+        } catch (error) {
+            console.error(error);
+            res.sendStatus(500);       
+        }
+    }
+}
 
 module.exports.deleteRecipe = async (req, res) => { 
     const {id} = req.body;
