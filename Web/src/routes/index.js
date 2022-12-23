@@ -18,7 +18,6 @@ import EditAllergyPage from '../screens/EditAllergy';
 import ListRecipePage from '../screens/RecipeListPage';
 import RecipePage from '../screens/RecipePage';
 import ChangePassWord from '../screens/ChangePassWordPage';
-import Protected from '../composants/PrivateRoute';
 import {useSelector} from 'react-redux';
 
 const Router = () => {

@@ -141,9 +141,10 @@ export default function RecipeListAdminPage(){
                 </div>
 
                 <div className="pictureArea">
+                    
+                    <p className="titleImagePara">Image de la recette : </p><br/>
                     <p>
-                        <p className="titleImagePara">Image de la recette : </p><br/>
-                        <img src={`${API_URL}/upload/${recipe.id}.jpeg`} className="imgRecipe" alt="recipe pictures"/><br/>
+                        {recipe.id !== 0 && <img src={`${API_URL}/upload/${recipe.id}.jpeg`} className="imgRecipe" alt="recipe pictures"/>}                 
                         <input
                             className="customButtonUpload"
                             type="file"
@@ -151,6 +152,7 @@ export default function RecipeListAdminPage(){
                             onChange={(e) => test(e.target.files[0])}
                         />
                     </p>
+                    
                 </div>
 
                 <div className="foodsArea">
@@ -199,14 +201,14 @@ export default function RecipeListAdminPage(){
 
                 <div className="stepsArea">
                     <h2 className="titleSteps">Etapes à suivre :</h2>
-                    {recipe.steps.map((step) => {
+                    {recipe.steps !== null && (recipe.steps.map((step) => {
                         return(
                             <div className="step" key={recipe.steps.indexOf(step)}>
                                 <textarea className="stepData" value={step} onChange={(e) => setRecipe({...recipe, type: e.target.value})}/> 
                                 <button className="commentListBtn" onClick={() => handleClickDeleteStep(recipe.steps.indexOf(step))}><img src={trashImg} className="imgBtn" alt="cancel pictures"/></button>                           
                             </div>
                         );
-                    })}
+                    }))}
                     {addStep 
                     ?
                         <>
