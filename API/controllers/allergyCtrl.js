@@ -184,7 +184,7 @@ module.exports.deleteAllergy = async (req, res) => {
     try{
         await client.query("BEGIN"); 
         await CustomerAllergyModel.deleteAllergyCustomer(client, id);
-        await FoodModel.updateAllergy(client, id);
+        await FoodModel.updateAllergyFood(client, id);
         await AllergyModel.deleteAllergy(client, id);
         await client.query("COMMIT");
         res.sendStatus(204);

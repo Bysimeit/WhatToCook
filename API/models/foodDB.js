@@ -29,6 +29,10 @@ module.exports.updateFood = async (client, id, name, idAllergy) => {
     
 }
 
+module.exports.updateAllergyFood = async (client, id) => {
+    return await client.query("UPDATE Food SET idallergy = null WHERE idallergy = $1", [id]);
+}
+
 //delete
 
 module.exports.deleteFood = async (client, id) => {
