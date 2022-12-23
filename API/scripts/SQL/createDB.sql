@@ -131,7 +131,7 @@ VALUES
     (CAST(now() AS date),'5','Salade grecque','15', '1'),
     (CAST(now() AS date),'3','Cookie','20', '1'),
     (CAST(now() AS date),'5','Tiramisu','20','3'),
-    (CAST(now() AS date),'4','Pâte brisée','15','3'),
+    (CAST(now() AS date),'4','Pâte brisée','15','3');
 
 INSERT INTO Food(name, idAllergy, isValidated, price) VALUES ('Farine', '1', true, 3), ('Pâte brisée', '1', true, 1);
 INSERT INTO Food(name, isValidated, price) VALUES ('Pomme', true, 1.15), ('Compote de pommes', true, 2), ('Sucre roux', true, 1.5);
