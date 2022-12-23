@@ -62,7 +62,7 @@ module.exports.getResearchRecipe = async (client, type, time, allergies, foods) 
         request += `)) `;
     } 
     
-    request += ` GROUP BY R.id`
+    request += ` GROUP BY R.id ORDER BY R.quoting DESC`
 
     if(type !== undefined && time !== undefined){
         return await client.query(request, [time, type]);  
