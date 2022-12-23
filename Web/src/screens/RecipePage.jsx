@@ -154,19 +154,19 @@ export default function RecipeListAdminPage(){
                         accept={"image/*"}
                         onChange={(e) => test(e.target.files[0])}
                     />
-                    <img src={`${API_URL}/upload/${recipe.id}.jpeg`} className="imgRecipe" alt="recipe pictures"/>
+                    {recipe.id !== 0 && <img src={`${API_URL}/upload/${recipe.id}.jpeg`} className="imgRecipe" alt="recipe pictures"/>}         
                 </div>
 
                 <div className="stepsArea">
                     <h2>Etapes à suivre :</h2>
-                    {recipe.steps.map((step) => {
+                    {recipe.steps !== null && (recipe.steps.map((step) => {
                         return(
                             <div className="step" key={recipe.steps.indexOf(step)}>
                                 <textarea value={step} onChange={(e) => setRecipe({...recipe, type: e.target.value})}/> 
                                 <button className="commentListBtn" onClick={() => handleClickDeleteStep(recipe.steps.indexOf(step))}><img src={trashImg} className="imgBtn" alt="cancel pictures"/></button>                           
                             </div>
                         );
-                    })}
+                    }))}
                     {addStep 
                     ?
                         <>

@@ -39,7 +39,7 @@ const getCustomer = async (email, token) => {
             url: `${API_URL}/customer/${email}`,
         });
 
-		const data = response.data[0];
+		const data = response.data;
 		return data;
 		
 	} catch (e) {

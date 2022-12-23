@@ -37,8 +37,8 @@ export default function ClientAreaPage(){
         setNewAllergyInterface(false);
     }
 
-    function handleClickEdit(){
-        
+    function handleClickEdit(id){
+        navigate(`/allergy/${id}`)
     } 
 
     function handleClickDelete(id){
@@ -49,7 +49,7 @@ export default function ClientAreaPage(){
 
     useEffect(() => {
         if(token !== undefined && token !== ""){
-            getAllAllergy(token).then((reponse) => {
+            getAllAllergy().then((reponse) => {
                 setAllergies(reponse);
             });
         }    

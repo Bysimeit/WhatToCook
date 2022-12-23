@@ -14,14 +14,12 @@ export default function EditCommentPage(){
     const [comment, setComment] = useState(" ");
 
     function handleClickAdd(){
-        console.log(comment);
         updateComment(id, idRecipe, comment, token);
         navigate(`/comment/${id}`);
         window.location.reload(false);
     } 
 
     function handleEdit(value){
-        console.log(comment);
         setComment(value);
     }
 

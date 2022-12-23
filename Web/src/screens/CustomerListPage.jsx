@@ -22,6 +22,7 @@ export default function ClientAreaPage(){
     
     function handleClickResearch(){
         getCustomer(research,token).then((response) =>{
+            console.log(response);
             setUsers(response);
         });
     }

@@ -14,6 +14,7 @@ import ListCustomerPage from '../screens/CustomerListPage';
 import EditCustomerPage from '../screens/EditCustomerPage';
 import FridgePage from '../screens/FridgePage';
 import AllergyPage from '../screens/AllergyPage';
+import EditAllergyPage from '../screens/EditAllergy';
 import ListRecipePage from '../screens/RecipeListPage';
 import RecipePage from '../screens/RecipePage';
 import ChangePassWord from '../screens/ChangePassWordPage';
@@ -37,6 +38,7 @@ const Router = () => {
                 <Route path="/recipe/:id" element={<RecipePage/>}/>
                 <Route path="/fridge/:id" element={<FridgePage/>}/>
                 <Route path="/allergy" element={<AllergyPage/>}/>
+                <Route path="/allergy/:id" element={<EditAllergyPage/>}/>
                 <Route path="/admin" element={<ClientAreaPage/>}/>
                 <Route path="/changePassword" element={<ChangePassWord/>} />     
                 

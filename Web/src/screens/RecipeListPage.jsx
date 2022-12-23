@@ -16,7 +16,6 @@ export default function RecipeListAdminPage() {
     const token = useSelector((state) => state.user.token);
     const navigate = useNavigate();
     const [typeResearch, setTypeResearch] = useState(0);
-
     const [recipes, setRecipes] = useState([]);
 
     function handleResearch(value) {
@@ -24,7 +23,9 @@ export default function RecipeListAdminPage() {
     }
 
     function handleClickResearch() {
-
+        getListRecipe(typeResearch).then((response) => {   
+            setRecipes(response);
+        });
     }
 
     function handleClickNewRecipe() {
