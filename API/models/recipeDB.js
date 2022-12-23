@@ -102,7 +102,7 @@ module.exports.getDataRecipe = async (client, id) => {
 module.exports.postNewRecipe = async (client, name, type, time) => {
     return await client.query(`
         INSERT INTO 
-            Recipe(addDate, name, type, time) 
+            Recipe(addDate, namerecipe, type, time) 
         VALUES (CAST(NOW() AS DATE),$1,$2,$3) RETURNING id`, [name, type, time]);
 }
 

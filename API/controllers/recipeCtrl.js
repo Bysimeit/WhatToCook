@@ -113,11 +113,9 @@ module.exports.postNewRecipe = async (req, res) => {
 
             if(result.rows[0] !== undefined){
                 const idRecipe = result.rows[0].id;
-
                 for(let step of steps){
-                    await StepModel.postNewStepRecipe(client, step, result.rows[0].id); 
-                }
-                                        
+                    await StepModel.postNewStepRecipe(client, step, idRecipe); 
+                }                      
                 for(let food of foods){
                     result = await FoodModel.getFood(client, food.name);
                     let rowCount = result.rowCount;
@@ -125,16 +123,16 @@ module.exports.postNewRecipe = async (req, res) => {
                         result = await FoodModel.postNewFood(client, food.name, false, undefined);
                     }
 
-                    if(food.quantity !== undefined && result.rows[0].id !== undefined){
+                    if(food.value !== undefined && result.rows[0].id !== undefined){
                         let idFood = result.rows[0].id
                         await FoodQuantityModel.NewFoodQte(client, idRecipe, idFood, food.quantity);
                     } else {
                         res.sendStatus(404);
                     }
                 }
-
+  
                 if(picture !== undefined){
-                    saveImage(picture[0].buffer, id, destFolderPictures);
+                    saveImage(picture[0].buffer, idRecipe, destFolderPictures);
                 }
                 await client.query("COMMIT");
                 res.sendStatus(201);
