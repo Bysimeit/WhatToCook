@@ -34,7 +34,7 @@ export default function Receipts({navigation}) {
     const { customerFavoriteFetch } = useFetchFavorite();
 
     const checkConnection = async () => {
-        if (connectedRedux.length !== 0) {
+        if (connectedRedux.length !== 0 && connectedRedux.length !== undefined) {
             profileFetch(await AsyncStorage.getItem("email")).then(async (result) => {
                 if (result.status === 200) {
                     dispatch(setProfile(result.data));

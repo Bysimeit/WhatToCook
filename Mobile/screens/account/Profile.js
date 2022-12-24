@@ -60,19 +60,13 @@ export default function Profile({ navigation }) {
             setImage(img);
         });
     };
-    
-    if (newsletterSelected) {
-        console.log("Veut la newsletter");
-    } else {
-        console.log("Ne veut pas la newsletter");
-    }
 
     const profile = useSelector(getProfile);
 
     useEffect(() => {
         //getImage();
         //source={!image ? require('../../assets/account/iconDefaultUser.png') : {uri: image} }
-    }, [navigation]);
+    }, []);
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
