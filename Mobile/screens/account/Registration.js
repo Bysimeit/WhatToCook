@@ -84,11 +84,11 @@ export default function Registration({ navigation }) {
         </View>
         <View style={styles.inputView}>
           <Text>Mot de passe :</Text>
-          <TextInput style={[styles.input, styles.shadowBox]} onChangeText={onChangePassword} value={password}/>
+          <TextInput style={[styles.input, styles.shadowBox]} secureTextEntry={true} onChangeText={onChangePassword} value={password}/>
         </View>
         <View style={styles.inputView}>
           <Text>Confirmer mot de passe :</Text>
-          <TextInput style={[styles.input, styles.shadowBox]} onChangeText={onChangePasswordConfirm} value={passwordConfirm}/>
+          <TextInput style={[styles.input, styles.shadowBox]} secureTextEntry={true} onChangeText={onChangePasswordConfirm} value={passwordConfirm}/>
         </View>
         <View style={[styles.inputView, styles.newsletter]}>
           <Text>Recevoir la newsletter : </Text>
