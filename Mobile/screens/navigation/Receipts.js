@@ -17,6 +17,7 @@ import { setFood } from '../../redux/actions/foodList';
 import { setConnected } from "../../redux/actions/connectedStatus";
 import { setAllergy } from '../../redux/actions/allergyList';
 import { setFavorite } from '../../redux/actions/favoriteList';
+import { getConnected } from "../../redux/selectors";
 
 import Header from '../../components/Header';
 import NavBar from '../../components/NavBar';
@@ -25,16 +26,15 @@ export default function Receipts({navigation}) {
     const active = "middle";
 
     const recipe = useSelector(getRecipe);
+    const connectedRedux = useSelector(getConnected);
     const { recipeFetch } = useFetchRecipe();
     const { profileFetch } = useFetchCustomer();
     const { foodFetch } = useFetchFridge();
     const { customerAllergyFetch } = useFetchAllergy();
     const { customerFavoriteFetch } = useFetchFavorite();
 
-    const [connectedToken, setTokenConnected] = React.useState(null);
     const checkConnection = async () => {
-        setTokenConnected(await AsyncStorage.getItem("token") !== null);
-        if (connectedToken) {
+        if (connectedRedux.length !== 0) {
             profileFetch(await AsyncStorage.getItem("email")).then(async (result) => {
                 if (result.status === 200) {
                     dispatch(setProfile(result.data));
