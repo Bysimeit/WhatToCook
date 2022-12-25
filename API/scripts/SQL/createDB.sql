@@ -88,7 +88,7 @@ DROP TABLE IF EXISTS Recipe_Step CASCADE;
 -- Insert
 
 INSERT INTO Allergy(name)
-VALUES('Gluten'),('Crustacés'),('Œufs'),('Arachides'),('Poisson'),('Soja'),('Lactose'),('Fruits à coques'),('Céleri'),('Moutarde'),('Graine de sésame'),('Anhydride sulfureux et sulfites'),('Lupin'),('Mollusques');
+VALUES('Gluten'),('Crustacés'),('Œufs'),('Arachides'),('Poisson'),('Soja'),('Lactose'),('Fruits à coques'),('Céleri'),('Moutarde'),('Graine de sésame'),('Anhydride sulfureux et sulfites'),('Lupin'),('Mollusques'),('Cucurbitacées');
 INSERT INTO Customer(email, firstName, name, password, isAdmin)
 VALUES
     ('admin@gmail.com','Admin','Private','$2b$10$Ov.jqcwGxqGghlEAqJWHrO/EM/GXiC93rRlURiigwHYnZd1vZ.SnO',true),
@@ -118,7 +118,7 @@ VALUES
     ('Sucre', true, 0.85),
     ('Poivre', true, 0.85),
     ('Oignon', true, 1),
-    ('Huile d olive', true, 5),
+    ('Huile d''olive', true, 5),
     ('Herbes de provence', true, 1.5),
     ('Sel', true, 1),
     ('Eau', true, 0);
@@ -128,13 +128,26 @@ VALUES
     (CAST(now() AS date),'3','Tarte aux pommes','30', '3'),
     (CAST(now() AS date),'4','Lasagne','80', '2'),
     (CAST(now() AS date),'3','Mousse au chocolat','20', '3'),
-    (CAST(now() AS date),'5','Salade grecque','15', '1'),
-    (CAST(now() AS date),'3','Cookie','20', '1'),
-    (CAST(now() AS date),'5','Tiramisu','20','3'),
+    (CAST(now() AS date),'5','Salade grecque','10', '1'),
+    (CAST(now() AS date),'3','Cookie','35', '1'),
+    (CAST(now() AS date),'5','Tiramisu','30','3'),
     (CAST(now() AS date),'4','Pâte brisée','15','3');
 
 INSERT INTO Food(name, idAllergy, isValidated, price) VALUES ('Farine', '1', true, 3), ('Pâte brisée', '1', true, 1);
 INSERT INTO Food(name, isValidated, price) VALUES ('Pomme', true, 1.15), ('Compote de pommes', true, 2), ('Sucre roux', true, 1.5);
+INSERT INTO Food(name, isvalidated, price, idallergy) VALUES ('Mascarpone', true, 2, 7);
+INSERT INTO Food(name, isvalidated, price, idallergy) VALUES ('Café', true, 0.5, null);
+INSERT INTO Food(name, isvalidated, price, idallergy) VALUES ('Cacao en poudre', true, 1, null);
+INSERT INTO Food(name, isvalidated, price, idallergy) VALUES ('Boudoirs', true, 0.25, 1);
+INSERT INTO Food(name, isvalidated, price, idallergy) VALUES ('Concombre', true, 1.25, 15);
+INSERT INTO Food(name, isvalidated, price, idallergy) VALUES ('Olives', true, 2, null);
+INSERT INTO Food(name, isvalidated, price, idallergy) VALUES ('Fromage féta', true, 2, 7);
+INSERT INTO Food(name, isvalidated, price, idallergy) VALUES ('Origan séché', true, 1.35, null);
+INSERT INTO Food (name, isvalidated, price, idallergy) VALUES ('Sucre en poudre', true, 0.85, null);
+INSERT INTO Food (name, isvalidated, price, idallergy) VALUES ('Cassonade', true, 1.35, null);
+INSERT INTO Food (name, isvalidated, price, idallergy) VALUES ('Vanille liquide', true, 2, null);
+INSERT INTO Food (name, isvalidated, price, idallergy) VALUES ('Levure chimique', true, 0.75, null);
+INSERT INTO Food (name, isvalidated, price, idallergy) VALUES ('Pépites de chocolat', true, 1.95, null);
 INSERT INTO Food_Quantity(quantity, unit, idRecipe, idFood)
 VALUES
     ('34','g','3','10'),
@@ -156,8 +169,6 @@ VALUES
     ('1','c. à soupe','2','17'),
     ('1','pincée','2','18'),
     ('100','','4','5'),
-    ('100','','5','4'),
-    ('100','','6','2'),
     ('300', 'g', '7', '20'),
     ('150', 'g', '7', '5'),
     ('1', 'c. à soupe', '7', '18'),
@@ -168,6 +179,29 @@ VALUES
     ('1', 'c. à soupe', '1', '24'),
     ('1', '', '1', '22'),
     ('1', 'g', '1', '5');
+INSERT INTO Food_Quantity (quantity, unit, idrecipe, idfood) VALUES (1, null, 6, 2);
+INSERT INTO Food_Quantity (quantity, unit, idrecipe, idfood) VALUES (42, 'g', 6, 25);
+INSERT INTO Food_Quantity (quantity, unit, idrecipe, idfood) VALUES (42, 'ml', 6, 26);
+INSERT INTO Food_Quantity (quantity, unit, idrecipe, idfood) VALUES (1, 'c. à soupe', 6, 27);
+INSERT INTO Food_Quantity (quantity, unit, idrecipe, idfood) VALUES (3, null, 6, 28);
+INSERT INTO Food_Quantity (quantity, unit, idrecipe, idfood) VALUES (17, 'g', 6, 13);
+INSERT INTO Food_Quantity (quantity, unit, idrecipe, idfood) VALUES (1, null, 4, 9);
+INSERT INTO Food_Quantity (quantity, unit, idrecipe, idfood) VALUES (1, null, 4, 29);
+INSERT INTO Food_Quantity (quantity, unit, idrecipe, idfood) VALUES (1, null, 4, 15);
+INSERT INTO Food_Quantity (quantity, unit, idrecipe, idfood) VALUES (5, null, 4, 30);
+INSERT INTO Food_Quantity (quantity, unit, idrecipe, idfood) VALUES (30, 'g', 4, 31);
+INSERT INTO Food_Quantity (quantity, unit, idrecipe, idfood) VALUES (2, 'c. à soupe', 4, 16);
+INSERT INTO Food_Quantity (quantity, unit, idrecipe, idfood) VALUES (1, 'c. à soupe', 4, 32);
+INSERT INTO Food_Quantity (quantity, unit, idrecipe, idfood) VALUES (1, 'c. à soupe', 4, 33);
+INSERT INTO Food_Quantity (quantity, unit, idrecipe, idfood) VALUES (1, null, 5, 2);
+INSERT INTO Food_Quantity (quantity, unit, idrecipe, idfood) VALUES (40, 'g', 5, 33);
+INSERT INTO Food_Quantity (quantity, unit, idrecipe, idfood) VALUES (65, 'g', 5, 34);
+INSERT INTO Food_Quantity (quantity, unit, idrecipe, idfood) VALUES (1, 'pincée', 5, 18);
+INSERT INTO Food_Quantity (quantity, unit, idrecipe, idfood) VALUES (1, 'c. à soupe', 5, 35);
+INSERT INTO Food_Quantity (quantity, unit, idrecipe, idfood) VALUES (65, 'g', 5, 5);
+INSERT INTO Food_Quantity (quantity, unit, idrecipe, idfood) VALUES (147, 'g', 5, 20);
+INSERT INTO Food_Quantity (quantity, unit, idrecipe, idfood) VALUES (5, 'g', 5, 36);
+INSERT INTO Food_Quantity (quantity, unit, idrecipe, idfood) VALUES (80, 'g', 5, 37);
 INSERT INTO Step(idRecipe, text)
 VALUES
     ('2', 'Pelez l''oignon et la gousse d''ail, émincez-les finement, puis faites-les revenir à feu doux dans une casserole avec 2 c. à soupe d''huile d''olive, jusqu''à ce que les oignons deviennent un peu translucides.'),
@@ -192,6 +226,33 @@ VALUES
     ('3', 'Verser les jaunes dans le chocolat en remuant énergiquement.'),
     ('3', 'Incorporer délicatement le blanc en neige au chocolat. Mélanger doucement avec une spatule en évitant de casser le blanc en neige.'),
     ('3', 'Verser votre chocolat mousseux dans des petits pots. Réserver au frais pendant 3 heures minimum.');
+INSERT INTO Step (idrecipe, text) VALUES (6, 'Préparer 250ml de café, ajouter une cuillère à café de sucre, mélanger et laisser refroidir.');
+INSERT INTO Step (idrecipe, text) VALUES (6, 'Séparer les blancs des jaunes d''oeufs. Battre énergiquement les jaunes d''oeufs avec le sucre.');
+INSERT INTO Step (idrecipe, text) VALUES (6, 'Ajouter le mascarpone et mélanger doucement.');
+INSERT INTO Step (idrecipe, text) VALUES (6, 'Dans un autre récipient, monter les blancs en neige.');
+INSERT INTO Step (idrecipe, text) VALUES (6, 'Ajouter les blancs montés en neige au mélange précédent (jaunes d''oeufs + sucre + mascarpone). Mélanger doucement à l''aide d''une spatule.');
+INSERT INTO Step (idrecipe, text) VALUES (6, 'Tremper les boudoirs dans le café et les déposer au fond du moule.');
+INSERT INTO Step (idrecipe, text) VALUES (6, 'Par dessus les boudoirs, étaler la crème avec l''aide d''une spatule. Saupoudrer de cacao en poudre et râper du chocolat noir par dessus (optionnel).');
+INSERT INTO Step (idrecipe, text) VALUES (6, 'Disposer de nouveau les boudoirs imbibés de café. Étaler le reste de la crème mascarpone sur le dessus. Bien lisser à l''aide d''une spatule et filmer. Laisser reposer au réfrigérateur toute une nuit.');
+INSERT INTO Step (idrecipe, text) VALUES (6, 'Le jour suivant, le Tiramisu sera parfaitement prêt à être dégusté ! Saupoudrer du cacao en poudre et râper du chocolat noir par dessus, c''est prêt !');
+INSERT INTO Step (idrecipe, text) VALUES (4, 'Hacher l''oignon grossièrement. Macérer une vingtaine de minutes dans un petit bol rempli d''eau avec quelques gouttes de vinaigre.');
+INSERT INTO Step (idrecipe, text) VALUES (4, 'Couper les tomates en dés, les épépiner et les placer dans un saladier.');
+INSERT INTO Step (idrecipe, text) VALUES (4, 'Préparer les concombres: Saupoudrer de sel et laisser dégorger environ 20 min. Trancher les concombres en demi rondelles et les ajouter dans le saladier avec l''oignon, les olives et le fromage féta coupé en dés.');
+INSERT INTO Step (idrecipe, text) VALUES (4, 'Dans un petit bol, battre l''huile, le vinaigre, sel et poivre à l''aide d''une fourchette, jusqu''à ce que la vinaigrette soit émulsionnée. Vérifier l''assaisonnement. Verser sur la salade, saupoudrer d''origan et servir.');
+INSERT INTO Step (idrecipe, text) VALUES (5, 'Préparer tous les ingrédients.');
+INSERT INTO Step (idrecipe, text) VALUES (5, 'Dans un cul de poule, blanchir le beurre ramolli avec le sucre et la cassonade.');
+INSERT INTO Step (idrecipe, text) VALUES (5, 'Ajouter l''œuf, la vanille liquide (ou le sucre vanillé) et le sel. Mélanger.');
+INSERT INTO Step (idrecipe, text) VALUES (5, 'Ajouter les pépites et la levure chimique.');
+INSERT INTO Step (idrecipe, text) VALUES (5, 'Ajouter la farine...');
+INSERT INTO Step (idrecipe, text) VALUES (5, '...et bien mélanger à la spatule jusqu''à l''obtention d''une pâte homogène.');
+INSERT INTO Step (idrecipe, text) VALUES (5, 'Disposer cette pâte sur une feuille de papier sulfurisé. Lui donner la forme d''un boudin.');
+INSERT INTO Step (idrecipe, text) VALUES (5, 'Envelopper le boudin de papier sulfurisé et le serrer avec une spatule afin d''obtenir un boudin bien régulier. Laisser poser au frais 2 heures.');
+INSERT INTO Step (idrecipe, text) VALUES (5, 'Retirer le papier sulfurisé.');
+INSERT INTO Step (idrecipe, text) VALUES (5, 'À l''aide d''un couteau, détailler ce boudin de pâte en rondelles d''1/2 cm d''épaisseur.');
+INSERT INTO Step (idrecipe, text) VALUES (5, 'Disposer ces rondelles sur une plaque à pâtisserie graissée. Prendre soin de les disposer en quinconce afin qu''ils ne se collent pas.');
+INSERT INTO Step (idrecipe, text) VALUES (5, 'Enfourner à four chaud (180/200°C).');
+INSERT INTO Step (idrecipe, text) VALUES (5, 'Laisser cuire jusqu''à coloration désirée. Plus les cookies seront colorés, plus ils seront secs. "Si vous les aimez un peu moelleux avec le cœur pâteux, je vous conseille de les sortir du four lorsque le milieu du cookie est encore clair."');
+INSERT INTO Step (idrecipe, text) VALUES (5, 'Au terme de la cuisson, les laisser poser deux minutes avant de les décoller de la plaque à l''aide d''une spatule plate. Laisser refroidir.');
 INSERT INTO Customer_Recipe(idCustomer, idRecipe, comment, isFavorite)
 VALUES
     ('1', '1', 'cool comme recette', true),
