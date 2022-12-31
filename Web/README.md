@@ -1,4 +1,4 @@
-# WhatToCook API
+# WhatToCook WEB
 
 Below are the steps to make the project WebReact work.
 
