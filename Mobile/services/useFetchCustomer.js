@@ -24,6 +24,24 @@ export default function useFetchCustomer() {
         }
     };
 
+    const passwordForget = async (email) => {
+        try {
+            const response = await axios.patch(`${IP_API}/customer/passwordForget`, {
+                "eMail": email
+            });
+
+            return {status: response.status, data: response.data};
+        } catch (e) {
+            const message = errorMessage(
+                e.response.status,
+                e.response.data,
+                "Adresse mail"
+            );
+
+            throw new Error(message);
+        }
+    };
+
     const profileFetch = async (email) => {
         try {
             const token = await AsyncStorage.getItem("token");
@@ -112,6 +130,7 @@ export default function useFetchCustomer() {
         profileFetch,
         changePassword,
         deleteCustomer,
-        newCustomer
+        newCustomer,
+        passwordForget
     };
 }
