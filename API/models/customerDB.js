@@ -13,6 +13,10 @@ module.exports.getDataCustomer = async (client, mail) => {
     return await client.query("SELECT * FROM Customer WHERE email = $1",[mail]);
 }
 
+module.exports.getIfUserExit = async (client, mail) => {
+    return await client.query("SELECT COUNT(*) as count FROM Customer WHERE email = $1", [mail]);
+}
+
 
 //post
 

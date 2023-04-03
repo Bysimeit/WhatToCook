@@ -3,8 +3,9 @@ const CustomerModel = require('../models/customerDB');
 const CustomerAllergyModel = require("../models/customerAllergyDB");
 const CustomerRecipeModel = require("../models/customerRecipeDB");
 const CustomerFoodModel = require("../models/customerFoodDB");
-const {getHash} = require('../utils/utils');
-const {compareHash} = require('../utils/utils');
+const { getHash } = require('../utils/utils');
+const { compareHash } = require('../utils/utils');
+const { mailer } = require('../utils/nodemailer');
 
 module.exports.getAllCustomer = async (req, res) => {
     const client = await pool.connect();
@@ -120,6 +121,45 @@ module.exports.updatePasswordEmailCustomer = async (req, res) => {
             client.release();
         }
     }    
+}
+
+module.exports.updatePasswordForgetCustomer = async (req, res) => {
+    const {eMail} = req.body;
+
+    if (eMail === undefined) {
+        res.status(400).json("Données manquantes");
+    } else {
+        const client = await pool.connect();
+
+        const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        const passwordLength = Math.floor(Math.random() * 4) + 5;
+        let password = "";
+        
+        for (let i = 0; i < passwordLength; i++) {
+            const randomIndex = Math.floor(Math.random() * charset.length);
+            password += charset[randomIndex];
+        }
+
+        try {
+            if (password !== undefined) {
+                const result = await CustomerModel.getIfUserExit(client, eMail);
+                if (result.rows[0].count == 1) {
+                    await CustomerModel.updatePasswordCustomer(client, eMail, await getHash(password));
+                    mailer(eMail, password);
+                    res.sendStatus(204);
+                } else {
+                    res.sendStatus(404);
+                }
+            } else {
+                res.sendStatus(400);
+            }
+        } catch (error) {
+            console.error(error);
+            res.sendStatus(500);
+        } finally {
+            client.release();
+        }
+    }
 }
 
 module.exports.deleteCustomer = async (req, res) => {
