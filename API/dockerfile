@@ -12,6 +12,7 @@ RUN npm i internal-ip
 RUN npm i jsonwebtoken
 RUN npm i jwt-decode
 RUN npm i multer
+RUN npm i nodemailer
 RUN npm i pg
 RUN npm i sharp
 CMD ["npm", "run", "dev"]
